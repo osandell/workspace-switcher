@@ -1,0 +1,50 @@
+/* styles.css */
+
+:root {
+  --color0: #fdf6e3;
+  --color8: #93a1a1;
+
+  --color1: #dc322f;
+  --color9: #cb4b16;
+
+  --color2: #859900;
+  --color10: #586e75;
+
+  --color3: #b58900;
+  --color11: #657b83;
+
+  --color4: #268bd2;
+  --color12: #ff0000; /* This color (#FF0000) is not a part of the standard Solarized palette */
+
+  --color5: #d33682;
+  --color13: #6c71c4;
+
+  --color6: #2aa198;
+  --color14: #93a1a1;
+
+  --color7: #073642;
+  --color15: #002b36;
+}
+
+body {
+  margin: 0;
+  background-color: #d4cbb7; /* Solarized base3 for light background */
+  /* font-family: "Consolas Nerd Font", monospace; */
+}
+
+button {
+  background-color: #d4cbb7; /* Match the app background */
+  border: none; /* No border */
+  color: var(--color8); /* Solarized base00 for button text */
+  font-family: "Consolas Nerd Font", monospace;
+  padding: 2px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--base2); /* Slightly lighter background on hover */
+}

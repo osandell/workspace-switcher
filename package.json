@@ -1,0 +1,16 @@
+{
+  "name": "subspace-switcher",
+  "version": "1.0.0",
+  "description": "Lets the user switch between different sub workspaces of a particular workspace.",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^28.2.0"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
+  }
+}
