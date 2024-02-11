@@ -140,69 +140,29 @@ function changeActiveTab(direction) {
 
   const currentActiveApp = storedTabs[activeTabIndex].activeApp;
   if (currentActiveApp === "GitKraken") {
-    const fullPath = storedTabs[activeTabIndex].path.replace(
-      /^~/,
-      "/Users/olof/"
-    );
-    exec(
-      `ELECTRON_RUN_AS_NODE=1 /Applications/GitKraken.app/Contents/MacOS/GitKraken /Applications/GitKraken.app/Contents/Resources/app.asar/src/main/static/cli.js -p "${fullPath}" `,
-      (gitKrakenError, gitKrakenStdout, gitKrakenStderr) => {
-        if (gitKrakenError) {
-          console.error(`Error opening GitKraken: ${gitKrakenError}`);
-          return;
-        }
-        if (gitKrakenStderr) {
-          console.error(`GitKraken stderr: ${vscodeStderr}`);
-          return;
-        }
-        console.log(
-          `GitKraken opened with path: ${storedTabs[activeTabIndex].path}`
-        );
-
-        // Move Kitty window after a short delay
-        setTimeout(() => {
-          exec(
-            `kitty @ --to unix:/tmp/mykitty focus-window --match title:${storedTabs[activeTabIndex].path}`,
-            (error, stdout, stderr) => {
-              if (error) {
-                console.error(`Error opening Kitty: ${error}`);
-                return;
-              }
-              if (stderr) {
-                console.error(`Kitty stderr: ${stderr}`);
-                return;
-              }
-              console.log(
-                `Kitty opened with path: ${storedTabs[activeTabIndex].path}`
-              );
-            }
-          );
-        }, 500); // Adjust the delay as needed
-      }
-    );
-  } else {
-    const pathShort = storedTabs[activeTabIndex].path.replace(
-      /^\/Users\/[^\/]+/,
-      "~"
-    );
-
-    const test = `${pathShort} ()`;
-    console.log(
-      "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    test    \x1b[8m\x1b[40m\x1b[0m%c main.js 112 \n",
-      "color: white; background: black; font-weight: bold",
-      "",
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "title": "${test}"}' localhost:57320`
-    );
-
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${test}"}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving VSCode window: ${err}`);
-        }
-      }
-    );
+    storedTabs[activeTabIndex].activeApp = "VSCode";
   }
+  // Get the current user's home directory
+  const homeDir = process.env.HOME;
+
+  // Only replace the beginning of the path if it extends beyond the home directory
+  let pathShort;
+  if (storedTabs[activeTabIndex].path.startsWith(homeDir + "/")) {
+    // The path extends beyond the home directory, so replace the beginning with "~"
+    pathShort = storedTabs[activeTabIndex].path.replace(homeDir, "~");
+  } else {
+    // The path is either exactly the home directory or completely different, so leave it as is
+    pathShort = storedTabs[activeTabIndex].path;
+  }
+
+  exec(
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
+    (err) => {
+      if (err) {
+        console.error(`Error focusing VSCode window: ${err}`);
+      }
+    }
+  );
 
   exec(
     `kitty @ --to unix:/tmp/mykitty focus-window --match title:${storedTabs[activeTabIndex].path}`,
@@ -267,6 +227,47 @@ function changeActiveTab(direction) {
 
 function closeActiveTab() {
   if (storedTabs.length > 0) {
+    const pathShort = storedTabs[activeTabIndex].path.replace(
+      /^\/Users\/[^\/]+/,
+      "~"
+    );
+
+    // Close the VSCode window
+    exec(
+      `osascript -e 'tell application "Visual Studio Code" to activate' && curl -f -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320 && osascript -e 'tell application "System Events" to keystroke "w" using {control down, command down, shift down}'`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error closing VSCode: ${error}`);
+          return;
+        }
+        if (stderr) {
+          console.error(`VSCode stderr: ${stderr}`);
+          return;
+        }
+        console.log(
+          `VSCode closed with path: ${storedTabs[activeTabIndex].path}`
+        );
+      }
+    );
+
+    // Close the Kitty window
+    exec(
+      `kitty @ --to unix:/tmp/mykitty close-window --match title:${storedTabs[activeTabIndex].path}`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error closing Kitty: ${error}`);
+          return;
+        }
+        if (stderr) {
+          console.error(`Kitty stderr: ${stderr}`);
+          return;
+        }
+        console.log(
+          `Kitty closed with path: ${storedTabs[activeTabIndex].path}`
+        );
+      }
+    );
+
     // Close the active tab
     storedTabs.splice(activeTabIndex, 1);
 
@@ -578,8 +579,6 @@ const server = http.createServer((req, res) => {
 
           const pathShort = body.replace(/^\/Users\/[^\/]+/, "~");
 
-          const test = `${pathShort} (Text Editor)`;
-
           if (vscodeStderr) {
             console.error(`VSCode stderr: ${vscodeStderr}`);
           }
@@ -587,21 +586,15 @@ const server = http.createServer((req, res) => {
           console.log(`VSCode opened with path: ${body}`);
 
           setTimeout(() => {
-            console.log(
-              "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c                codePID    \x1b[8m\x1b[40m\x1b[0m%c main.js 508 \n",
-              "color: white; background: black; font-weight: bold",
-              "",
-              codePID
-            );
             exec(
-              `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions.editor.x}, "y": ${defaultPositions.editor.y}, "width": ${defaultPositions.editor.width}, "height": ${defaultPositions.editor.height}, "title": "${test}"}' localhost:57320`,
+              `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions.editor.x}, "y": ${defaultPositions.editor.y}, "width": ${defaultPositions.editor.width}, "height": ${defaultPositions.editor.height}, "title": "${pathShort}"}' localhost:57320`,
               (err) => {
                 if (err) {
                   console.error(`Error moving VSCode window: ${err}`);
                 }
               }
             );
-          }, 200); // Adjust the delay as needed
+          }, 500); // Adjust the delay as needed
         });
         break;
     }
