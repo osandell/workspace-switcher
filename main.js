@@ -9,8 +9,123 @@ const http = require("http");
 const Store = require("electron-store");
 const store = new Store();
 const { exec } = require("child_process");
+const defaultPositions = {
+  editor: { x: 600, y: 55, width: 1320, height: 1065 },
+  terminal: { x: 0, y: 55, width: 600, height: 1065 },
+};
+const topBarHeight = 23;
 
-let mainWindow; // Declare mainWindow at a higher scope
+let mainWindow; // Main top bar window
+let lineWindow; // Vertical line window
+
+let kittyPID;
+exec(
+  "ps aux | grep /Applications/kitty.app/Contents/MacOS/kitty",
+  (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+
+    // Split the output into lines
+    const lines = stdout.split("\n");
+
+    // Filter out the grep command itself from the results
+    const processLines = lines.filter((line) => !line.includes("grep"));
+
+    // Assuming the first result is the one we want if multiple are returned
+    if (processLines.length > 0) {
+      const processInfo = processLines[0];
+
+      // Extracting PID from the process info, assuming standard ps aux output format
+      kittyPID = processInfo.split(/\s+/)[1]; // PID is in the second column
+
+      // You can now use this PID for whatever you need
+    } else {
+      console.log("Kitty process not found.");
+    }
+  }
+);
+
+let codePID;
+exec(
+  `ps aux | grep "/Applications/Visual Studio Code.app/Contents/MacOS/Electron"`,
+  (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+
+    // Split the output into lines
+    const lines = stdout.split("\n");
+
+    // Filter out the grep command itself from the results
+    const processLines = lines.filter((line) => !line.includes("grep"));
+
+    // Assuming the first result is the one we want if multiple are returned
+    if (processLines.length > 0) {
+      const processInfo = processLines[0];
+
+      // Extracting PID from the process info, assuming standard ps aux output format
+      codePID = processInfo.split(/\s+/)[1]; // PID is in the second column
+
+      console.log(`Code PIDiiiiii: ${codePID}`);
+      // You can now use this PID for whatever you need
+    } else {
+      console.log("Kitty process not found.");
+    }
+  }
+);
+
+const fs = require("fs");
+const path = "/tmp/current_workspace";
+
+// Function to toggle the visibility of the line window
+function toggleLineWindow(show) {
+  if (lineWindow) {
+    if (show) {
+      // Show the line window if not already visible
+      if (lineWindow.isVisible() === false) {
+        lineWindow.show();
+      }
+    } else {
+      // Hide the line window if visible
+      if (lineWindow.isVisible() === true) {
+        lineWindow.hide();
+      }
+    }
+  }
+}
+
+// Function to check the file content and decide on the line window's visibility
+function checkAndUpdateLineWindowVisibility() {
+  fs.readFile(path, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading the file:", err);
+      return;
+    }
+    // Show or hide the line window based on file content
+    toggleLineWindow(data.trim() === "Coding");
+  });
+}
+
+// Set up file watch
+fs.watch(path, (eventType, filename) => {
+  if (eventType === "change") {
+    checkAndUpdateLineWindowVisibility();
+  }
+});
+
+// Initial check in case the application starts with the correct state already
+checkAndUpdateLineWindowVisibility();
 
 function changeActiveTab(direction) {
   if (direction === "ArrowRight") {
@@ -66,20 +181,25 @@ function changeActiveTab(direction) {
       }
     );
   } else {
+    const pathShort = storedTabs[activeTabIndex].path.replace(
+      /^\/Users\/[^\/]+/,
+      "~"
+    );
+
+    const test = `${pathShort} ()`;
+    console.log(
+      "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    test    \x1b[8m\x1b[40m\x1b[0m%c main.js 112 \n",
+      "color: white; background: black; font-weight: bold",
+      "",
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "title": "${test}"}' localhost:57320`
+    );
+
     exec(
-      `code ${storedTabs[activeTabIndex].path}`,
-      (vscodeError, vscodeStdout, vscodeStderr) => {
-        if (vscodeError) {
-          console.error(`Error opening VSCode: ${vscodeError}`);
-          return;
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${test}"}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving VSCode window: ${err}`);
         }
-        if (vscodeStderr) {
-          console.error(`VSCode stderr: ${vscodeStderr}`);
-          return;
-        }
-        console.log(
-          `VSCode opened with path: ${storedTabs[activeTabIndex].path}`
-        );
       }
     );
   }
@@ -106,14 +226,14 @@ function changeActiveTab(direction) {
             // Move Kitty window after a short delay
             setTimeout(() => {
               exec(
-                `osascript -e 'tell application "System Events"' -e 'repeat with proc in every process whose name is "kitty"' -e 'repeat with kittyWindow in every window of proc' -e 'if name of kittyWindow is "${storedTabs[activeTabIndex].path}" then' -e 'set position of kittyWindow to {0, 55}' -e 'end if' -e 'end repeat' -e 'end repeat' -e 'end tell'`,
+                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions.terminal.x}, "y": ${defaultPositions.terminal.y}, "width": ${defaultPositions.terminal.width}, "height": ${defaultPositions.terminal.height}, "title": "${storedTabs[activeTabIndex].path}"}' localhost:57320`,
                 (err) => {
                   if (err) {
                     console.error(`Error moving Kitty window: ${err}`);
                   }
                 }
               );
-            }, 1000); // Adjust the delay as needed
+            }, 100); // Adjust the delay as needed
           }
         );
         console.error(`Error opening Kitty: ${error}`);
@@ -145,9 +265,9 @@ function changeActiveTab(direction) {
   // );
 }
 
-function removeActiveTab() {
+function closeActiveTab() {
   if (storedTabs.length > 0) {
-    // Remove the active tab
+    // Close the active tab
     storedTabs.splice(activeTabIndex, 1);
 
     // Adjust activeTabIndex if necessary
@@ -165,11 +285,11 @@ function removeActiveTab() {
 }
 
 function createWindow() {
-  const { width } = screen.getPrimaryDisplay().workAreaSize;
+  const { height, width } = screen.getPrimaryDisplay().workAreaSize;
 
   mainWindow = new BrowserWindow({
     width,
-    height: 24,
+    height: topBarHeight,
     x: 0,
     y: 0,
     webPreferences: {
@@ -187,12 +307,6 @@ function createWindow() {
     // Send stored paths to the renderer process after mainWindow is loaded
     storedTabs = store.get("storedTabs") || [];
     activeTabIndex = store.get("activeTabIndex", 0);
-    console.log(
-      "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    activeTabIndex    \x1b[8m\x1b[40m\x1b[0m%c main.js 68 \n",
-      "color: white; background: black; font-weight: bold",
-      "",
-      activeTabIndex
-    );
 
     mainWindow.webContents.send(
       "initialize-buttons",
@@ -216,14 +330,53 @@ function createWindow() {
     mainWindow.webContents.send("update-active-tab", activeTabIndex);
   });
 
-  ipcMain.on("remove-active-tab", () => {
-    removeActiveTab();
+  ipcMain.on("close-active-tab", () => {
+    closeActiveTab();
   });
+  // Calculate the screen dimensions and center position
+  const centerX = Math.round(width / 2);
+
+  const notchHeight = 31;
+  lineWindow = new BrowserWindow({
+    width: 1, // 1px wide
+    height: height - topBarHeight, // Full screen height
+    x: defaultPositions.editor.x, // Adjusted to center
+    y: topBarHeight + notchHeight + 1,
+    transparent: true, // Ensure transparency for the line
+    frame: false,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    focusable: false,
+    roundedCorners: false,
+    hasShadow: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+
+  lineWindow.loadURL(
+    "data:text/html;charset=utf-8,<style>body { margin: 0; padding: 0; background: rgb(212, 203, 183); }</style><body></body>"
+  );
+
+  lineWindow.setIgnoreMouseEvents(true);
 }
 
 app.whenReady().then(createWindow);
 
-let storedTabs = [];
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
+
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
+
+let storedTabs = store.get("storedTabs", []);
 let activeTabIndex = store.get("activeTabIndex", 0);
 
 const server = http.createServer((req, res) => {
@@ -237,7 +390,7 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    const currentActiveApp = storedTabs[activeTabIndex].activeApp;
+    const currentActiveApp = storedTabs[activeTabIndex]?.activeApp;
 
     switch (body) {
       case "left":
@@ -246,8 +399,8 @@ const server = http.createServer((req, res) => {
       case "right":
         changeActiveTab("ArrowRight");
         break;
-      case "remove":
-        removeActiveTab();
+      case "close":
+        closeActiveTab();
         break;
       case "duplicate":
         activeTabIndex = store.get("activeTabIndex", 0);
@@ -386,63 +539,69 @@ const server = http.createServer((req, res) => {
       default:
         // Handle path adding like before
         mainWindow.webContents.send("add-new-button", body);
-        storedTabs.push({ path: body });
+        storedTabs.push({ fullscreenApps: [], path: body });
         store.set("storedTabs", storedTabs);
 
-        console.log(
-          "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c            body    \x1b[8m\x1b[40m\x1b[0m%c main.js 142 \n",
-          "color: white; background: black; font-weight: bold",
-          "",
-          `kitty @ --to unix:/tmp/mykitty launch --type=os-window --title=${body} --cwd=${body}`
-        );
         exec(
           `kitty @ --to unix:/tmp/mykitty launch --type=os-window --title=${body} --cwd=${body}`,
           (error, stdout, stderr) => {
             if (error) {
               console.error(`Error opening Kitty: ${error}`);
-              return;
+              // return;
             }
             if (stderr) {
               console.error(`Kitty stderr: ${stderr}`);
-              return;
+              // return;
             }
             console.log(`Kitty opened with path: ${body}`);
-
+            console.log(`Kitty PIDst: ${kittyPID}`);
             // Move Kitty window after a short delay
             setTimeout(() => {
+              console.log(`Kitty PIrrrrD: ${kittyPID}`);
               exec(
-                `osascript -e 'tell application "System Events"' -e 'repeat with proc in every process whose name is "kitty"' -e 'repeat with kittyWindow in every window of proc' -e 'if name of kittyWindow is "${body}" then' -e 'set position of kittyWindow to {0, 55}' -e 'end if' -e 'end repeat' -e 'end repeat' -e 'end tell'`,
+                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions.terminal.x}, "y": ${defaultPositions.terminal.y}, "width": ${defaultPositions.terminal.width}, "height": ${defaultPositions.terminal.height}, "title": "${body}"}' localhost:57320`,
                 (err) => {
                   if (err) {
                     console.error(`Error moving Kitty window: ${err}`);
                   }
                 }
               );
-            }, 1000); // Adjust the delay as needed
+            }, 100); // Adjust the delay as needed
           }
         );
+
         exec(`code ${body}`, (vscodeError, vscodeStdout, vscodeStderr) => {
           if (vscodeError) {
             console.error(`Error opening VSCode: ${vscodeError}`);
             return;
           }
+
+          const pathShort = body.replace(/^\/Users\/[^\/]+/, "~");
+
+          const test = `${pathShort} (Text Editor)`;
+
           if (vscodeStderr) {
             console.error(`VSCode stderr: ${vscodeStderr}`);
-            return;
           }
+
           console.log(`VSCode opened with path: ${body}`);
 
-          // Move Kitty window after a short delay
-          // setTimeout(() => {
-          //   exec(
-          //     `osascript -e 'tell application "System Events"' -e 'repeat with proc in every process whose name is "kitty"' -e 'repeat with kittyWindow in every window of proc' -e 'if name of kittyWindow is "${body}" then' -e 'set position of kittyWindow to {0, 55}' -e 'end if' -e 'end repeat' -e 'end repeat' -e 'end tell'`,
-          //     (err) => {
-          //       if (err) {
-          //         console.error(`Error moving Kitty window: ${err}`);
-          //       }
-          //     }
-          //   );
-          // }, 1000); // Adjust the delay as needed
+          setTimeout(() => {
+            console.log(
+              "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c                codePID    \x1b[8m\x1b[40m\x1b[0m%c main.js 508 \n",
+              "color: white; background: black; font-weight: bold",
+              "",
+              codePID
+            );
+            exec(
+              `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions.editor.x}, "y": ${defaultPositions.editor.y}, "width": ${defaultPositions.editor.width}, "height": ${defaultPositions.editor.height}, "title": "${test}"}' localhost:57320`,
+              (err) => {
+                if (err) {
+                  console.error(`Error moving VSCode window: ${err}`);
+                }
+              }
+            );
+          }, 200); // Adjust the delay as needed
         });
         break;
     }

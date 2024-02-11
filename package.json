@@ -1,5 +1,5 @@
 {
-  "name": "subspace-switcher",
+  "name": "workspace-switcher",
   "version": "1.0.0",
   "description": "Lets the user switch between different sub workspaces of a particular workspace.",
   "main": "main.js",

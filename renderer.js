@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (event.code === "KeyD" || event.key === "d") {
-      ipcRenderer.send("remove-active-tab");
+      ipcRenderer.send("close-active-tab");
     }
   });
 });
