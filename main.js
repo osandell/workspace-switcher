@@ -410,6 +410,51 @@ const server = http.createServer((req, res) => {
         storedTabs.push({ path: activeTabPath });
         store.set("storedTabs", storedTabs);
         break;
+      case "toggleFullScreen":
+        activeTabIndex = store.get("activeTabIndex", 0);
+        storedTabs[activeTabIndex].terminalFullScreen =
+          !storedTabs[activeTabIndex].terminalFullScreen;
+
+        const { width: screenWidth } = screen.getPrimaryDisplay().workAreaSize;
+
+        toggleLineWindow(!storedTabs[activeTabIndex].terminalFullScreen);
+
+        exec(
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${
+            defaultPositions.terminal.x
+          }, "y": ${defaultPositions.terminal.y}, "width": ${
+            storedTabs[activeTabIndex].terminalFullScreen
+              ? screenWidth
+              : defaultPositions.terminal.width
+          }, "height": ${defaultPositions.terminal.height}, "title": "${
+            storedTabs[activeTabIndex].path
+          }"}' localhost:57320`,
+          (err) => {
+            if (err) {
+              console.error(`Error moving Kitty window: ${err}`);
+            }
+          }
+        );
+
+        exec(
+          `kitty @ --to unix:/tmp/mykitty focus-window --match title:${storedTabs[activeTabIndex].path}`,
+          (error, stdout, stderr) => {
+            if (error) {
+              console.error(`Error opening Kitty: ${error}`);
+              return;
+            }
+            if (stderr) {
+              console.error(`Kitty stderr: ${stderr}`);
+              return;
+            }
+            console.log(
+              `Kitty opened with path: ${storedTabs[activeTabIndex].path}`
+            );
+          }
+        );
+
+        store.set("storedTabs", storedTabs);
+        break;
       case "toggleGitKraken":
         storedTabs = store.get("storedTabs") || [];
         activeTabIndex = store.get("activeTabIndex", 0);
@@ -540,7 +585,11 @@ const server = http.createServer((req, res) => {
       default:
         // Handle path adding like before
         mainWindow.webContents.send("add-new-button", body);
-        storedTabs.push({ fullscreenApps: [], path: body });
+        storedTabs.push({
+          fullscreenApps: [],
+          path: body,
+          terminalFullScreen: false,
+        });
         store.set("storedTabs", storedTabs);
 
         exec(
@@ -554,11 +603,8 @@ const server = http.createServer((req, res) => {
               console.error(`Kitty stderr: ${stderr}`);
               // return;
             }
-            console.log(`Kitty opened with path: ${body}`);
-            console.log(`Kitty PIDst: ${kittyPID}`);
             // Move Kitty window after a short delay
             setTimeout(() => {
-              console.log(`Kitty PIrrrrD: ${kittyPID}`);
               exec(
                 `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions.terminal.x}, "y": ${defaultPositions.terminal.y}, "width": ${defaultPositions.terminal.width}, "height": ${defaultPositions.terminal.height}, "title": "${body}"}' localhost:57320`,
                 (err) => {
