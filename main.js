@@ -9,10 +9,20 @@ const http = require("http");
 const Store = require("electron-store");
 const store = new Store();
 const { exec } = require("child_process");
+let currentDisplay = "internal";
 const defaultPositions = {
-  editor: { x: 600, y: 55, width: 1320, height: 1065 },
-  terminal: { x: 0, y: 55, width: 600, height: 1065 },
+  internal: {
+    editor: { x: 600, y: 55, width: 1320, height: 1065 },
+    line: { x: 600, y: 55, width: 1, height: 1065 },
+    terminal: { x: 0, y: 55, width: 600, height: 1065 },
+  },
+  external: {
+    editor: { x: 932, y: 50, width: 1500, height: 1340 },
+    line: { x: 932, y: 50, width: 1, height: 1340 },
+    terminal: { x: 127, y: 50, width: 805, height: 1340 },
+  },
 };
+const notchHeight = 31;
 const topBarHeight = 23;
 
 let mainWindow; // Main top bar window
@@ -88,6 +98,126 @@ exec(
 const fs = require("fs");
 const path = "/tmp/current_workspace";
 
+// Add the function to detect displays and set currentDisplay
+function detectAndSetCurrentDisplay() {
+  const displays = screen.getAllDisplays();
+  currentDisplay = displays.length > 1 ? "external" : "internal";
+  console.log(`Current display set to: ${currentDisplay}`);
+}
+
+// Detect displays
+function detectDisplays() {
+  const displays = screen.getAllDisplays();
+  console.log(
+    "Detected displays:",
+    displays.map((display) => display.id)
+  );
+  // Implement logic to adjust windows based on connected displays
+}
+
+// Monitor for display changes
+function setupDisplayListeners() {
+  screen.on("display-added", (event, newDisplay) => {
+    console.log("Display added:", newDisplay.id);
+    detectDisplays();
+
+    console.log(
+      "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c        arst    \x1b[8m\x1b[40m\x1b[0m%c main.js 114 \n",
+      "color: white; background: black; font-weight: bold",
+      "",
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`
+    );
+
+    currentDisplay = "external";
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving Kitty window: ${err}`);
+        }
+      }
+    );
+
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving VSCode window: ${err}`);
+        }
+      }
+    );
+
+    updateTopBarPositionAndSize();
+    updateLineWindowPositionAndSize();
+  });
+
+  screen.on("display-removed", (event, oldDisplay) => {
+    console.log("Display removed:", oldDisplay.id);
+    detectDisplays();
+    currentDisplay = "internal";
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving Kitty window: ${err}`);
+        }
+      }
+    );
+
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving VSCode window: ${err}`);
+        }
+      }
+    );
+
+    updateTopBarPositionAndSize();
+    updateLineWindowPositionAndSize();
+  });
+}
+
+// Function to update the top bar window's position and size
+function updateTopBarPositionAndSize() {
+  if (mainWindow) {
+    const { height, width } = screen.getPrimaryDisplay().workAreaSize;
+
+    const newWidth = width; // Assuming top bar spans the entire width
+
+    const newBounds = {
+      x: 0,
+      y: 0, // Assuming top bar is always at the top
+      width: newWidth,
+      height: topBarHeight, // Assuming top bar height is constant
+    };
+
+    // Set the new bounds to the top bar window
+    mainWindow.setBounds(newBounds);
+  }
+}
+
+// Function to update the line window's position and size
+function updateLineWindowPositionAndSize() {
+  if (lineWindow) {
+    // Calculate the new height and position based on current display settings
+    const { height, width } = screen.getPrimaryDisplay().workAreaSize;
+    const newHeight = defaultPositions[currentDisplay].line.height;
+    const newX = defaultPositions[currentDisplay].line.x; // Assuming you have logic to set currentDisplay
+    const newY = defaultPositions[currentDisplay].line.y;
+
+    const newBounds = {
+      width: 1, // Keep the width as 1px
+      height: newHeight,
+      x: newX,
+      y: newY,
+    };
+
+    // Set the new bounds to the line window
+    lineWindow.setBounds(newBounds);
+  }
+}
+
 // Function to toggle the visibility of the line window
 function toggleLineWindow(show) {
   if (lineWindow) {
@@ -136,7 +266,10 @@ function changeActiveTab(direction) {
   }
 
   store.set("activeTabIndex", activeTabIndex);
-  mainWindow.webContents.send("update-active-tab", activeTabIndex);
+
+  const theme = store.get("theme", "light");
+
+  mainWindow.webContents.send("update-active-tab", theme, activeTabIndex);
 
   const currentActiveApp = storedTabs[activeTabIndex].activeApp;
   if (currentActiveApp === "GitKraken") {
@@ -186,7 +319,7 @@ function changeActiveTab(direction) {
             // Move Kitty window after a short delay
             setTimeout(() => {
               exec(
-                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions.terminal.x}, "y": ${defaultPositions.terminal.y}, "width": ${defaultPositions.terminal.width}, "height": ${defaultPositions.terminal.height}, "title": "${storedTabs[activeTabIndex].path}"}' localhost:57320`,
+                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}, "title": "${storedTabs[activeTabIndex].path}"}' localhost:57320`,
                 (err) => {
                   if (err) {
                     console.error(`Error moving Kitty window: ${err}`);
@@ -227,10 +360,16 @@ function changeActiveTab(direction) {
 
 function closeActiveTab() {
   if (storedTabs.length > 0) {
-    const pathShort = storedTabs[activeTabIndex].path.replace(
-      /^\/Users\/[^\/]+/,
-      "~"
-    );
+    // Only replace the beginning of the path if it extends beyond the home directory
+    const homeDir = process.env.HOME;
+    let pathShort;
+    if (storedTabs[activeTabIndex].path.startsWith(homeDir + "/")) {
+      // The path extends beyond the home directory, so replace the beginning with "~"
+      pathShort = storedTabs[activeTabIndex].path.replace(homeDir, "~");
+    } else {
+      // The path is either exactly the home directory or completely different, so leave it as is
+      pathShort = storedTabs[activeTabIndex].path;
+    }
 
     // Close the VSCode window
     exec(
@@ -286,6 +425,7 @@ function closeActiveTab() {
 }
 
 function createWindow() {
+  detectAndSetCurrentDisplay();
   const { height, width } = screen.getPrimaryDisplay().workAreaSize;
 
   mainWindow = new BrowserWindow({
@@ -327,8 +467,10 @@ function createWindow() {
   ipcMain.on("new-tab", () => {
     activeTabIndex = storedTabs.length - 1;
 
+    const theme = store.get("theme", "light");
+
     store.set("activeTabIndex", activeTabIndex);
-    mainWindow.webContents.send("update-active-tab", activeTabIndex);
+    mainWindow.webContents.send("update-active-tab", theme, activeTabIndex);
   });
 
   ipcMain.on("close-active-tab", () => {
@@ -337,12 +479,11 @@ function createWindow() {
   // Calculate the screen dimensions and center position
   const centerX = Math.round(width / 2);
 
-  const notchHeight = 31;
   lineWindow = new BrowserWindow({
     width: 1, // 1px wide
-    height: height - topBarHeight, // Full screen height
-    x: defaultPositions.editor.x, // Adjusted to center
-    y: topBarHeight + notchHeight + 1,
+    height: defaultPositions[currentDisplay].line.height,
+    x: defaultPositions[currentDisplay].line.x, // Adjusted to center
+    y: defaultPositions[currentDisplay].line.y,
     transparent: true, // Ensure transparency for the line
     frame: false,
     alwaysOnTop: true,
@@ -363,7 +504,11 @@ function createWindow() {
   lineWindow.setIgnoreMouseEvents(true);
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+  setupDisplayListeners();
+  detectDisplays();
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -421,14 +566,14 @@ const server = http.createServer((req, res) => {
 
         exec(
           `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${
-            defaultPositions.terminal.x
-          }, "y": ${defaultPositions.terminal.y}, "width": ${
+            defaultPositions[currentDisplay].terminal.x
+          }, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${
             storedTabs[activeTabIndex].terminalFullScreen
               ? screenWidth
-              : defaultPositions.terminal.width
-          }, "height": ${defaultPositions.terminal.height}, "title": "${
-            storedTabs[activeTabIndex].path
-          }"}' localhost:57320`,
+              : defaultPositions[currentDisplay].terminal.width
+          }, "height": ${
+            defaultPositions[currentDisplay].terminal.height
+          }, "title": "${storedTabs[activeTabIndex].path}"}' localhost:57320`,
           (err) => {
             if (err) {
               console.error(`Error moving Kitty window: ${err}`);
@@ -498,28 +643,32 @@ const server = http.createServer((req, res) => {
 
               // Move Kitty window after a short delay
               setTimeout(() => {
-                exec(
-                  `kitty @ --to unix:/tmp/mykitty focus-window --match title:${storedTabs[activeTabIndex].path}`,
-                  (error, stdout, stderr) => {
-                    if (error) {
-                      console.error(`Error opening Kitty: ${error}`);
-                      return;
-                    }
-                    if (stderr) {
-                      console.error(`Kitty stderr: ${stderr}`);
-                      return;
-                    }
-                    console.log(
-                      `Kitty opened with path: ${storedTabs[activeTabIndex].path}`
-                    );
+                exec(`open -a \"kitty\"`, (error, stdout, stderr) => {
+                  if (error) {
+                    console.error(`Error opening kitty: ${error}`);
+                    return;
                   }
-                );
+                  if (stderr) {
+                    console.error(`kitty stderr: ${stderr}`);
+                    return;
+                  }
+                });
               }, 500); // Adjust the delay as needed
             }
           );
           storedTabs[activeTabIndex].activeApp = "GitKraken";
         }
         store.set("storedTabs", storedTabs);
+        break;
+      case "activateDarkMode":
+        store.set("theme", "dark");
+        activeTabIndex = store.get("activeTabIndex", 0);
+        mainWindow.webContents.send("change-theme", "dark", activeTabIndex);
+        break;
+      case "activateLightMode":
+        store.set("theme", "light");
+        activeTabIndex = store.get("activeTabIndex", 0);
+        mainWindow.webContents.send("change-theme", "light", activeTabIndex);
         break;
       case "openCurrentApp":
         if (currentActiveApp === "GitKraken") {
@@ -606,7 +755,7 @@ const server = http.createServer((req, res) => {
             // Move Kitty window after a short delay
             setTimeout(() => {
               exec(
-                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions.terminal.x}, "y": ${defaultPositions.terminal.y}, "width": ${defaultPositions.terminal.width}, "height": ${defaultPositions.terminal.height}, "title": "${body}"}' localhost:57320`,
+                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}, "title": "${body}"}' localhost:57320`,
                 (err) => {
                   if (err) {
                     console.error(`Error moving Kitty window: ${err}`);
@@ -623,7 +772,17 @@ const server = http.createServer((req, res) => {
             return;
           }
 
-          const pathShort = body.replace(/^\/Users\/[^\/]+/, "~");
+          const homeDir = process.env.HOME;
+
+          // Only replace the beginning of the path if it extends beyond the home directory
+          let pathShort;
+          if (storedTabs[activeTabIndex].path.startsWith(homeDir + "/")) {
+            // The path extends beyond the home directory, so replace the beginning with "~"
+            pathShort = storedTabs[activeTabIndex].path.replace(homeDir, "~");
+          } else {
+            // The path is either exactly the home directory or completely different, so leave it as is
+            pathShort = storedTabs[activeTabIndex].path;
+          }
 
           if (vscodeStderr) {
             console.error(`VSCode stderr: ${vscodeStderr}`);
@@ -633,7 +792,7 @@ const server = http.createServer((req, res) => {
 
           setTimeout(() => {
             exec(
-              `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions.editor.x}, "y": ${defaultPositions.editor.y}, "width": ${defaultPositions.editor.width}, "height": ${defaultPositions.editor.height}, "title": "${pathShort}"}' localhost:57320`,
+              `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}, "title": "${pathShort}"}' localhost:57320`,
               (err) => {
                 if (err) {
                   console.error(`Error moving VSCode window: ${err}`);

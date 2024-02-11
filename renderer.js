@@ -28,14 +28,63 @@ ipcRenderer.on("initialize-buttons", (event, storedTabs, activeTabIndex) => {
   });
 });
 
-ipcRenderer.on("update-active-tab", (event, newActiveTabIndex) => {
+ipcRenderer.on("change-theme", (event, theme, activeTabIndex) => {
+  const body = document.body;
   const buttons = document.querySelectorAll("button");
-  buttons.forEach((button, index) => {
-    button.style.backgroundColor =
-      index === newActiveTabIndex ? "#fdf6e3" : "#d4cbb7";
-    button.style.color = index === newActiveTabIndex ? "#2aa198" : "#93a1a1";
-    button.style.fontWeight = index === newActiveTabIndex ? "bold" : "normal";
-  });
+
+  if (theme === "dark") {
+    // Gruvbox dark background color
+    body.style.backgroundColor = "#282828"; // Gruvbox dark background
+    document.body.classList.add("dark-mode");
+    document.body.classList.remove("light-mode");
+
+    buttons.forEach((button, index) => {
+      // Use Gruvbox color palette for buttons
+      button.style.backgroundColor =
+        index === activeTabIndex ? "#458588" : "#3c3836"; // Active button gets a distinct color
+      button.style.color = "#ebdbb2"; // Text color for dark mode
+      button.style.fontWeight = "normal";
+    });
+  } else if (theme === "light") {
+    body.style.backgroundColor = "#d4cbb7";
+    document.body.classList.remove("light-mode");
+
+    buttons.forEach((button, index) => {
+      button.style.backgroundColor =
+        index === activeTabIndex ? "#fdf6e3" : "#d4cbb7";
+      button.style.color = index === activeTabIndex ? "#2aa198" : "#93a1a1";
+      button.style.fontWeight = index === activeTabIndex ? "bold" : "normal";
+    });
+  }
+});
+
+ipcRenderer.on("update-active-tab", (event, theme, newActiveTabIndex) => {
+  const body = document.body;
+  const buttons = document.querySelectorAll("button");
+  if (theme === "dark") {
+    // Gruvbox dark background color
+    body.style.backgroundColor = "#282828"; // Gruvbox dark background
+    document.body.classList.add("dark-mode");
+    document.body.classList.remove("light-mode");
+
+    buttons.forEach((button, index) => {
+      // Use Gruvbox color palette for buttons
+      button.style.backgroundColor =
+        index === newActiveTabIndex ? "#458588" : "#3c3836"; // Active button gets a distinct color
+      button.style.color = "#ebdbb2"; // Text color for dark mode
+      button.style.fontWeight = "normal";
+    });
+  } else if (theme === "light") {
+    body.style.backgroundColor = "#d4cbb7";
+    document.body.classList.remove("light-mode");
+
+    buttons.forEach((button, index) => {
+      button.style.backgroundColor =
+        index === newActiveTabIndex ? "#fdf6e3" : "#d4cbb7";
+      button.style.color = index === newActiveTabIndex ? "#2aa198" : "#93a1a1";
+      button.style.fontWeight = index === newActiveTabIndex ? "bold" : "normal";
+    });
+  }
 });
 
 ipcRenderer.on("update-tabs", (event, updatedstoredTabs, newActiveTabIndex) => {
