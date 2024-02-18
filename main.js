@@ -15,11 +15,13 @@ const defaultPositions = {
     editor: { x: 600, y: 55, width: 1320, height: 1065 },
     line: { x: 600, y: 55, width: 1, height: 1065 },
     terminal: { x: 0, y: 55, width: 600, height: 1065 },
+    terminalFullscreen: { x: 0, y: 55, width: 1920, height: 1065 },
   },
   external: {
     editor: { x: 932, y: 50, width: 1500, height: 1340 },
     line: { x: 932, y: 50, width: 1, height: 1340 },
     terminal: { x: 127, y: 50, width: 805, height: 1340 },
+    terminalFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
   },
 };
 const notchHeight = 31;
@@ -87,7 +89,14 @@ exec(
       // Extracting PID from the process info, assuming standard ps aux output format
       kittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
 
-      // You can now use this PID for whatever you need
+      exec(
+        `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+        (err) => {
+          if (err) {
+            console.error(`Error moving Kitty window: ${err}`);
+          }
+        }
+      );
     } else {
       console.log("Kitty process not found.");
     }
@@ -164,10 +173,8 @@ function setupDisplayListeners() {
       }
     );
 
-    const { width: screenWidth } = screen.getPrimaryDisplay().workAreaSize;
-
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${screenWidth}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
           console.error(`Error moving Kitty window: ${err}`);
@@ -194,6 +201,15 @@ function setupDisplayListeners() {
     currentDisplay = "internal";
     exec(
       `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving Kitty window: ${err}`);
+        }
+      }
+    );
+
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
           console.error(`Error moving Kitty window: ${err}`);
@@ -409,23 +425,6 @@ function changeActiveTab(direction) {
       );
     }
   );
-
-  // exec(
-  //   `code ${storedTabs[activeTabIndex].path}`,
-  //   (vscodeError, vscodeStdout, vscodeStderr) => {
-  //     if (vscodeError) {
-  //       console.error(`Error opening VSCode: ${vscodeError}`);
-  //       return;
-  //     }
-  //     if (vscodeStderr) {
-  //       console.error(`VSCode stderr: ${vscodeStderr}`);
-  //       return;
-  //     }
-  //     console.log(
-  //       `VSCode opened with path: ${storedTabs[activeTabIndex].path}`
-  //     );
-  //   }
-  // );
 }
 
 function closeActiveTab() {
@@ -659,8 +658,6 @@ const server = http.createServer((req, res) => {
         storedTabs[activeTabIndex].terminalFullScreen =
           !storedTabs[activeTabIndex].terminalFullScreen;
 
-        const { width: screenWidth } = screen.getPrimaryDisplay().workAreaSize;
-
         toggleLineWindow(!storedTabs[activeTabIndex].terminalFullScreen);
 
         console.log(
@@ -673,7 +670,7 @@ const server = http.createServer((req, res) => {
             defaultPositions[currentDisplay].terminal.x
           }, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${
             storedTabs[activeTabIndex].terminalFullScreen
-              ? screenWidth
+              ? defaultPositions[currentDisplay].terminalFullscreen.width
               : defaultPositions[currentDisplay].terminal.width
           }, "height": ${
             defaultPositions[currentDisplay].terminal.height
@@ -910,18 +907,6 @@ const server = http.createServer((req, res) => {
           console.log(`VSCode opened with path: ${body}`);
 
           setTimeout(() => {
-            const homeDir = process.env.HOME;
-
-            // Only replace the beginning of the path if it extends beyond the home directory
-            let pathShort;
-            if (storedTabs[activeTabIndex].path.startsWith(homeDir + "/")) {
-              // The path extends beyond the home directory, so replace the beginning with "~"
-              pathShort = storedTabs[activeTabIndex].path.replace(homeDir, "~");
-            } else {
-              // The path is either exactly the home directory or completely different, so leave it as is
-              pathShort = storedTabs[activeTabIndex].path;
-            }
-
             exec(
               `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
               (err) => {
