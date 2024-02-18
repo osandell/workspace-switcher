@@ -737,6 +737,19 @@ const server = http.createServer((req, res) => {
               );
             }
           );
+
+          exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+            if (error) {
+              console.error(`Error opening kitty: ${error}`);
+              return;
+            }
+            if (stderr) {
+              console.error(
+                `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+              );
+              return;
+            }
+          });
           storedTabs[activeTabIndex].activeApp = "VSCode";
         } else {
           const fullPath = storedTabs[activeTabIndex].path.replace(
@@ -758,18 +771,20 @@ const server = http.createServer((req, res) => {
                 `GitKraken opened with path: ${storedTabs[activeTabIndex].path}`
               );
 
-              exec(`open -a \"kitty\"`, (error, stdout, stderr) => {
-                if (error) {
-                  console.error(`Error opening kitty: ${error}`);
-                  return;
-                }
-                if (stderr) {
-                  console.error(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                  );
-                  return;
-                }
-              });
+              setTimeout(() => {
+                exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+                  if (error) {
+                    console.error(`Error opening kitty: ${error}`);
+                    return;
+                  }
+                  if (stderr) {
+                    console.error(
+                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                    );
+                    return;
+                  }
+                });
+              }, 1000);
             }
           );
           storedTabs[activeTabIndex].activeApp = "GitKraken";
