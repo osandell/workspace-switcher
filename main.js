@@ -303,9 +303,9 @@ function changeActiveTab(direction) {
 
   mainWindow.webContents.send("update-active-tab", theme, activeTabIndex);
 
-  const currentActiveApp = storedTabs[activeTabIndex].activeApp;
-  if (currentActiveApp === "GitKraken") {
-    storedTabs[activeTabIndex].activeApp = "VSCode";
+  const gitkrakenVisible = storedTabs[activeTabIndex].gitkrakenVisible;
+  if (gitkrakenVisible) {
+    storedTabs[activeTabIndex].gitkrakenVisible = false;
   }
   // Get the current user's home directory
   const homeDir = process.env.HOME;
@@ -613,7 +613,8 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    const currentActiveApp = storedTabs[activeTabIndex]?.activeApp;
+    const gitkrakenVisible = storedTabs[activeTabIndex]?.gitkrakenVisible;
+    const focusedApp = storedTabs[activeTabIndex].focusedApp;
 
     switch (body) {
       case "left":
@@ -645,11 +646,6 @@ const server = http.createServer((req, res) => {
 
         toggleLineWindow(!storedTabs[activeTabIndex].terminalFullScreen);
 
-        console.log(
-          "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    yyyy    \x1b[8m\x1b[40m\x1b[0m%c main.js 692 \n",
-          "color: white; background: black; font-weight: bold",
-          ""
-        );
         exec(
           `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${
             defaultPositions[currentDisplay].terminal.x
@@ -667,11 +663,6 @@ const server = http.createServer((req, res) => {
           }
         );
 
-        console.log(
-          "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    ttttt    \x1b[8m\x1b[40m\x1b[0m%c main.js 710 \n",
-          "color: white; background: black; font-weight: bold",
-          ""
-        );
         exec(
           `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match title:${storedTabs[activeTabIndex].path}`,
           (error, stdout, stderr) => {
@@ -696,7 +687,7 @@ const server = http.createServer((req, res) => {
       case "toggleGitKraken":
         storedTabs = store.get("storedTabs") || [];
         activeTabIndex = store.get("activeTabIndex", 0);
-        if (currentActiveApp === "GitKraken") {
+        if (gitkrakenVisible) {
           exec(
             `code ${storedTabs[activeTabIndex].path}`,
             (vscodeError, vscodeStdout, vscodeStderr) => {
@@ -714,19 +705,23 @@ const server = http.createServer((req, res) => {
             }
           );
 
-          exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
-            if (error) {
-              console.error(`Error opening kitty: ${error}`);
-              return;
+          setTimeout(() => {
+            if (focusedApp === "kitty") {
+              exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+                if (error) {
+                  console.error(`Error opening kitty: ${error}`);
+                  return;
+                }
+                if (stderr) {
+                  console.error(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                  );
+                  return;
+                }
+              });
             }
-            if (stderr) {
-              console.error(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-              );
-              return;
-            }
-          });
-          storedTabs[activeTabIndex].activeApp = "VSCode";
+          }, 500);
+          storedTabs[activeTabIndex].gitkrakenVisible = false;
         } else {
           const fullPath = storedTabs[activeTabIndex].path.replace(
             /^~/,
@@ -763,7 +758,7 @@ const server = http.createServer((req, res) => {
               }, 1000);
             }
           );
-          storedTabs[activeTabIndex].activeApp = "GitKraken";
+          storedTabs[activeTabIndex].gitkrakenVisible = true;
         }
         store.set("storedTabs", storedTabs);
         break;
@@ -777,8 +772,17 @@ const server = http.createServer((req, res) => {
         activeTabIndex = store.get("activeTabIndex", 0);
         mainWindow.webContents.send("change-theme", "light", activeTabIndex);
         break;
+      case "setKittyFocused":
+        storedTabs[activeTabIndex].focusedApp = "kitty";
+        break;
+      case "setCodeFocused":
+        storedTabs[activeTabIndex].focusedApp = "code";
+        break;
+      case "setGitkrakenFocused":
+        storedTabs[activeTabIndex].focusedApp = "gitkraken";
+        break;
       case "openCurrentApp":
-        if (currentActiveApp === "GitKraken") {
+        if (gitkrakenVisible) {
           const fullPath = storedTabs[activeTabIndex].path.replace(
             /^~/,
             "/Users/olof/"
@@ -798,43 +802,45 @@ const server = http.createServer((req, res) => {
                 `GitKraken opened with path: ${storedTabs[activeTabIndex].path}`
               );
 
-              exec(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match title:${storedTabs[activeTabIndex].path}`,
-                (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(`Error opening Kitty: ${error}`);
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+              setTimeout(() => {
+                if (focusedApp === "kitty") {
+                  exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+                    if (error) {
+                      console.error(`Error opening Kitty: ${error}`);
+                      return;
+                    }
+                    if (stderr) {
+                      console.error(
+                        `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                      );
+                      return;
+                    }
+                    console.log(
+                      `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
                     );
-                    return;
-                  }
-                  console.log(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
-                  );
+                  });
                 }
-              );
+              }, 500);
             }
           );
         } else {
-          exec(
-            `code ${storedTabs[activeTabIndex].path}`,
-            (vscodeError, vscodeStdout, vscodeStderr) => {
-              if (vscodeError) {
-                console.error(`Error opening VSCode: ${vscodeError}`);
+          if (focusedApp === "kitty") {
+            exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+              if (error) {
+                console.error(`Error opening Kitty: ${error}`);
                 return;
               }
-              if (vscodeStderr) {
-                console.error(`VSCode stderr: ${vscodeStderr}`);
+              if (stderr) {
+                console.error(
+                  `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                );
                 return;
               }
               console.log(
-                `VSCode opened with path: ${storedTabs[activeTabIndex].path}`
+                `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
               );
-            }
-          );
+            });
+          }
         }
         break;
       // Create new workspace
@@ -865,7 +871,9 @@ const server = http.createServer((req, res) => {
 
                 const kittyPlatformWindowId = stdout.trim();
                 storedTabs.push({
+                  focusedApp: "kitty",
                   fullscreenApps: [],
+                  gitkrakenVisible: false,
                   kittyPlatformWindowId,
                   path: body,
                   terminalFullScreen: false,
