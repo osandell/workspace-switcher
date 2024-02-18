@@ -28,7 +28,7 @@ const topBarHeight = 23;
 let mainWindow; // Main top bar window
 let lineWindow; // Vertical line window
 
-let kittyPID;
+let kittyMainPID;
 exec(
   "ps aux | grep /Applications/kitty-main.app/Contents/MacOS/kitty",
   (error, stdout, stderr) => {
@@ -52,7 +52,40 @@ exec(
       const processInfo = processLines[0];
 
       // Extracting PID from the process info, assuming standard ps aux output format
-      kittyPID = processInfo.split(/\s+/)[1]; // PID is in the second column
+      kittyMainPID = processInfo.split(/\s+/)[1]; // PID is in the second column
+
+      // You can now use this PID for whatever you need
+    } else {
+      console.log("Kitty process not found.");
+    }
+  }
+);
+
+let kittyLfPID;
+exec(
+  "ps aux | grep /Applications/kitty-lf.app/Contents/MacOS/kitty",
+  (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+
+    // Split the output into lines
+    const lines = stdout.split("\n");
+
+    // Filter out the grep command itself from the results
+    const processLines = lines.filter((line) => !line.includes("grep"));
+
+    // Assuming the first result is the one we want if multiple are returned
+    if (processLines.length > 0) {
+      const processInfo = processLines[0];
+
+      // Extracting PID from the process info, assuming standard ps aux output format
+      kittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
 
       // You can now use this PID for whatever you need
     } else {
@@ -123,7 +156,18 @@ function setupDisplayListeners() {
 
     currentDisplay = "external";
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving Kitty window: ${err}`);
+        }
+      }
+    );
+
+    const { width: screenWidth } = screen.getPrimaryDisplay().workAreaSize;
+
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${screenWidth}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
           console.error(`Error moving Kitty window: ${err}`);
@@ -149,7 +193,7 @@ function setupDisplayListeners() {
     detectDisplays();
     currentDisplay = "internal";
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
           console.error(`Error moving Kitty window: ${err}`);
@@ -292,7 +336,7 @@ function changeActiveTab(direction) {
 
   exec(
     // Get kitty window id from platform_window_id
-    `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+    `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
     (err, stdout) => {
       if (err) {
         console.error(`Error getting kitty window id: ${err}`);
@@ -301,11 +345,11 @@ function changeActiveTab(direction) {
       const kittyWindowId = stdout.trim();
 
       exec(
-        `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty focus-window --match id:${kittyWindowId}`,
+        `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
         (error, stdout, stderr) => {
           if (error) {
             exec(
-              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty launch --type=os-window --cwd=${pathShort}`,
+              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
               (error, stdout, stderr) => {
                 if (error) {
                   console.error(`Error opening Kitty: ${error}`);
@@ -321,7 +365,7 @@ function changeActiveTab(direction) {
                 let kittyWindowId = stdout;
 
                 exec(
-                  `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                  `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
                   (err, stdout) => {
                     if (err) {
                       console.error(`Error getting platform_window_id: ${err}`);
@@ -335,45 +379,18 @@ function changeActiveTab(direction) {
                   }
                 );
 
-                setTimeout(() => {
-                  exec(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty ls | jq '.[].tabs[].windows[] | select(.id == ${kittyWindowId}) | .title'`,
-                    (err, stdout) => {
-                      if (err) {
-                        console.error(
-                          `Error getting platform_window_id: ${err}`
-                        );
-                      }
-
-                      const title = stdout;
-
-                      exec(
-                        `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}, "title": ${title}}' localhost:57320`,
-                        (err) => {
-                          if (err) {
-                            console.error(`Error moving Kitty window: ${err}`);
-                          }
-                        }
-                      );
+                exec(
+                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                  (err) => {
+                    if (err) {
+                      console.error(`Error moving Kitty window: ${err}`);
                     }
-                  );
-                }, 1000);
+                  }
+                );
 
                 console.log(
                   `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
                 );
-
-                // // Move Kitty window after a short delay
-                // setTimeout(() => {
-                //   exec(
-                //     `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}, "title": "${pathShort}"}' localhost:57320`,
-                //     (err) => {
-                //       if (err) {
-                //         console.error(`Error moving Kitty window: ${err}`);
-                //       }
-                //     }
-                //   );
-                // }, 100); // Adjust the delay as needed
               }
             );
             console.error(`Error opening Kitty: ${error}`);
@@ -448,7 +465,7 @@ function closeActiveTab() {
 
     // List all windows within the specified platform window ID
     exec(
-      `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty ls | jq '.[] | select(.platform_window_id == ${kittyPlatformWindowId}) | .tabs[].windows[].id'`,
+      `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${kittyPlatformWindowId}) | .tabs[].windows[].id'`,
       (err, stdout) => {
         if (err) {
           console.error(
@@ -466,7 +483,7 @@ function closeActiveTab() {
         // Close each window within the specified platform window
         windowIds.forEach((kittyWindowId) => {
           exec(
-            `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty close-window --match id:${kittyWindowId}`,
+            `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main close-window --match id:${kittyWindowId}`,
             (error, stdout, stderr) => {
               if (error) {
                 console.error(
@@ -646,8 +663,13 @@ const server = http.createServer((req, res) => {
 
         toggleLineWindow(!storedTabs[activeTabIndex].terminalFullScreen);
 
+        console.log(
+          "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    yyyy    \x1b[8m\x1b[40m\x1b[0m%c main.js 692 \n",
+          "color: white; background: black; font-weight: bold",
+          ""
+        );
         exec(
-          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${
             defaultPositions[currentDisplay].terminal.x
           }, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${
             storedTabs[activeTabIndex].terminalFullScreen
@@ -655,7 +677,7 @@ const server = http.createServer((req, res) => {
               : defaultPositions[currentDisplay].terminal.width
           }, "height": ${
             defaultPositions[currentDisplay].terminal.height
-          }, "title": "${storedTabs[activeTabIndex].path}"}' localhost:57320`,
+          }}' localhost:57320`,
           (err) => {
             if (err) {
               console.error(`Error moving Kitty window: ${err}`);
@@ -663,8 +685,13 @@ const server = http.createServer((req, res) => {
           }
         );
 
+        console.log(
+          "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    ttttt    \x1b[8m\x1b[40m\x1b[0m%c main.js 710 \n",
+          "color: white; background: black; font-weight: bold",
+          ""
+        );
         exec(
-          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty focus-window --match title:${storedTabs[activeTabIndex].path}`,
+          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match title:${storedTabs[activeTabIndex].path}`,
           (error, stdout, stderr) => {
             if (error) {
               console.error(`Error opening Kitty: ${error}`);
@@ -725,21 +752,18 @@ const server = http.createServer((req, res) => {
                 `GitKraken opened with path: ${storedTabs[activeTabIndex].path}`
               );
 
-              // Move Kitty window after a short delay
-              setTimeout(() => {
-                exec(`open -a \"kitty\"`, (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(`Error opening kitty: ${error}`);
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                    );
-                    return;
-                  }
-                });
-              }, 500); // Adjust the delay as needed
+              exec(`open -a \"kitty\"`, (error, stdout, stderr) => {
+                if (error) {
+                  console.error(`Error opening kitty: ${error}`);
+                  return;
+                }
+                if (stderr) {
+                  console.error(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                  );
+                  return;
+                }
+              });
             }
           );
           storedTabs[activeTabIndex].activeApp = "GitKraken";
@@ -777,27 +801,24 @@ const server = http.createServer((req, res) => {
                 `GitKraken opened with path: ${storedTabs[activeTabIndex].path}`
               );
 
-              // Move Kitty window after a short delay
-              setTimeout(() => {
-                exec(
-                  `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty focus-window --match title:${storedTabs[activeTabIndex].path}`,
-                  (error, stdout, stderr) => {
-                    if (error) {
-                      console.error(`Error opening Kitty: ${error}`);
-                      return;
-                    }
-                    if (stderr) {
-                      console.error(
-                        `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                      );
-                      return;
-                    }
-                    console.log(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
-                    );
+              exec(
+                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match title:${storedTabs[activeTabIndex].path}`,
+                (error, stdout, stderr) => {
+                  if (error) {
+                    console.error(`Error opening Kitty: ${error}`);
+                    return;
                   }
-                );
-              }, 500); // Adjust the delay as needed
+                  if (stderr) {
+                    console.error(
+                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                    );
+                    return;
+                  }
+                  console.log(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                  );
+                }
+              );
             }
           );
         } else {
@@ -823,7 +844,7 @@ const server = http.createServer((req, res) => {
       default:
         const kittyDelay = 1000;
         exec(
-          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty launch --type=os-window --cwd=${body}`,
+          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${body}`,
           (error, stdout, stderr) => {
             if (error) {
               console.error(`Error opening Kitty: ${error}`);
@@ -839,7 +860,7 @@ const server = http.createServer((req, res) => {
             let kittyWindowId = stdout;
 
             exec(
-              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
               (err, stdout) => {
                 if (err) {
                   console.error(`Error getting platform_window_id: ${err}`);
@@ -861,21 +882,11 @@ const server = http.createServer((req, res) => {
 
             setTimeout(() => {
               exec(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/mykitty ls | jq '.[].tabs[].windows[] | select(.id == ${kittyWindowId}) | .title'`,
-                (err, stdout) => {
+                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                (err) => {
                   if (err) {
-                    console.error(`Error getting platform_window_id: ${err}`);
+                    console.error(`Error moving Kitty window: ${err}`);
                   }
-
-                  const title = stdout;
-                  exec(
-                    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}, "title": ${title}}' localhost:57320`,
-                    (err) => {
-                      if (err) {
-                        console.error(`Error moving Kitty window: ${err}`);
-                      }
-                    }
-                  );
                 }
               );
             }, kittyDelay);
@@ -912,7 +923,7 @@ const server = http.createServer((req, res) => {
             }
 
             exec(
-              `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}, "title": "${pathShort}"}' localhost:57320`,
+              `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
               (err) => {
                 if (err) {
                   console.error(`Error moving VSCode window: ${err}`);
