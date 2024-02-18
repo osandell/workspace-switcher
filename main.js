@@ -3,6 +3,7 @@ const {
   BrowserWindow,
   ipcMain,
   ipcRenderer,
+  powerMonitor,
   screen,
 } = require("electron");
 const http = require("http");
@@ -148,56 +149,58 @@ function detectAndSetCurrentDisplay() {
 }
 
 // Detect displays
-function detectDisplays() {
-  const displays = screen.getAllDisplays();
-  console.log(
-    "Detected displays:",
-    displays.map((display) => display.id)
+function onExternalDisplaysConnected() {
+  currentDisplay = "external";
+  exec(
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    (err) => {
+      if (err) {
+        console.error(`Error moving Kitty window: ${err}`);
+      }
+    }
   );
-  // Implement logic to adjust windows based on connected displays
+
+  exec(
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    (err) => {
+      if (err) {
+        console.error(`Error moving Kitty window: ${err}`);
+      }
+    }
+  );
+
+  exec(
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+    (err) => {
+      if (err) {
+        console.error(`Error moving VSCode window: ${err}`);
+      }
+    }
+  );
+
+  updateTopBarPositionAndSize();
+  updateLineWindowPositionAndSize();
 }
 
 // Monitor for display changes
 function setupDisplayListeners() {
+  powerMonitor.on("resume", () => {
+    console.log("System is waking up from sleep");
+
+    const displays = screen.getAllDisplays();
+    if (displays.length > 1) {
+      onExternalDisplaysConnected();
+    }
+  });
+
   screen.on("display-added", (event, newDisplay) => {
     console.log("Display added:", newDisplay.id);
-    detectDisplays();
 
-    currentDisplay = "external";
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving Kitty window: ${err}`);
-        }
-      }
-    );
-
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving Kitty window: ${err}`);
-        }
-      }
-    );
-
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving VSCode window: ${err}`);
-        }
-      }
-    );
-
-    updateTopBarPositionAndSize();
-    updateLineWindowPositionAndSize();
+    onExternalDisplaysConnected();
   });
 
   screen.on("display-removed", (event, oldDisplay) => {
     console.log("Display removed:", oldDisplay.id);
-    detectDisplays();
     currentDisplay = "internal";
     exec(
       `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
@@ -652,6 +655,12 @@ const server = http.createServer((req, res) => {
         mainWindow.webContents.send("add-new-button", activeTabPath);
         storedTabs.push({ path: activeTabPath });
         store.set("storedTabs", storedTabs);
+        break;
+      case "setIsFrontmost":
+        toggleLineWindow(true);
+        break;
+      case "setIsBackground":
+        toggleLineWindow(false);
         break;
       case "toggleFullScreen":
         activeTabIndex = store.get("activeTabIndex", 0);
