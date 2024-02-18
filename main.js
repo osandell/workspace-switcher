@@ -9,6 +9,7 @@ const {
 const http = require("http");
 const Store = require("electron-store");
 const store = new Store();
+const fs = require("fs");
 const { exec } = require("child_process");
 let currentDisplay = "internal";
 const defaultPositions = {
@@ -137,9 +138,6 @@ exec(
     }
   }
 );
-
-const fs = require("fs");
-const path = "/tmp/current_workspace";
 
 // Add the function to detect displays and set currentDisplay
 function detectAndSetCurrentDisplay() {
@@ -290,28 +288,6 @@ function toggleLineWindow(show) {
     }
   }
 }
-
-// Function to check the file content and decide on the line window's visibility
-function checkAndUpdateLineWindowVisibility() {
-  fs.readFile(path, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading the file:", err);
-      return;
-    }
-    // Show or hide the line window based on file content
-    toggleLineWindow(data.trim() === "Coding");
-  });
-}
-
-// Set up file watch
-fs.watch(path, (eventType, filename) => {
-  if (eventType === "change") {
-    checkAndUpdateLineWindowVisibility();
-  }
-});
-
-// Initial check in case the application starts with the correct state already
-checkAndUpdateLineWindowVisibility();
 
 function changeActiveTab(direction) {
   if (direction === "ArrowRight") {
