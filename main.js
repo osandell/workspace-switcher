@@ -14,7 +14,7 @@ const { exec } = require("child_process");
 let currentDisplay = "internal";
 const defaultPositions = {
   internal: {
-    editor: { x: 600, y: 55, width: 1320, height: 1065 },
+    editor: { x: 600, y: 55, width: 1128, height: 1065 },
     line: { x: 600, y: 55, width: 1, height: 1065 },
     terminal: { x: 0, y: 55, width: 600, height: 1065 },
     terminalFullscreen: { x: 0, y: 55, width: 1920, height: 1065 },
