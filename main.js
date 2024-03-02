@@ -950,7 +950,9 @@ const server = http.createServer((req, res) => {
             }
           );
         } else {
-          setLineWindowVisible(true);
+          if (!storedTabs[activeTabIndex].terminalFullScreen) {
+            setLineWindowVisible(false);
+          }
 
           let vscodeDelay = 100;
           let kittyDelay = 0;
