@@ -12,6 +12,7 @@ const store = new Store();
 const fs = require("fs");
 const { exec } = require("child_process");
 let currentDisplay = "internal";
+let lazygitActive = false;
 const defaultPositions = {
   internal: {
     editor: { x: 600, y: 55, width: 1128, height: 1065 },
@@ -57,6 +58,39 @@ exec(
 
       // Extracting PID from the process info, assuming standard ps aux output format
       kittyMainPID = processInfo.split(/\s+/)[1]; // PID is in the second column
+
+      // You can now use this PID for whatever you need
+    } else {
+      console.log("Kitty process not found.");
+    }
+  }
+);
+
+let kittyLazygitPID;
+exec(
+  "ps aux | grep /Applications/kitty-lazygit.app/Contents/MacOS/kitty",
+  (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+
+    // Split the output into lines
+    const lines = stdout.split("\n");
+
+    // Filter out the grep command itself from the results
+    const processLines = lines.filter((line) => !line.includes("grep"));
+
+    // Assuming the first result is the one we want if multiple are returned
+    if (processLines.length > 0) {
+      const processInfo = processLines[0];
+
+      // Extracting PID from the process info, assuming standard ps aux output format
+      kittyLazygitPID = processInfo.split(/\s+/)[1]; // PID is in the second column
 
       // You can now use this PID for whatever you need
     } else {
@@ -159,6 +193,15 @@ function onExternalDisplaysConnected() {
   );
 
   exec(
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    (err) => {
+      if (err) {
+        console.error(`Error moving Kitty window: ${err}`);
+      }
+    }
+  );
+
+  exec(
     `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
     (err) => {
       if (err) {
@@ -202,6 +245,15 @@ function setupDisplayListeners() {
     currentDisplay = "internal";
     exec(
       `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving Kitty window: ${err}`);
+        }
+      }
+    );
+
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
           console.error(`Error moving Kitty window: ${err}`);
@@ -273,7 +325,7 @@ function updateLineWindowPositionAndSize() {
 }
 
 // Function to toggle the visibility of the line window
-function toggleLineWindow(show) {
+function setLineWindowVisible(show) {
   if (lineWindow) {
     if (show) {
       // Show the line window if not already visible
@@ -296,6 +348,8 @@ function changeActiveTab(direction) {
     activeTabIndex =
       (activeTabIndex - 1 + storedTabs.length) % storedTabs.length;
   }
+
+  lazygitActive = false;
 
   store.set("activeTabIndex", activeTabIndex);
 
@@ -320,90 +374,176 @@ function changeActiveTab(direction) {
     pathShort = storedTabs[activeTabIndex].path;
   }
 
-  exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
-    (err) => {
-      if (err) {
-        console.error(`Error focusing VSCode window: ${err}`);
-      }
-    }
-  );
-
-  exec(
-    // Get kitty window id from platform_window_id
-    `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
-    (err, stdout) => {
-      if (err) {
-        console.error(`Error getting kitty window id: ${err}`);
-      }
-
-      const kittyWindowId = stdout.trim();
-
-      exec(
-        `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
-        (error, stdout, stderr) => {
-          if (error) {
-            exec(
-              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
-              (error, stdout, stderr) => {
-                if (error) {
-                  console.error(`Error opening Kitty: ${error}`);
-                  return;
-                }
-                if (stderr) {
-                  console.error(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                  );
-                  return;
-                }
-
-                let kittyWindowId = stdout;
-
-                exec(
-                  `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
-                  (err, stdout) => {
-                    if (err) {
-                      console.error(`Error getting platform_window_id: ${err}`);
-                    }
-
-                    const kittyPlatformWindowId = stdout.trim();
-                    storedTabs[activeTabIndex].kittyPlatformWindowId =
-                      kittyPlatformWindowId;
-
-                    store.set("storedTabs", storedTabs);
-                  }
-                );
-
-                exec(
-                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-                  (err) => {
-                    if (err) {
-                      console.error(`Error moving Kitty window: ${err}`);
-                    }
-                  }
-                );
-
-                console.log(
-                  `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
-                );
-              }
-            );
-            console.error(`Error opening Kitty: ${error}`);
-            return;
-          }
-          if (stderr) {
-            console.error(
-              `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-            );
-            return;
-          }
-          console.log(
-            `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
-          );
+  if (lazygitActive) {
+    // Open Kitty Lazygit
+    exec(
+      // Get kitty window id from platform_window_id
+      `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyLazygitPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+      (err, stdout) => {
+        if (err) {
+          console.error(`Error getting kitty lazygit window id: ${err}`);
         }
-      );
-    }
-  );
+
+        const kittyWindowId = stdout.trim();
+
+        exec(
+          `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit focus-window --match id:${kittyWindowId}`,
+          (error, stdout, stderr) => {
+            if (error) {
+              exec(
+                `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit launch --type=os-window --cwd=${pathShort} --title "lazygit ${pathShort}" -- /bin/sh -c 'XDG_CONFIG_HOME="$HOME/.config" lazygit'`,
+                (error, stdout, stderr) => {
+                  if (error) {
+                    console.error(`Error opening Kitty: ${error}`);
+                    return;
+                  }
+                  if (stderr) {
+                    console.error(
+                      `/Applications/kitty-lazygit.app/Contents/MacOS/kitty stderr: ${stderr}`
+                    );
+                    return;
+                  }
+
+                  let kittyWindowId = stdout;
+
+                  exec(
+                    `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                    (err, stdout) => {
+                      if (err) {
+                        console.error(
+                          `Error getting platform_window_id: ${err}`
+                        );
+                      }
+
+                      const kittyLazygitPlatformWindowId = stdout.trim();
+                      storedTabs[activeTabIndex].kittyLazygitPlatformWindowId =
+                        kittyLazygitPlatformWindowId;
+
+                      store.set("storedTabs", storedTabs);
+                    }
+                  );
+
+                  exec(
+                    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                    (err) => {
+                      if (err) {
+                        console.error(
+                          `Error moving Kitty Lazygit window: ${err}`
+                        );
+                      }
+                    }
+                  );
+
+                  console.log(
+                    `/Applications/kitty-lazygit.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
+                  );
+                }
+              );
+              console.error(`Error opening Kitty: ${error}`);
+              return;
+            }
+            if (stderr) {
+              console.error(
+                `/Applications/kitty-lazygit.app/Contents/MacOS/kitty stderr: ${stderr}`
+              );
+              return;
+            }
+            console.log(
+              `/Applications/kitty-lazygit.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+            );
+          }
+        );
+      }
+    );
+  } else {
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error focusing VSCode window: ${err}`);
+        }
+      }
+    );
+
+    // Open Kitty Main
+    exec(
+      // Get kitty window id from platform_window_id
+      `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+      (err, stdout) => {
+        if (err) {
+          console.error(`Error getting kitty window id: ${err}`);
+        }
+
+        const kittyWindowId = stdout.trim();
+
+        exec(
+          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+          (error, stdout, stderr) => {
+            if (error) {
+              exec(
+                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
+                (error, stdout, stderr) => {
+                  if (error) {
+                    console.error(`Error opening Kitty: ${error}`);
+                    return;
+                  }
+                  if (stderr) {
+                    console.error(
+                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                    );
+                    return;
+                  }
+
+                  let kittyWindowId = stdout;
+
+                  exec(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                    (err, stdout) => {
+                      if (err) {
+                        console.error(
+                          `Error getting platform_window_id: ${err}`
+                        );
+                      }
+
+                      const kittyPlatformWindowId = stdout.trim();
+                      storedTabs[activeTabIndex].kittyPlatformWindowId =
+                        kittyPlatformWindowId;
+
+                      store.set("storedTabs", storedTabs);
+                    }
+                  );
+
+                  exec(
+                    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                    (err) => {
+                      if (err) {
+                        console.error(`Error moving Kitty window: ${err}`);
+                      }
+                    }
+                  );
+
+                  console.log(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
+                  );
+                }
+              );
+              console.error(`Error opening Kitty: ${error}`);
+              return;
+            }
+            if (stderr) {
+              console.error(
+                `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+              );
+              return;
+            }
+            console.log(
+              `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+            );
+          }
+        );
+      }
+    );
+  }
 }
 
 function closeActiveTab() {
@@ -620,9 +760,15 @@ const server = http.createServer((req, res) => {
     switch (body) {
       case "left":
         changeActiveTab("ArrowLeft");
+        storedTabs[activeTabIndex].terminalFullScreen
+          ? setLineWindowVisible(false)
+          : setLineWindowVisible(true);
         break;
       case "right":
         changeActiveTab("ArrowRight");
+        storedTabs[activeTabIndex].terminalFullScreen
+          ? setLineWindowVisible(false)
+          : setLineWindowVisible(true);
         break;
       case "close":
         closeActiveTab();
@@ -637,17 +783,18 @@ const server = http.createServer((req, res) => {
       case "setIsFrontmost":
         activeTabIndex = store.get("activeTabIndex", 0);
         !storedTabs[activeTabIndex].terminalFullScreen &&
-          toggleLineWindow(true);
+          !lazygitActive &&
+          setLineWindowVisible(true);
         break;
       case "setIsBackground":
-        toggleLineWindow(false);
+        setLineWindowVisible(false);
         break;
       case "toggleFullScreen":
         activeTabIndex = store.get("activeTabIndex", 0);
         storedTabs[activeTabIndex].terminalFullScreen =
           !storedTabs[activeTabIndex].terminalFullScreen;
 
-        toggleLineWindow(!storedTabs[activeTabIndex].terminalFullScreen);
+        setLineWindowVisible(!storedTabs[activeTabIndex].terminalFullScreen);
 
         exec(
           `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${
@@ -698,6 +845,239 @@ const server = http.createServer((req, res) => {
         );
 
         store.set("storedTabs", storedTabs);
+        break;
+      case "toggleLazygit":
+        lazygitActive = !lazygitActive;
+        if (lazygitActive) {
+          setLineWindowVisible(false);
+
+          // Open Kitty Lazygit
+          exec(
+            // Get kitty window id from platform_window_id
+            `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyLazygitPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+            (err, stdout) => {
+              if (err) {
+                console.error(`Error getting kitty lazygit window id: ${err}`);
+              }
+
+              const kittyWindowId = stdout.trim();
+
+              // Get the current user's home directory
+              const homeDir = process.env.HOME;
+
+              // Only replace the beginning of the path if it extends beyond the home directory
+              let pathShort;
+              if (storedTabs[activeTabIndex].path.startsWith(homeDir + "/")) {
+                // The path extends beyond the home directory, so replace the beginning with "~"
+                pathShort = storedTabs[activeTabIndex].path.replace(
+                  homeDir,
+                  "~"
+                );
+              } else {
+                // The path is either exactly the home directory or completely different, so leave it as is
+                pathShort = storedTabs[activeTabIndex].path;
+              }
+
+              exec(
+                `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit focus-window --match id:${kittyWindowId}`,
+                (error, stdout, stderr) => {
+                  if (error) {
+                    exec(
+                      `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit launch --type=os-window --cwd=${pathShort} --title "lazygit ${pathShort}" -- /bin/sh -c 'XDG_CONFIG_HOME="$HOME/.config" lazygit'`,
+                      (error, stdout, stderr) => {
+                        if (error) {
+                          console.error(`Error opening Kitty: ${error}`);
+                          return;
+                        }
+                        if (stderr) {
+                          console.error(
+                            `/Applications/kitty-lazygit.app/Contents/MacOS/kitty stderr: ${stderr}`
+                          );
+                          return;
+                        }
+
+                        let kittyWindowId = stdout;
+
+                        exec(
+                          `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                          (err, stdout) => {
+                            if (err) {
+                              console.error(
+                                `Error getting platform_window_id: ${err}`
+                              );
+                            }
+
+                            const kittyLazygitPlatformWindowId = stdout.trim();
+                            storedTabs[
+                              activeTabIndex
+                            ].kittyLazygitPlatformWindowId =
+                              kittyLazygitPlatformWindowId;
+
+                            store.set("storedTabs", storedTabs);
+                          }
+                        );
+
+                        exec(
+                          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                          (err) => {
+                            if (err) {
+                              console.error(
+                                `Error moving Kitty Lazygit window: ${err}`
+                              );
+                            }
+                          }
+                        );
+
+                        console.log(
+                          `/Applications/kitty-lazygit.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
+                        );
+                      }
+                    );
+                    console.error(`Error opening Kitty: ${error}`);
+                    return;
+                  }
+                  if (stderr) {
+                    console.error(
+                      `/Applications/kitty-lazygit.app/Contents/MacOS/kitty stderr: ${stderr}`
+                    );
+                    return;
+                  }
+                  console.log(
+                    `/Applications/kitty-lazygit.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                  );
+                }
+              );
+            }
+          );
+        } else {
+          setLineWindowVisible(true);
+
+          let vscodeDelay = 100;
+          let kittyDelay = 0;
+
+          if (focusedApp === "kitty") {
+            vscodeDelay = 0;
+            kittyDelay = 100;
+          }
+
+          setTimeout(() => {
+            exec(`open -a \"Visual Studio Code\"`, (error, stdout, stderr) => {
+              if (error) {
+                console.error(`Error opening vscode: ${error}`);
+                return;
+              }
+              if (stderr) {
+                console.error(`vscode stderr: ${stderr}`);
+                return;
+              }
+            });
+
+            // Get the current user's home directory
+            const homeDir = process.env.HOME;
+
+            // Only replace the beginning of the path if it extends beyond the home directory
+            let pathShort;
+            if (storedTabs[activeTabIndex].path.startsWith(homeDir + "/")) {
+              // The path extends beyond the home directory, so replace the beginning with "~"
+              pathShort = storedTabs[activeTabIndex].path.replace(homeDir, "~");
+            } else {
+              // The path is either exactly the home directory or completely different, so leave it as is
+              pathShort = storedTabs[activeTabIndex].path;
+            }
+
+            exec(
+              `curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
+              (err) => {
+                if (err) {
+                  console.error(`Error focusing VSCode window: ${err}`);
+                }
+              }
+            );
+          }, vscodeDelay);
+
+          setTimeout(() => {
+            // Open Kitty Main
+            exec(
+              // Get kitty window id from platform_window_id
+              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+              (err, stdout) => {
+                if (err) {
+                  console.error(`Error getting kitty window id: ${err}`);
+                }
+
+                const kittyWindowId = stdout.trim();
+
+                exec(
+                  `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+                  (error, stdout, stderr) => {
+                    if (error) {
+                      exec(
+                        `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${storedTabs[activeTabIndex].path}`,
+                        (error, stdout, stderr) => {
+                          if (error) {
+                            console.error(`Error opening Kitty: ${error}`);
+                            return;
+                          }
+                          if (stderr) {
+                            console.error(
+                              `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                            );
+                            return;
+                          }
+
+                          let kittyWindowId = stdout;
+
+                          exec(
+                            `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                            (err, stdout) => {
+                              if (err) {
+                                console.error(
+                                  `Error getting platform_window_id: ${err}`
+                                );
+                              }
+
+                              const kittyPlatformWindowId = stdout.trim();
+                              storedTabs[activeTabIndex].kittyPlatformWindowId =
+                                kittyPlatformWindowId;
+
+                              store.set("storedTabs", storedTabs);
+                            }
+                          );
+
+                          exec(
+                            `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                            (err) => {
+                              if (err) {
+                                console.error(
+                                  `Error moving Kitty window: ${err}`
+                                );
+                              }
+                            }
+                          );
+
+                          console.log(
+                            `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
+                          );
+                        }
+                      );
+                      console.error(`Error opening Kitty: ${error}`);
+                      return;
+                    }
+                    if (stderr) {
+                      console.error(
+                        `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                      );
+                      return;
+                    }
+                    console.log(
+                      `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                    );
+                  }
+                );
+              }
+            );
+          }, kittyDelay);
+        }
         break;
       case "toggleGitKraken":
         storedTabs = store.get("storedTabs") || [];
@@ -790,6 +1170,7 @@ const server = http.createServer((req, res) => {
       case "setKittyFocused":
         storedTabs[activeTabIndex].focusedApp = "kitty";
         break;
+
       case "setCodeFocused":
         storedTabs[activeTabIndex].focusedApp = "code";
         break;
@@ -797,47 +1178,22 @@ const server = http.createServer((req, res) => {
         storedTabs[activeTabIndex].focusedApp = "gitkraken";
         break;
       case "openCurrentApp":
-        if (gitkrakenVisible) {
-          const fullPath = storedTabs[activeTabIndex].path.replace(
-            /^~/,
-            "/Users/olof/"
-          );
-          exec(
-            `ELECTRON_RUN_AS_NODE=1 /Applications/GitKraken.app/Contents/MacOS/GitKraken /Applications/GitKraken.app/Contents/Resources/app.asar/src/main/static/cli.js -p "${fullPath}" `,
-            (gitKrakenError, gitKrakenStdout, gitKrakenStderr) => {
-              if (gitKrakenError) {
-                console.error(`Error opening GitKraken: ${gitKrakenError}`);
-                return;
-              }
-              if (gitKrakenStderr) {
-                console.error(`GitKraken stderr: ${vscodeStderr}`);
-                return;
-              }
-              console.log(
-                `GitKraken opened with path: ${storedTabs[activeTabIndex].path}`
-              );
-
-              setTimeout(() => {
-                if (focusedApp === "kitty") {
-                  exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
-                    if (error) {
-                      console.error(`Error opening Kitty: ${error}`);
-                      return;
-                    }
-                    if (stderr) {
-                      console.error(
-                        `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                      );
-                      return;
-                    }
-                    console.log(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
-                    );
-                  });
-                }
-              }, 500);
+        if (lazygitActive) {
+          exec(`open -a \"kitty-lazygit\"`, (error, stdout, stderr) => {
+            if (error) {
+              console.error(`Error opening Kitty: ${error}`);
+              return;
             }
-          );
+            if (stderr) {
+              console.error(
+                `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+              );
+              return;
+            }
+            console.log(
+              `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+            );
+          });
         } else {
           if (focusedApp === "kitty") {
             exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
@@ -861,6 +1217,8 @@ const server = http.createServer((req, res) => {
       // Create new workspace
       default:
         const kittyDelay = 1000;
+
+        // Open Kitty Main and Kitty Lazygit with the specified path
         exec(
           `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${body}`,
           (error, stdout, stderr) => {
@@ -878,25 +1236,58 @@ const server = http.createServer((req, res) => {
             let kittyWindowId = stdout;
 
             exec(
-              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
-              (err, stdout) => {
-                if (err) {
-                  console.error(`Error getting platform_window_id: ${err}`);
+              `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit launch --type=os-window --cwd=${body} --title "lazygit ${body}" -- /bin/sh -c 'XDG_CONFIG_HOME="$HOME/.config" lazygit'`,
+
+              (error, stdout, stderr) => {
+                if (error) {
+                  console.error(`Error opening Kitty: ${error}`);
+                  return;
+                }
+                if (stderr) {
+                  console.error(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                  );
+                  return;
                 }
 
-                const kittyPlatformWindowId = stdout.trim();
-                storedTabs.push({
-                  focusedApp: "kitty",
-                  fullscreenApps: [],
-                  gitkrakenVisible: false,
-                  kittyPlatformWindowId,
-                  path: body,
-                  terminalFullScreen: false,
-                });
+                let kittyLazygitWindowId = stdout;
 
-                mainWindow.webContents.send("add-new-button", body);
+                exec(
+                  `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                  (err, stdout) => {
+                    if (err) {
+                      console.error(`Error getting platform_window_id: ${err}`);
+                    }
 
-                store.set("storedTabs", storedTabs);
+                    const kittyPlatformWindowId = stdout.trim();
+
+                    exec(
+                      `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit ls | jq '.[] | select(.tabs[].windows[].id == ${kittyLazygitWindowId}) | .platform_window_id'`,
+                      (err, stdout) => {
+                        if (err) {
+                          console.error(
+                            `Error getting platform_window_id: ${err}`
+                          );
+                        }
+
+                        const kittyLazygitPlatformWindowId = stdout.trim();
+                        storedTabs.push({
+                          focusedApp: "kitty",
+                          fullscreenApps: [],
+                          gitkrakenVisible: false,
+                          kittyPlatformWindowId,
+                          kittyLazygitPlatformWindowId,
+                          path: body,
+                          terminalFullScreen: false,
+                        });
+
+                        mainWindow.webContents.send("add-new-button", body);
+
+                        store.set("storedTabs", storedTabs);
+                      }
+                    );
+                  }
+                );
               }
             );
 
@@ -909,6 +1300,28 @@ const server = http.createServer((req, res) => {
                   }
                 }
               );
+
+              exec(
+                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                (err) => {
+                  if (err) {
+                    console.error(`Error moving Kitty window: ${err}`);
+                  }
+                }
+              );
+
+              exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+                if (error) {
+                  console.error(`Error opening kitty: ${error}`);
+                  return;
+                }
+                if (stderr) {
+                  console.error(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                  );
+                  return;
+                }
+              });
             }, kittyDelay);
 
             console.log(
