@@ -613,7 +613,8 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    const gitkrakenVisible = storedTabs[activeTabIndex]?.gitkrakenVisible;
+    // const gitkrakenVisible = storedTabs[activeTabIndex]?.gitkrakenVisible;
+    const gitkrakenVisible = false;
     const focusedApp = storedTabs[activeTabIndex].focusedApp;
 
     switch (body) {
@@ -634,7 +635,9 @@ const server = http.createServer((req, res) => {
         store.set("storedTabs", storedTabs);
         break;
       case "setIsFrontmost":
-        toggleLineWindow(true);
+        activeTabIndex = store.get("activeTabIndex", 0);
+        !storedTabs[activeTabIndex].terminalFullScreen &&
+          toggleLineWindow(true);
         break;
       case "setIsBackground":
         toggleLineWindow(false);
@@ -664,20 +667,32 @@ const server = http.createServer((req, res) => {
         );
 
         exec(
-          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match title:${storedTabs[activeTabIndex].path}`,
-          (error, stdout, stderr) => {
-            if (error) {
-              console.error(`Error opening Kitty: ${error}`);
-              return;
+          // Get kitty window id from platform_window_id
+          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+          (err, stdout) => {
+            if (err) {
+              console.error(`Error getting kitty window id: ${err}`);
             }
-            if (stderr) {
-              console.error(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-              );
-              return;
-            }
-            console.log(
-              `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+
+            const kittyWindowId = stdout.trim();
+
+            exec(
+              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+              (error, stdout, stderr) => {
+                if (error) {
+                  console.error(`Error opening Kitty: ${error}`);
+                  return;
+                }
+                if (stderr) {
+                  console.error(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                  );
+                  return;
+                }
+                console.log(
+                  `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                );
+              }
             );
           }
         );
