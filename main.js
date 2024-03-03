@@ -13,7 +13,6 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 let currentDisplay = "internal";
-let lazygitActive = false;
 const defaultPositions = {
   internal: {
     editor: { x: 600, y: 55, width: 1128, height: 1065 },
@@ -350,13 +349,13 @@ function changeActiveTab(direction) {
       (activeTabIndex - 1 + storedTabs.length) % storedTabs.length;
   }
 
-  lazygitActive = false;
+  if (direction) {
+    store.set("activeTabIndex", activeTabIndex);
 
-  store.set("activeTabIndex", activeTabIndex);
+    const theme = store.get("theme", "light");
 
-  const theme = store.get("theme", "light");
-
-  mainWindow.webContents.send("update-active-tab", theme, activeTabIndex);
+    mainWindow.webContents.send("update-active-tab", theme, activeTabIndex);
+  }
 
   // Get the current user's home directory
   const homeDir = process.env.HOME;
@@ -1026,83 +1025,135 @@ function closeActiveTab() {
 
     // Close the VSCode window
     exec(
-      `osascript -e 'tell application "Visual Studio Code" to activate' && curl -f -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320 && osascript -e 'tell application "System Events" to keystroke "w" using {control down, command down, shift down}'`,
+      `open -a "Visual Studio Code" && curl -f -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320 && osascript -e 'tell application "System Events" to keystroke "w" using {control down, command down, shift down}'`,
       (error, stdout, stderr) => {
         if (error) {
           console.error(`Error closing VSCode: ${error}`);
-          return;
+          // return;
         }
         if (stderr) {
           console.error(`VSCode stderr: ${stderr}`);
-          return;
+          // return;
         }
-        console.log(
-          `VSCode closed with path: ${storedTabs[activeTabIndex].path}`
-        );
-      }
-    );
-
-    // Replace 'your_platform_window_id' with the actual platform window ID you want to target
-    const kittyPlatformWindowId =
-      storedTabs[activeTabIndex].kittyPlatformWindowId;
-
-    // List all windows within the specified platform window ID
-    exec(
-      `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${kittyPlatformWindowId}) | .tabs[].windows[].id'`,
-      (err, stdout) => {
-        if (err) {
-          console.error(
-            `Error listing windows for platform_window_id ${kittyPlatformWindowId}: ${err}`
+        if (!stdout && !stderr) {
+          console.log(
+            `VSCode closed with path: ${storedTabs[activeTabIndex].path}`
           );
-          return;
         }
 
-        // Parse the output to get all window IDs within the specified platform window
-        const windowIds = stdout
-          .trim()
-          .split("\n")
-          .map((id) => id.trim());
+        // Replace 'your_platform_window_id' with the actual platform window ID you want to target
+        const kittyPlatformWindowId =
+          storedTabs[activeTabIndex].kittyPlatformWindowId;
 
-        // Close each window within the specified platform window
-        windowIds.forEach((kittyWindowId) => {
-          exec(
-            `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main close-window --match id:${kittyWindowId}`,
-            (error, stdout, stderr) => {
-              if (error) {
-                console.error(
-                  `Error closing Kitty window ID ${kittyWindowId}: ${error}`
-                );
-                return;
-              }
-              if (stderr) {
-                console.error(
-                  `/Applications/kitty-main.app/Contents/MacOS/kitty stderr for window ID ${kittyWindowId}: ${stderr}`
-                );
-                return;
-              }
-              console.log(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty window closed with ID: ${kittyWindowId}`
+        // List all windows within the specified platform window ID
+        exec(
+          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${kittyPlatformWindowId}) | .tabs[].windows[].id'`,
+          (err, stdout) => {
+            if (err) {
+              console.error(
+                `Error listing windows for platform_window_id ${kittyPlatformWindowId}: ${err}`
               );
+              return;
+            }
+
+            // Parse the output to get all window IDs within the specified platform window
+            const windowIds = stdout
+              .trim()
+              .split("\n")
+              .map((id) => id.trim());
+
+            // Close each window within the specified platform window
+            windowIds.forEach((kittyWindowId) => {
+              exec(
+                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main close-window --match id:${kittyWindowId}`,
+                (error, stdout, stderr) => {
+                  if (error) {
+                    console.error(
+                      `Error closing Kitty window ID ${kittyWindowId}: ${error}`
+                    );
+                    return;
+                  }
+                  if (stderr) {
+                    console.error(
+                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr for window ID ${kittyWindowId}: ${stderr}`
+                    );
+                    return;
+                  }
+                  console.log(
+                    `/Applications/kitty-main.app/Contents/MacOS/kitty window closed with ID: ${kittyWindowId}`
+                  );
+                }
+              );
+            });
+          }
+        );
+
+        const kittyLazygitPlatformWindowId =
+          storedTabs[activeTabIndex].kittyLazygitPlatformWindowId;
+
+        if (kittyLazygitPlatformWindowId) {
+          // List all windows within the specified platform window ID
+          exec(
+            `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit ls | jq '.[] | select(.platform_window_id == ${kittyLazygitPlatformWindowId}) | .tabs[].windows[].id'`,
+            (err, stdout) => {
+              if (err) {
+                console.error(
+                  `Error listing windows for platform_window_id ${kittyLazygitPlatformWindowId}: ${err}`
+                );
+                return;
+              }
+
+              // Parse the output to get all window IDs within the specified platform window
+              const windowIds = stdout
+                .trim()
+                .split("\n")
+                .map((id) => id.trim());
+
+              // Close each window within the specified platform window
+              windowIds.forEach((kittyWindowId) => {
+                exec(
+                  `/Applications/kitty-lazygit.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_lazygit close-window --match id:${kittyWindowId}`,
+                  (error, stdout, stderr) => {
+                    if (error) {
+                      console.error(
+                        `Error closing Kitty window ID ${kittyWindowId}: ${error}`
+                      );
+                      return;
+                    }
+                    if (stderr) {
+                      console.error(
+                        `/Applications/kitty-main.app/Contents/MacOS/kitty stderr for window ID ${kittyWindowId}: ${stderr}`
+                      );
+                      return;
+                    }
+                    console.log(
+                      `/Applications/kitty-main.app/Contents/MacOS/kitty window closed with ID: ${kittyWindowId}`
+                    );
+                  }
+                );
+              });
             }
           );
-        });
+        }
+
+        // Close the active tab
+        storedTabs.splice(activeTabIndex, 1);
+
+        // Adjust activeTabIndex if necessary
+        if (activeTabIndex >= storedTabs.length) {
+          activeTabIndex = Math.max(storedTabs.length - 1, 0);
+        }
+
+        // Save the updated state
+        store.set("storedTabs", storedTabs);
+        store.set("activeTabIndex", activeTabIndex);
+
+        // Notify the renderer process to update the UI
+        mainWindow.webContents.send("update-tabs", storedTabs, activeTabIndex);
+
+        changeActiveTab();
       }
     );
-
-    // Close the active tab
-    storedTabs.splice(activeTabIndex, 1);
-
-    // Adjust activeTabIndex if necessary
-    if (activeTabIndex >= storedTabs.length) {
-      activeTabIndex = Math.max(storedTabs.length - 1, 0);
-    }
-
-    // Save the updated state
-    store.set("storedTabs", storedTabs);
-    store.set("activeTabIndex", activeTabIndex);
-
-    // Notify the renderer process to update the UI
-    mainWindow.webContents.send("update-tabs", storedTabs, activeTabIndex);
   }
 }
 
@@ -1245,15 +1296,7 @@ const server = http.createServer((req, res) => {
         storedTabs.push({ path: activeTabPath });
         store.set("storedTabs", storedTabs);
         break;
-      // case "setIsFrontmost":
-      //   activeTabIndex = store.get("activeTabIndex", 0);
-      //   !storedTabs[activeTabIndex].terminalFullScreen &&
-      //     !lazygitActive &&
-      //     setLineWindowVisible(true);
-      //   break;
-      // case "setIsBackground":
-      //   setLineWindowVisible(false);
-      //   break;
+
       case "toggleFullScreen":
         activeTabIndex = store.get("activeTabIndex", 0);
         storedTabs[activeTabIndex].terminalFullScreen =
@@ -1450,6 +1493,21 @@ const server = http.createServer((req, res) => {
         const gitDir = path.join(body, ".git");
         let isGitRepo = fs.existsSync(gitDir);
 
+        storedTabs.push({
+          focusedApp: "kitty",
+          fullscreenApps: [],
+          gitkrakenVisible: false,
+          kittyPlatformWindowId: "",
+          kittyLazygitPlatformWindowId: "",
+          path: body,
+          terminalFullScreen: false,
+        });
+
+        store.set("storedTabs", storedTabs);
+
+        // We need to do this here before storing window id:s to get the right activeTabIndex
+        mainWindow.webContents.send("add-new-button", body);
+
         // Open Kitty Main and Kitty Lazygit with the specified path
         exec(
           `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${body}`,
@@ -1506,18 +1564,13 @@ const server = http.createServer((req, res) => {
                           }
 
                           const kittyLazygitPlatformWindowId = stdout.trim();
-                          storedTabs.push({
-                            focusedApp: "kitty",
-                            fullscreenApps: [],
-                            gitkrakenVisible: false,
-                            kittyPlatformWindowId,
-                            kittyLazygitPlatformWindowId,
-                            path: body,
-                            terminalFullScreen: false,
-                          });
 
-                          mainWindow.webContents.send("add-new-button", body);
-
+                          storedTabs[activeTabIndex].kittyPlatformWindowId =
+                            kittyPlatformWindowId;
+                          storedTabs[
+                            activeTabIndex
+                          ].kittyLazygitPlatformWindowId =
+                            kittyLazygitPlatformWindowId;
                           store.set("storedTabs", storedTabs);
                         }
                       );
@@ -1572,17 +1625,8 @@ const server = http.createServer((req, res) => {
 
                   const kittyPlatformWindowId = stdout.trim();
 
-                  storedTabs.push({
-                    focusedApp: "kitty",
-                    fullscreenApps: [],
-                    gitkrakenVisible: false,
-                    kittyPlatformWindowId,
-                    path: body,
-                    terminalFullScreen: false,
-                  });
-
-                  mainWindow.webContents.send("add-new-button", body);
-
+                  storedTabs[activeTabIndex].kittyPlatformWindowId =
+                    kittyPlatformWindowId;
                   store.set("storedTabs", storedTabs);
                 }
               );
