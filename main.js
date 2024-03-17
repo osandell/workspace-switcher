@@ -1484,6 +1484,15 @@ const server = http.createServer((req, res) => {
         }
         setLineWindowVisible(true);
         break;
+      case "winPos":
+        // TODO: Remove this
+        console.log(
+          "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    hej    \x1b[8m\x1b[40m\x1b[0m%c main.js 1488 \n",
+          "color: white; background: black; font-weight: bold",
+          ""
+        );
+        detectAndSetCurrentDisplay();
+        break;
       case "setDefocused":
         setLineWindowVisible(false);
         break;
