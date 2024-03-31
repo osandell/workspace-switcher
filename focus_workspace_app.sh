@@ -10,6 +10,8 @@ case $focused_workspace_app in
     # Make sure kitty-main is focused
     sleep 0.2
     open -a 'kitty-main'
+    sleep 0.2
+    open -a 'kitty-main'
     ;;
 'kitty-lazygit')
     open -a 'Electron'
@@ -20,6 +22,8 @@ case $focused_workspace_app in
     open -a 'kitty-main'
     open -a 'Electron'
     # Make sure VSCode is focused
+    sleep 0.2
+    open -a 'Visual Studio Code'
     sleep 0.2
     open -a 'Visual Studio Code'
     ;;

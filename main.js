@@ -342,6 +342,11 @@ function setLineWindowVisible(show) {
 }
 
 function changeActiveTab(direction) {
+  console.log(
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    aaa    \x1b[8m\x1b[40m\x1b[0m%c main.js 345 \n",
+    "color: white; background: black; font-weight: bold",
+    ""
+  );
   if (direction === "ArrowRight") {
     activeTabIndex = (activeTabIndex + 1) % storedTabs.length;
   } else if (direction === "ArrowLeft") {
@@ -624,6 +629,14 @@ function changeActiveTab(direction) {
               }
               console.log(
                 `/Applications/kitty-lazygit.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+              );
+
+              const test = `open -a "Visual Studio Code" && curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`;
+              console.log(
+                "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    test    \x1b[8m\x1b[40m\x1b[0m%c main.js 374 \n",
+                "color: white; background: black; font-weight: bold",
+                "",
+                test
               );
 
               exec(
