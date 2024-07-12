@@ -192,14 +192,14 @@ function onExternalDisplaysConnected() {
     }
   );
 
-  exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-    (err) => {
-      if (err) {
-        console.error(`Error moving Kitty window: ${err}`);
-      }
-    }
-  );
+  // exec(
+  //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+  //   (err) => {
+  //     if (err) {
+  //       console.error(`Error moving Kitty window: ${err}`);
+  //     }
+  //   }
+  // );
 
   exec(
     `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
@@ -347,6 +347,10 @@ function changeActiveTab(direction) {
     "color: white; background: black; font-weight: bold",
     ""
   );
+
+  storedTabs[activeTabIndex].gitkrakenInitialized = false;
+  store.set("storedTabs", storedTabs);
+
   if (direction === "ArrowRight") {
     activeTabIndex = (activeTabIndex + 1) % storedTabs.length;
   } else if (direction === "ArrowLeft") {
@@ -1038,10 +1042,10 @@ function closeActiveTab() {
           console.error(`Error closing VSCode: ${error}`);
           // return;
         }
-        if (stderr) {
-          console.error(`VSCode stderr: ${stderr}`);
-          // return;
-        }
+        // if (stderr) {
+        //   console.error(`VSCode stderr: ${stderr}`);
+        //   // return;
+        // }
         if (!stdout && !stderr) {
           console.log(
             `VSCode closed with path: ${storedTabs[activeTabIndex].path}`
@@ -1392,10 +1396,10 @@ const server = http.createServer((req, res) => {
                 console.error(`Error opening VSCode: ${vscodeError}`);
                 return;
               }
-              if (vscodeStderr) {
-                console.error(`VSCode stderr: ${vscodeStderr}`);
-                return;
-              }
+              // if (vscodeStderr) {
+              //   console.error(`VSCode stderr: ${vscodeStderr}`);
+              //   return;
+              // }
               console.log(
                 `VSCode opened with path: ${storedTabs[activeTabIndex].path}`
               );
@@ -1420,41 +1424,47 @@ const server = http.createServer((req, res) => {
           }, 500);
           storedTabs[activeTabIndex].gitkrakenVisible = false;
         } else {
-          const fullPath = storedTabs[activeTabIndex].path.replace(
-            /^~/,
-            "/Users/olof/"
-          );
-          exec(
-            `ELECTRON_RUN_AS_NODE=1 /Applications/GitKraken.app/Contents/MacOS/GitKraken /Applications/GitKraken.app/Contents/Resources/app.asar/src/main/static/cli.js -p "${fullPath}" `,
-            (gitKrakenError, gitKrakenStdout, gitKrakenStderr) => {
-              if (gitKrakenError) {
-                console.error(`Error opening GitKraken: ${gitKrakenError}`);
-                return;
-              }
-              if (gitKrakenStderr) {
-                console.error(`GitKraken stderr: ${gitKrakenStderr}`);
-                return;
-              }
-              console.log(
-                `GitKraken opened with path: ${storedTabs[activeTabIndex].path}`
-              );
+          console.log(`arstarst opened with path:`);
+          if (!storedTabs[activeTabIndex].gitkrakenInitialized) {
+            const fullPath = storedTabs[activeTabIndex].path.replace(
+              /^~/,
+              "/Users/olof/"
+            );
+            exec(
+              `ELECTRON_RUN_AS_NODE=1 /Applications/GitKraken.app/Contents/MacOS/GitKraken /Applications/GitKraken.app/Contents/Resources/app.asar/src/main/static/cli.js -p "${fullPath}" `,
+              (gitKrakenError, gitKrakenStdout, gitKrakenStderr) => {
+                // TODO: This always generates -67062 error. Might be because we launch
+                // GitKraken via cli.js. But it works anyway so we can ignore this for
+                // now.
+                // if (gitKrakenError) {
+                //   console.error(`Error opening GitKraken: ${gitKrakenError}`);
+                //   return;
+                // }
 
-              setTimeout(() => {
-                exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(`Error opening kitty: ${error}`);
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                    );
-                    return;
-                  }
-                });
-              }, 1000);
-            }
-          );
+                // if (gitKrakenStderr) {
+                //   console.error(`GitKraken stderr: ${gitKrakenStderr}`);
+                //   return;
+                // }
+                storedTabs[activeTabIndex].gitkrakenInitialized = true;
+                store.set("storedTabs", storedTabs);
+
+                setTimeout(() => {
+                  exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+                    if (error) {
+                      console.error(`Error opening kitty: ${error}`);
+                      return;
+                    }
+                    if (stderr) {
+                      console.error(
+                        `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                      );
+                      return;
+                    }
+                  });
+                }, 1000);
+              }
+            );
+          }
           storedTabs[activeTabIndex].gitkrakenVisible = true;
         }
         store.set("storedTabs", storedTabs);
@@ -1513,6 +1523,7 @@ const server = http.createServer((req, res) => {
           focusedApp: "kitty",
           fullscreenApps: [],
           gitkrakenVisible: false,
+          gitkrakenInitialized: false,
           kittyPlatformWindowId: "",
           // kittyLazygitPlatformWindowId: "",
           path: body,
@@ -1580,14 +1591,14 @@ const server = http.createServer((req, res) => {
 
                   //     const kittyLazygitPlatformWindowId = stdout.trim();
 
-                  //     storedTabs[activeTabIndex].kittyPlatformWindowId =
-                  //       kittyPlatformWindowId;
-                  //     storedTabs[
-                  //       activeTabIndex
-                  //     ].kittyLazygitPlatformWindowId =
-                  //       kittyLazygitPlatformWindowId;
-                  //     store.set("storedTabs", storedTabs);
-                  //   }
+                  storedTabs[activeTabIndex].kittyPlatformWindowId =
+                    kittyPlatformWindowId;
+                  // storedTabs[
+                  //   activeTabIndex
+                  // ].kittyLazygitPlatformWindowId =
+                  //   kittyLazygitPlatformWindowId;
+                  store.set("storedTabs", storedTabs);
+                  // }
                   // );
                 }
               );
@@ -1683,9 +1694,9 @@ const server = http.createServer((req, res) => {
             return;
           }
 
-          if (vscodeStderr) {
-            console.error(`VSCode stderr: ${vscodeStderr}`);
-          }
+          // if (vscodeStderr) {
+          //   console.error(`VSCode stderr: ${vscodeStderr}`);
+          // }
 
           console.log(`VSCode opened with path: ${body}`);
 
