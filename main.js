@@ -1438,7 +1438,7 @@ const server = http.createServer((req, res) => {
                 return;
               }
               if (gitKrakenStderr) {
-                console.error(`GitKraken stderr: ${vscodeStderr}`);
+                console.error(`GitKraken stderr: ${gitKrakenStderr}`);
                 return;
               }
               console.log(
