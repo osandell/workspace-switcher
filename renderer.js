@@ -70,7 +70,7 @@ ipcRenderer.on("update-active-tab", (event, theme, newActiveTabIndex) => {
     buttons.forEach((button, index) => {
       // Use Gruvbox color palette for buttons
       button.style.backgroundColor =
-        index === newActiveTabIndex ? "#458588" : "#3c3836"; // Active button gets a distinct color
+        index === newActiveTabIndex ? "#647c73" : "#3c3836"; // Active button gets a distinct color
       button.style.color = "#ebdbb2"; // Text color for dark mode
       button.style.fontWeight = "normal";
     });
