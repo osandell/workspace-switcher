@@ -2,7 +2,6 @@ const {
   app,
   BrowserWindow,
   ipcMain,
-  ipcRenderer,
   powerMonitor,
   screen,
 } = require("electron");
@@ -27,7 +26,6 @@ const defaultPositions = {
     terminalFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
   },
 };
-const notchHeight = 31;
 const topBarHeight = 23;
 
 let mainWindow; // Main top bar window
@@ -1170,7 +1168,7 @@ function closeActiveTab() {
 
 function createWindow() {
   detectAndSetCurrentDisplay();
-  const { height, width } = screen.getPrimaryDisplay().workAreaSize;
+  const { width } = screen.getPrimaryDisplay().workAreaSize;
 
   mainWindow = new BrowserWindow({
     width,

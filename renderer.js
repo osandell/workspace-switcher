@@ -112,6 +112,7 @@ function addDynamicButton(path, isActive = false) {
   button.style.backgroundColor = isActive ? "#fdf6e3" : "#d4cbb7";
   button.style.color = isActive ? "#2aa198" : "#93a1a1";
   button.style.fontWeight = isActive ? "bold" : "normal";
+  button.style.userSelect = "none";
   button.addEventListener("click", () => {
     shell.openPath(path);
   });
