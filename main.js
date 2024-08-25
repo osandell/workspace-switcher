@@ -1153,12 +1153,19 @@ function closeActiveTab() {
           activeTabIndex = Math.max(storedTabs.length - 1, 0);
         }
 
+        const theme = store.get("theme", "light");
+
         // Save the updated state
         store.set("storedTabs", storedTabs);
         store.set("activeTabIndex", activeTabIndex);
 
         // Notify the renderer process to update the UI
-        mainWindow.webContents.send("update-tabs", storedTabs, activeTabIndex);
+        mainWindow.webContents.send(
+          "update-tabs",
+          storedTabs,
+          activeTabIndex,
+          theme
+        );
 
         changeActiveTab();
       }

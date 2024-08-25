@@ -87,18 +87,21 @@ ipcRenderer.on("update-active-tab", (event, theme, newActiveTabIndex) => {
   }
 });
 
-ipcRenderer.on("update-tabs", (event, updatedstoredTabs, newActiveTabIndex) => {
-  // Clear existing buttons
-  const body = document.body;
-  body.innerHTML = "";
+ipcRenderer.on(
+  "update-tabs",
+  (event, updatedstoredTabs, newActiveTabIndex, theme) => {
+    // Clear existing buttons
+    const body = document.body;
+    body.innerHTML = "";
 
-  // Add new buttons
-  updatedstoredTabs.forEach((tab, index) => {
-    addDynamicButton(tab.path, index === newActiveTabIndex);
-  });
-});
+    // Add new buttons based on the theme
+    updatedstoredTabs.forEach((tab, index) => {
+      addDynamicButton(tab.path, index === newActiveTabIndex, theme);
+    });
+  }
+);
 
-function addDynamicButton(path, isActive = false) {
+function addDynamicButton(path, isActive = false, theme = "light") {
   // Get the body element
   const body = document.body;
 
@@ -109,8 +112,15 @@ function addDynamicButton(path, isActive = false) {
   // Create a new button with only the last part of the path as text
   const button = document.createElement("button");
   button.textContent = lastPart;
-  button.style.backgroundColor = isActive ? "#fdf6e3" : "#d4cbb7";
-  button.style.color = isActive ? "#2aa198" : "#93a1a1";
+
+  if (theme === "dark") {
+    button.style.backgroundColor = isActive ? "#458588" : "#3c3836"; // Active and inactive colors for dark theme
+    button.style.color = "#ebdbb2"; // Text color for dark theme
+  } else {
+    button.style.backgroundColor = isActive ? "#fdf6e3" : "#d4cbb7"; // Active and inactive colors for light theme
+    button.style.color = isActive ? "#2aa198" : "#93a1a1"; // Text color for light theme
+  }
+
   button.style.fontWeight = isActive ? "bold" : "normal";
   button.style.userSelect = "none";
   button.addEventListener("click", () => {
