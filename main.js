@@ -807,6 +807,22 @@ function createWindow() {
   detectAndSetCurrentDisplay();
   const { width } = screen.getPrimaryDisplay().workAreaSize;
 
+  // Check if there are no stored tabs
+  if (storedTabs.length === 0) {
+    // Create a new tab in the home directory
+    storedTabs.push({
+      focusedApp: "kitty",
+      fullscreenApps: [],
+      gitkrakenVisible: false,
+      gitkrakenInitialized: false,
+      kittyPlatformWindowId: "",
+      path: "~/", // Set the path to home directory
+      terminalFullScreen: false,
+      editorFullScreen: false,
+    });
+    store.set("storedTabs", storedTabs); // Save the new tab
+  }
+
   mainWindow = new BrowserWindow({
     width,
     height: topBarHeight,
@@ -825,9 +841,7 @@ function createWindow() {
 
   mainWindow.webContents.on("did-finish-load", () => {
     // Send stored paths to the renderer process after mainWindow is loaded
-    storedTabs = store.get("storedTabs") || [];
     activeTabIndex = store.get("activeTabIndex", 0);
-
     mainWindow.webContents.send(
       "initialize-buttons",
       storedTabs,
