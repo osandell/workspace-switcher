@@ -956,6 +956,38 @@ const server = http.createServer((req, res) => {
         storedTabs.push({ path: activeTabPath });
         store.set("storedTabs", storedTabs);
         break;
+      case "resetWindows":
+        // Reposition all windows based on current display setting
+        exec(
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+          (err) => {
+            if (err) {
+              console.error(`Error moving Kitty window: ${err}`);
+            }
+          }
+        );
+
+        exec(
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+          (err) => {
+            if (err) {
+              console.error(`Error moving Kitty window: ${err}`);
+            }
+          }
+        );
+
+        exec(
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+          (err) => {
+            if (err) {
+              console.error(`Error moving VSCode window: ${err}`);
+            }
+          }
+        );
+
+        updateTopBarPositionAndSize();
+        updateLineWindowPositionAndSize();
+        break;
       case "toFullscreen":
         toFullscreen();
         break;
