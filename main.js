@@ -13,20 +13,24 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 let currentDisplay = "internal";
+const internalTopOffset = 122;
+const externalTopOffset = 300;
+const internalWindowHeight = 2006;  
+const externalWindowHeight = 2340;
 const defaultPositions = {
   internal: {
-    editor: { x: 1400, y: 127, width: 2005, height: 1998 },
-    editorFullscreen: { x: 0, y: 155, width: 1920, height: 1065 },
-    line: { x: 600, y: 155, width: 1, height: 1065 },
-    terminal: { x: 0, y: 127, width: 1400, height: 1998 },
-    terminalFullscreen: { x: 0, y: 155, width: 1920, height: 1065 },
+    editor: { x: 1400, y: internalTopOffset, width: 2005, height: internalWindowHeight },
+    editorFullscreen: { x: 0, y: 155, width: 1920, height: internalWindowHeight },
+    line: { x: 300, y: 155, width: 1, height: internalWindowHeight },
+    terminal: { x: 0, y: internalTopOffset, width: 1400, height: internalWindowHeight },
+    terminalFullscreen: { x: 0, y: internalTopOffset, width: 4000, height: internalWindowHeight },
   },
   external: {
-    editor: { x: 2300, y: 300, width: 2500, height: 2340 },
-    editorFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
-    line: { x: 932, y: 50, width: 1, height: 1340 },
-    terminal: { x: 300, y: 300, width: 2000, height: 2340 },
-    terminalFullscreen: { x: 300, y: 300, width: 4500, height: 2340 },
+    editor: { x: 2300, y: externalTopOffset, width: 2500, height: externalWindowHeight },
+    editorFullscreen: { x: externalTopOffset, y: 50, width: 2305, height: externalWindowHeight },
+    line: { x: 932, y: externalTopOffset, width: 1, height: externalWindowHeight },
+    terminal: { x: 300, y: externalTopOffset, width: 2000, height: externalWindowHeight },
+    terminalFullscreen: { x: externalTopOffset, y: 300, width: 4500, height: externalWindowHeight },
   },
 };
 const topBarHeight = 23;
@@ -370,102 +374,108 @@ function changeActiveTab(direction) {
   }
 
   if (storedTabs[activeTabIndex].focusedApp === "kitty-main") {
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": ${pathShort}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error focusing VSCode window: ${err}`);
-        }
 
-        // Open Kitty Main
-        exec(
-          // Get kitty window id from platform_window_id
-          `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
-          (err, stdout) => {
-            if (err) {
-              console.error(`Error getting kitty window id: ${err}`);
-            }
+    focusVSCodeWindow(codePID, pathShort)
+    .then(response => {
+      console.log('Success:', response);
 
-            const kittyWindowId = stdout.trim();
-
+            // Open Kitty Main
             exec(
-              `/bin/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
-              (error, stdout, stderr) => {
-                // if (error) {
-                //   exec(
-                //     `/bin/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
-                //     (error, stdout, stderr) => {
-                //       if (error) {
-                //         console.error(`Error opening Kitty: ${error}`);
-                //         return;
-                //       }
-                //       if (stderr) {
-                //         console.error(
-                //           `/bin/kitty stderr: ${stderr}`
-                //         );
-                //         return;
-                //       }
-
-                //       let kittyWindowId = stdout;
-
-                //       exec(
-                //         `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
-                //         (err, stdout) => {
-                //           if (err) {
-                //             console.error(
-                //               `Error getting platform_window_id: ${err}`
-                //             );
-                //           }
-
-                //           const kittyPlatformWindowId = stdout.trim();
-                //           storedTabs[activeTabIndex].kittyPlatformWindowId =
-                //             kittyPlatformWindowId;
-
-                //           store.set("storedTabs", storedTabs);
-                //         }
-                //       );
-
-                //       exec(
-                //         `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-                //         (err) => {
-                //           if (err) {
-                //             console.error(`Error moving Kitty window: ${err}`);
-                //           }
-                //         }
-                //       );
-
-                //       console.log(
-                //         `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
-                //       );
-                //     }
-                //   );
-                //   console.error(`Error opening Kitty: ${error}`);
-                //   return;
-                // }
-                if (stderr) {
-                  console.error(
-                    `/bin/kitty stderr: ${stderr}`
-                  );
-                  return;
+              // Get kitty window id from platform_window_id
+              `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+              (err, stdout) => {
+                if (err) {
+                  console.error(`Error getting kitty window id: ${err}`);
                 }
-                console.log(
-                  `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                const kittyWindowId = stdout.trim();
+    
+                exec(
+                  `/bin/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+                  (error, stdout, stderr) => {
+                    // if (error) {
+                    //   exec(
+                    //     `/bin/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
+                    //     (error, stdout, stderr) => {
+                    //       if (error) {
+                    //         console.error(`Error opening Kitty: ${error}`);
+                    //         return;
+                    //       }
+                    //       if (stderr) {
+                    //         console.error(
+                    //           `/bin/kitty stderr: ${stderr}`
+                    //         );
+                    //         return;
+                    //       }
+    
+                    //       let kittyWindowId = stdout;
+    
+                    //       exec(
+                    //         `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                    //         (err, stdout) => {
+                    //           if (err) {
+                    //             console.error(
+                    //               `Error getting platform_window_id: ${err}`
+                    //             );
+                    //           }
+    
+                    //           const kittyPlatformWindowId = stdout.trim();
+                    //           storedTabs[activeTabIndex].kittyPlatformWindowId =
+                    //             kittyPlatformWindowId;
+    
+                    //           store.set("storedTabs", storedTabs);
+                    //         }
+                    //       );
+    
+                    //       exec(
+                    //         `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                    //         (err) => {
+                    //           if (err) {
+                    //             console.error(`Error moving Kitty window: ${err}`);
+                    //           }
+                    //         }
+                    //       );
+    
+                    //       console.log(
+                    //         `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
+                    //       );
+                    //     }
+                    //   );
+                    //   console.error(`Error opening Kitty: ${error}`);
+                    //   return;
+                    // }
+                    if (stderr) {
+                      console.error(
+                        `/bin/kitty stderr: ${stderr}`
+                      );
+                      return;
+                    }
+                    console.log(
+                      `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                    );
+                  }
                 );
+    
+                if (
+                  storedTabs[activeTabIndex].terminalFullScreen ||
+                  storedTabs[activeTabIndex].editorFullscreen
+                ) {
+                  setLineWindowVisible(false);
+                } else {
+                  setLineWindowVisible(true);
+                }
               }
             );
 
-            if (
-              storedTabs[activeTabIndex].terminalFullScreen ||
-              storedTabs[activeTabIndex].editorFullscreen
-            ) {
-              setLineWindowVisible(false);
-            } else {
-              setLineWindowVisible(true);
-            }
-          }
-        );
-      }
-    );
+    })
+    .catch((error) => {
+      console.error("Failed:", error);
+    });
+
+
+
+
+ 
+ 
     // }
   } else {
     exec(
@@ -768,6 +778,8 @@ function toFullscreen() {
   activeTabIndex = store.get("activeTabIndex", 0);
   const currentTab = storedTabs[activeTabIndex];
 
+  console.log("currentTab", currentTab);
+
   if (currentTab.focusedApp === "kitty-main") {
     currentTab.terminalFullScreen = true;
     setLineWindowVisible(false);
@@ -778,7 +790,7 @@ function toFullscreen() {
         if (err) {
           console.error(`Error moving Kitty window: ${err}`);
         }
-      }
+      } 
     );
   } else if (currentTab.focusedApp === "vscode") {
     currentTab.editorFullScreen = true;
@@ -845,7 +857,7 @@ function createWindow() {
   if (storedTabs.length === 0) {
     // Create a new tab in the home directory
     storedTabs.push({
-      focusedApp: "kitty",
+      focusedApp: "kitty-main",
       fullscreenApps: [],
       gitkrakenVisible: false,
       gitkrakenInitialized: false,
@@ -1143,10 +1155,10 @@ const server = http.createServer((req, res) => {
                 `VSCode opened with path: ${storedTabs[activeTabIndex].path}`
               );
             }
-          );
+          );   
 
           setTimeout(() => {
-            if (focusedApp === "kitty") {
+            if (focusedApp === "kitty-main") {
               exec(`wmctrl -xa kitty-main.kitty-main`, (error, stdout, stderr) => {
                 if (error) {
                   console.error(`Error opening kitty: ${error}`);
@@ -1267,7 +1279,7 @@ const server = http.createServer((req, res) => {
         let isGitRepo = fs.existsSync(gitDir);
 
         storedTabs.push({
-          focusedApp: "kitty",
+          focusedApp: "kitty-main",
           fullscreenApps: [],
           gitkrakenVisible: false,
           gitkrakenInitialized: false,
