@@ -15,18 +15,18 @@ const { exec } = require("child_process");
 let currentDisplay = "internal";
 const defaultPositions = {
   internal: {
-    editor: { x: 1600, y: 155, width: 1628, height: 1865 },
+    editor: { x: 1400, y: 127, width: 2005, height: 1998 },
     editorFullscreen: { x: 0, y: 155, width: 1920, height: 1065 },
     line: { x: 600, y: 155, width: 1, height: 1065 },
-    terminal: { x: 0, y: 155, width: 1600, height: 1865 },
+    terminal: { x: 0, y: 127, width: 1400, height: 1998 },
     terminalFullscreen: { x: 0, y: 155, width: 1920, height: 1065 },
   },
   external: {
-    editor: { x: 932, y: 50, width: 1500, height: 1340 },
+    editor: { x: 2300, y: 300, width: 2500, height: 2340 },
     editorFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
     line: { x: 932, y: 50, width: 1, height: 1340 },
-    terminal: { x: 127, y: 50, width: 805, height: 1340 },
-    terminalFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
+    terminal: { x: 300, y: 300, width: 2000, height: 2340 },
+    terminalFullscreen: { x: 300, y: 300, width: 4500, height: 2340 },
   },
 };
 const topBarHeight = 23;
@@ -89,7 +89,7 @@ exec(
 
 let kittyLfPID;
 exec(
-  "ps aux | grep /Applications/kitty-lf.app/Contents/MacOS/kitty",
+  `wmctrl -lpx | awk '$4 == "kitty-lf.kitty-lf" {print $3}' | sort -u`,
   (error, stdout, stderr) => {
     if (error) {
       console.error(`Error: ${error}`);
@@ -100,30 +100,10 @@ exec(
       return;
     }
 
-    // Split the output into lines
-    const lines = stdout.split("\n");
-
-    // Filter out the grep command itself from the results
-    const processLines = lines.filter((line) => !line.includes("grep"));
-
-    // Assuming the first result is the one we want if multiple are returned
-    if (processLines.length > 0) {
-      const processInfo = processLines[0];
+    console.log("iiiiiiiiiii", stdout);
 
       // Extracting PID from the process info, assuming standard ps aux output format
-      kittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
-
-      exec(
-        `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-        (err) => {
-          if (err) {
-            console.error(`Error moving Kitty window: ${err}`);
-          }
-        }
-      );
-    } else {
-      console.log("Kitty process not found.");
-    }
+      kittyLfPID = stdout;
   }
 );
 
@@ -160,11 +140,43 @@ function detectAndSetCurrentDisplay() {
 // Detect displays
 function onExternalDisplaysConnected() {
   currentDisplay = "external";
+
+
+console.log("onExternalDisplaysConnected", kittyMainPID);
+
   exec(
     `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
     (err) => {
       if (err) {
         console.error(`Error moving Kitty window: ${err}`);
+      }
+      else {
+        
+        
+
+        exec(
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+          (err) => {
+            if (err) {
+              console.error(`Error moving VSCode window: ${err}`);
+            }
+            else {
+
+console.log("moving kittyLfPID", kittyLfPID);
+
+
+                exec(
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    (err) => {
+      if (err) {
+        console.error(`Error moving Kitty window: ${err}`);
+      }
+    }
+  );
+            }
+          }
+        );
+
       }
     }
   );
@@ -178,27 +190,65 @@ function onExternalDisplaysConnected() {
   //   }
   // );
 
+
+
+
+
+  updateTopBarPositionAndSize();
+  //updateLineWindowPositionAndSize();
+}
+
+
+function onExternalDisplaysDisconnected() {
+  currentDisplay = "internal";
+
+
+
+
   exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
     (err) => {
       if (err) {
         console.error(`Error moving Kitty window: ${err}`);
       }
-    }
-  );
-
-  exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
-    (err) => {
-      if (err) {
-        console.error(`Error moving VSCode window: ${err}`);
+      else {
+        exec(
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+          (err) => {
+            if (err) {
+              console.error(`Error moving VSCode window: ${err}`);
+            }
+          }
+        );
       }
     }
   );
 
-  updateTopBarPositionAndSize();
-  updateLineWindowPositionAndSize();
+  // exec(
+  //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+  //   (err) => {
+  //     if (err) {
+  //       console.error(`Error moving Kitty window: ${err}`);
+  //     }
+  //   }
+  // );
+
+//   exec(
+//     `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+//     (err) => {
+//       if (err) {
+//         console.error(`Error moving Kitty window: ${err}`);
+//       }
+//     }
+//   );
+
+
+
+  // updateTopBarPositionAndSize();
+  // updateLineWindowPositionAndSize();
 }
+
+
 
 // Monitor for display changes
 function setupDisplayListeners() {
@@ -219,45 +269,8 @@ function setupDisplayListeners() {
 
   screen.on("display-removed", (event, oldDisplay) => {
     console.log("Display removed:", oldDisplay.id);
-    currentDisplay = "internal";
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving Kitty window: ${err}`);
-        }
-      }
-    );
 
-    // exec(
-    //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-    //   (err) => {
-    //     if (err) {
-    //       console.error(`Error moving Kitty window: ${err}`);
-    //     }
-    //   }
-    // );
-
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving Kitty window: ${err}`);
-        }
-      }
-    );
-
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving VSCode window: ${err}`);
-        }
-      }
-    );
-
-    updateTopBarPositionAndSize();
-    updateLineWindowPositionAndSize();
+    onExternalDisplaysDisconnected();
   });
 }
 
@@ -893,29 +906,29 @@ function createWindow() {
   // Calculate the screen dimensions and center position
   const centerX = Math.round(width / 2);
 
-  lineWindow = new BrowserWindow({
-    width: 1, // 1px wide
-    height: defaultPositions[currentDisplay].line.height,
-    x: defaultPositions[currentDisplay].line.x, // Adjusted to center
-    y: defaultPositions[currentDisplay].line.y,
-    transparent: true, // Ensure transparency for the line
-    frame: false,
-    alwaysOnTop: true,
-    skipTaskbar: true,
-    focusable: false,
-    roundedCorners: false,
-    hasShadow: false,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  });
+  // lineWindow = new BrowserWindow({
+  //   width: 1, // 1px wide
+  //   height: defaultPositions[currentDisplay].line.height,
+  //   x: defaultPositions[currentDisplay].line.x, // Adjusted to center
+  //   y: defaultPositions[currentDisplay].line.y,
+  //   transparent: true, // Ensure transparency for the line
+  //   frame: false,
+  //   alwaysOnTop: true,
+  //   skipTaskbar: true,
+  //   focusable: false,
+  //   roundedCorners: false,
+  //   hasShadow: false,
+  //   webPreferences: {
+  //     nodeIntegration: true,
+  //     contextIsolation: false,
+  //   },
+  // });
 
-  lineWindow.loadURL(
-    "data:text/html;charset=utf-8,<style>body { margin: 0; padding: 0; background: rgb(212, 203, 183); }</style><body></body>"
-  );
+  // lineWindow.loadURL(
+  //   "data:text/html;charset=utf-8,<style>body { margin: 0; padding: 0; background: rgb(212, 203, 183); }</style><body></body>"
+  // );
 
-  lineWindow.setIgnoreMouseEvents(true);
+  // lineWindow.setIgnoreMouseEvents(true);
 }
 
 app.whenReady().then(() => {
@@ -1229,6 +1242,14 @@ const server = http.createServer((req, res) => {
           ""
         );
         detectAndSetCurrentDisplay();
+        break;
+      case "external":
+        console.log("Manually triggering external display configuration");
+        onExternalDisplaysConnected();
+        break;
+      case "internal":
+        console.log("Manually triggering internal display configuration");
+        onExternalDisplaysDisconnected();
         break;
       case "setDefocused":
         setLineWindowVisible(false);
