@@ -115,7 +115,7 @@ let codePID;
 exec(
   // `ps aux | grep "/Applications/Visual Studio Code.app/Contents/MacOS/Electron"`, // For VSCode
   //`ps aux | grep "/Applications/Cursor.app/Contents/MacOS/Cursor"`, // For Cursor
-  "pgrep -f 'cursor$'",
+  "pgrep -f 'opt/cursor/cursor'",
   (error, stdout, stderr) => {
     if (error) {
       console.error(`Error: ${error}`);
@@ -128,7 +128,7 @@ exec(
 
 
     // Extracting PID from the process info, assuming standard ps aux output format
-    codePID = stdout; // PID is in the second column
+    codePID = stdout.split("\n")[0]; // PID is in the second column
 
       console.log(`Code PIDiiiiii: ${codePID}`);
   }
@@ -382,7 +382,7 @@ function changeActiveTab(direction) {
             // Open Kitty Main
             exec(
               // Get kitty window id from platform_window_id
-              `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+              `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
               (err, stdout) => {
                 if (err) {
                   console.error(`Error getting kitty window id: ${err}`);
@@ -390,11 +390,11 @@ function changeActiveTab(direction) {
                 const kittyWindowId = stdout.trim();
     
                 exec(
-                  `/bin/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+                  `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
                   (error, stdout, stderr) => {
                     // if (error) {
                     //   exec(
-                    //     `/bin/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
+                    //     `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
                     //     (error, stdout, stderr) => {
                     //       if (error) {
                     //         console.error(`Error opening Kitty: ${error}`);
@@ -402,7 +402,7 @@ function changeActiveTab(direction) {
                     //       }
                     //       if (stderr) {
                     //         console.error(
-                    //           `/bin/kitty stderr: ${stderr}`
+                    //           `kitty stderr: ${stderr}`
                     //         );
                     //         return;
                     //       }
@@ -410,7 +410,7 @@ function changeActiveTab(direction) {
                     //       let kittyWindowId = stdout;
     
                     //       exec(
-                    //         `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                    //         `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
                     //         (err, stdout) => {
                     //           if (err) {
                     //             console.error(
@@ -436,7 +436,7 @@ function changeActiveTab(direction) {
                     //       );
     
                     //       console.log(
-                    //         `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
+                    //         `kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
                     //       );
                     //     }
                     //   );
@@ -445,12 +445,12 @@ function changeActiveTab(direction) {
                     // }
                     if (stderr) {
                       console.error(
-                        `/bin/kitty stderr: ${stderr}`
+                        `kitty stderr: ${stderr}`
                       );
                       return;
                     }
                     console.log(
-                      `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                      `kitty opened with path: ${storedTabs[activeTabIndex].path}`
                     );
                   }
                 );
@@ -480,7 +480,7 @@ function changeActiveTab(direction) {
   } else {
     exec(
       // Get kitty window id from platform_window_id
-      `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+      `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
       (err, stdout) => {
         if (err) {
           console.error(`Error getting kitty window id: ${err}`);
@@ -489,11 +489,11 @@ function changeActiveTab(direction) {
         const kittyWindowId = stdout.trim();
 
         exec(
-          `/bin/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+          `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
           (error, stdout, stderr) => {
             if (error) {
               exec(
-                `/bin/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
+                `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
                 (error, stdout, stderr) => {
                   if (error) {
                     console.error(`Error opening Kitty: ${error}`);
@@ -501,7 +501,7 @@ function changeActiveTab(direction) {
                   }
                   if (stderr) {
                     console.error(
-                      `/bin/kitty stderr: ${stderr}`
+                      `kitty stderr: ${stderr}`
                     );
                     return;
                   }
@@ -509,7 +509,7 @@ function changeActiveTab(direction) {
                   let kittyWindowId = stdout;
 
                   exec(
-                    `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                    `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
                     (err, stdout) => {
                       if (err) {
                         console.error(
@@ -537,7 +537,7 @@ function changeActiveTab(direction) {
                   );
 
                   console.log(
-                    `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
+                    `kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
                   );
                 }
               );
@@ -546,12 +546,12 @@ function changeActiveTab(direction) {
             }
             if (stderr) {
               console.error(
-                `/bin/kitty stderr: ${stderr}`
+                `kitty stderr: ${stderr}`
               );
               return;
             }
             console.log(
-              `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+              `kitty opened with path: ${storedTabs[activeTabIndex].path}`
             );
           }
         );
@@ -657,7 +657,7 @@ function closeActiveTab() {
 
         // List all windows within the specified platform window ID
         exec(
-          `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${kittyPlatformWindowId}) | .tabs[].windows[].id'`,
+          `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${kittyPlatformWindowId}) | .tabs[].windows[].id'`,
           (err, stdout) => {
             if (err) {
               console.error(
@@ -675,7 +675,7 @@ function closeActiveTab() {
             // Close each window within the specified platform window
             windowIds.forEach((kittyWindowId) => {
               exec(
-                `/bin/kitty @ --to unix:/tmp/kitty_main close-window --match id:${kittyWindowId}`,
+                `kitty @ --to unix:/tmp/kitty_main close-window --match id:${kittyWindowId}`,
                 (error, stdout, stderr) => {
                   if (error) {
                     console.error(
@@ -685,12 +685,12 @@ function closeActiveTab() {
                   }
                   if (stderr) {
                     console.error(
-                      `/bin/kitty stderr for window ID ${kittyWindowId}: ${stderr}`
+                      `kitty stderr for window ID ${kittyWindowId}: ${stderr}`
                     );
                     return;
                   }
                   console.log(
-                    `/bin/kitty window closed with ID: ${kittyWindowId}`
+                    `kitty window closed with ID: ${kittyWindowId}`
                   );
                 }
               );
@@ -732,12 +732,12 @@ function closeActiveTab() {
         //             }
         //             if (stderr) {
         //               console.error(
-        //                 `/bin/kitty stderr for window ID ${kittyWindowId}: ${stderr}`
+        //                 `kitty stderr for window ID ${kittyWindowId}: ${stderr}`
         //               );
         //               return;
         //             }
         //             console.log(
-        //               `/bin/kitty window closed with ID: ${kittyWindowId}`
+        //               `kitty window closed with ID: ${kittyWindowId}`
         //             );
         //           }
         //         );
@@ -1070,7 +1070,7 @@ const server = http.createServer((req, res) => {
 
           exec(
             // Get kitty window id from platform_window_id
-            `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+            `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
             (err, stdout) => {
               if (err) {
                 console.error(`Error getting kitty window id: ${err}`);
@@ -1079,7 +1079,7 @@ const server = http.createServer((req, res) => {
               const kittyWindowId = stdout.trim();
 
               exec(
-                `/bin/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+                `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
                 (error, stdout, stderr) => {
                   if (error) {
                     console.error(`Error opening Kitty: ${error}`);
@@ -1087,12 +1087,12 @@ const server = http.createServer((req, res) => {
                   }
                   if (stderr) {
                     console.error(
-                      `/bin/kitty stderr: ${stderr}`
+                      `kitty stderr: ${stderr}`
                     );
                     return;
                   }
                   console.log(
-                    `/bin/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                    `kitty opened with path: ${storedTabs[activeTabIndex].path}`
                   );
                 }
               );
@@ -1166,7 +1166,7 @@ const server = http.createServer((req, res) => {
                 }
                 if (stderr) {
                   console.error(
-                    `/bin/kitty stderr: ${stderr}`
+                    `kitty stderr: ${stderr}`
                   );
                   return;
                 }
@@ -1207,7 +1207,7 @@ const server = http.createServer((req, res) => {
                     }
                     if (stderr) {
                       console.error(
-                        `/bin/kitty stderr: ${stderr}`
+                        `kitty stderr: ${stderr}`
                       );
                       return;
                     }
@@ -1296,7 +1296,7 @@ const server = http.createServer((req, res) => {
 
         // Open Kitty Main and Kitty Lazygit with the specified path
         exec(
-          `/bin/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${body}`,
+          `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${body}`,
           (error, stdout, stderr) => {
             if (error) {
               console.error(`Error opening Kitty: ${error}`);
@@ -1304,7 +1304,7 @@ const server = http.createServer((req, res) => {
             }
             if (stderr) {
               console.error(
-                `/bin/kitty stderr: ${stderr}`
+                `kitty stderr: ${stderr}`
               );
               return;
             }
@@ -1313,7 +1313,7 @@ const server = http.createServer((req, res) => {
 
             if (isGitRepo) {
               exec(
-                `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
                 (err, stdout) => {
                   if (err) {
                     console.error(`Error getting platform_window_id: ${err}`);
@@ -1344,7 +1344,7 @@ const server = http.createServer((req, res) => {
                 //   }
                 //   if (stderr) {
                 //     console.error(
-                //       `/bin/kitty stderr: ${stderr}`
+                //       `kitty stderr: ${stderr}`
                 //     );
                 //     return;
                 //   }
@@ -1352,11 +1352,11 @@ const server = http.createServer((req, res) => {
               }, kittyDelay);
 
               console.log(
-                `/bin/kitty opened with path: ${body} and platform_window_id: ${stdout}`
+                `kitty opened with path: ${body} and platform_window_id: ${stdout}`
               );
             } else {
               exec(
-                `/bin/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
                 (err, stdout) => {
                   if (err) {
                     console.error(`Error getting platform_window_id: ${err}`);
@@ -1392,7 +1392,7 @@ console.log(kittyMainPID);
                 //   }
                 //   if (stderr) {
                 //     console.error(
-                //       `/bin/kitty stderr: ${stderr}`
+                //       `kitty stderr: ${stderr}`
                 //     );
                 //     return;
                 //   }
@@ -1400,7 +1400,7 @@ console.log(kittyMainPID);
               }, kittyDelay);
 
               console.log(
-                `/bin/kitty opened with path: ${body} and platform_window_id: ${stdout}`
+                `kitty opened with path: ${body} and platform_window_id: ${stdout}`
               );
             }
           }
