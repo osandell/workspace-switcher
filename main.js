@@ -1175,14 +1175,15 @@ const server = http.createServer((req, res) => {
           }, 500);
           storedTabs[activeTabIndex].gitkrakenVisible = false;
         } else {
-          console.log(`arstarst opened with path:`);
+          console.log(`arstarst opened with path:`, storedTabs[activeTabIndex].gitkrakenInitialized);
           if (!storedTabs[activeTabIndex].gitkrakenInitialized) {
             const fullPath = storedTabs[activeTabIndex].path.replace(
               /^~/,
-              "/Users/olof/"
+              "/home/olof/"
             );
+            console.log(fullPath);
             exec(
-              `ELECTRON_RUN_AS_NODE=1 /Applications/GitKraken.app/Contents/MacOS/GitKraken /Applications/GitKraken.app/Contents/Resources/app.asar/src/main/static/cli.js -p "${fullPath}" `,
+              `gitkraken -p "${fullPath}" `,
               (gitKrakenError, gitKrakenStdout, gitKrakenStderr) => {
                 // TODO: This always generates -67062 error. Might be because we launch
                 // GitKraken via cli.js. But it works anyway so we can ignore this for
@@ -1200,18 +1201,35 @@ const server = http.createServer((req, res) => {
                 store.set("storedTabs", storedTabs);
 
                 setTimeout(() => {
-                  exec(`wmctrl -xa kitty-main.kitty-main`, (error, stdout, stderr) => {
-                    if (error) {
-                      console.error(`Error opening kitty: ${error}`);
-                      return;
-                    }
+                     // Open Kitty Main
+            exec(
+              // Get kitty window id from platform_window_id
+              `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+              (err, stdout) => {
+                if (err) {
+                  console.error(`Error getting kitty window id: ${err}`);
+                }
+                const kittyWindowId = stdout.trim();
+    
+                exec(
+                  `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+                  (error, stdout, stderr) => {
+             
                     if (stderr) {
                       console.error(
                         `kitty stderr: ${stderr}`
                       );
                       return;
                     }
-                  });
+                    console.log(
+                      `kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                    );
+                  }
+                );
+    
+             
+              }
+            );
                 }, 1000);
               }
             );
