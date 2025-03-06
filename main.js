@@ -13,9 +13,9 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 let currentDisplay = "internal";
-const internalTopOffset = 122;
+const internalTopOffset =  45;
 const externalTopOffset = 300;
-const internalWindowHeight = 2006;  
+const internalWindowHeight = 2085;  
 const externalWindowHeight = 2340;
 const defaultPositions = {
   internal: {
@@ -870,10 +870,11 @@ function createWindow() {
   }
 
   mainWindow = new BrowserWindow({
-    width,
+    width: currentDisplay === 'internal' ? width : width * 2, // Apple Studio Display is split into two displays
     height: topBarHeight,
     x: 0,
     y: 0,
+    alwaysOnTop: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
