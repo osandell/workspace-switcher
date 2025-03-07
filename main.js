@@ -13,16 +13,16 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 let currentDisplay = "internal";
-const internalTopOffset =  45;
+const internalTopOffset =  47;
 const externalTopOffset = 300;
 const internalWindowHeight = 2085;  
 const externalWindowHeight = 2340;
 const defaultPositions = {
   internal: {
-    editor: { x: 1400, y: internalTopOffset, width: 2005, height: internalWindowHeight },
+    editor: { x: 1300, y: internalTopOffset + 2, width: 2112, height: internalWindowHeight - 2 },
     editorFullscreen: { x: 0, y: 155, width: 1920, height: internalWindowHeight },
     line: { x: 300, y: 155, width: 1, height: internalWindowHeight },
-    terminal: { x: 0, y: internalTopOffset, width: 1400, height: internalWindowHeight },
+    terminal: { x: 0, y: internalTopOffset, width: 1300, height: internalWindowHeight },
     terminalFullscreen: { x: 0, y: internalTopOffset, width: 4000, height: internalWindowHeight },
   },
   external: {
