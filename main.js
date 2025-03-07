@@ -392,57 +392,58 @@ function changeActiveTab(direction) {
                 exec(
                   `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
                   (error, stdout, stderr) => {
-                    // if (error) {
-                    //   exec(
-                    //     `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
-                    //     (error, stdout, stderr) => {
-                    //       if (error) {
-                    //         console.error(`Error opening Kitty: ${error}`);
-                    //         return;
-                    //       }
-                    //       if (stderr) {
-                    //         console.error(
-                    //           `kitty stderr: ${stderr}`
-                    //         );
-                    //         return;
-                    //       }
+                    if (error) {
+                      exec(
+                        `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
+                        (error, stdout, stderr) => {
+                          if (error) {
+                            console.error(`Error opening Kitty: ${error}`);
+                            return;
+                          }
+                          if (stderr) {
+                            console.error(
+                              `kitty stderr: ${stderr}`
+                            );
+                            return;
+                          }
     
-                    //       let kittyWindowId = stdout;
+                          let kittyWindowId = stdout;
     
-                    //       exec(
-                    //         `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
-                    //         (err, stdout) => {
-                    //           if (err) {
-                    //             console.error(
-                    //               `Error getting platform_window_id: ${err}`
-                    //             );
-                    //           }
+                          exec(
+                            `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                            (err, stdout) => {
+                              if (err) {
+                                console.error(
+                                  `Error getting platform_window_id: ${err}`
+                                );
+                              }
     
-                    //           const kittyPlatformWindowId = stdout.trim();
-                    //           storedTabs[activeTabIndex].kittyPlatformWindowId =
-                    //             kittyPlatformWindowId;
+                              const kittyPlatformWindowId = stdout.trim();
+                              storedTabs[activeTabIndex].kittyPlatformWindowId =
+                                kittyPlatformWindowId;
     
-                    //           store.set("storedTabs", storedTabs);
-                    //         }
-                    //       );
+                              store.set("storedTabs", storedTabs);
+                            }
+                          );
+                          
     
-                    //       exec(
-                    //         `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-                    //         (err) => {
-                    //           if (err) {
-                    //             console.error(`Error moving Kitty window: ${err}`);
-                    //           }
-                    //         }
-                    //       );
+                          exec(
+                            `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                            (err) => {
+                              if (err) {
+                                console.error(`Error moving Kitty window: ${err}`);
+                              }
+                            }
+                          );
     
-                    //       console.log(
-                    //         `kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
-                    //       );
-                    //     }
-                    //   );
-                    //   console.error(`Error opening Kitty: ${error}`);
-                    //   return;
-                    // }
+                          console.log(
+                            `kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
+                          );
+                        }
+                      );
+                      console.error(`Error opening Kitty: ${error}`);
+                      return;
+                    }
                     if (stderr) {
                       console.error(
                         `kitty stderr: ${stderr}`
