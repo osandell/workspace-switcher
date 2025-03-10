@@ -51,6 +51,11 @@ function detectSystemTheme() {
             resolve('dark');
             return;
           }
+          if (output.includes('prefer-light')) {
+            console.log('Detected light theme from dconf color-scheme');
+            resolve('light');
+            return;
+          }
         }
         
         // If the above fails, force dark theme for now since we know the user wants dark mode
