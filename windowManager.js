@@ -35,6 +35,47 @@ let currentDisplay = "internal";
 let mainWindow = null;
 let lineWindow = null;
 
+// Request queue for window positioning
+let requestQueue = Promise.resolve();
+
+/**
+ * Add a request to the queue
+ * @param {Function} fn - The function to execute
+ * @returns {Promise} A promise that resolves when the function is executed
+ */
+function enqueueRequest(fn) {
+  return new Promise((resolve) => {
+    requestQueue = requestQueue.then(() => {
+      return new Promise((innerResolve) => {
+        fn(() => {
+          innerResolve();
+          resolve();
+        });
+      });
+    }).catch(err => {
+      console.error('Error in request queue:', err);
+      resolve(); // Continue queue even if there's an error
+    });
+  });
+}
+
+/**
+ * Execute curl command and wait for completion
+ * @param {string} command - The curl command to execute
+ * @returns {Promise} A promise that resolves when the command completes
+ */
+function executeCurl(command) {
+  return enqueueRequest((done) => {
+    exec(command, (err) => {
+      if (err) {
+        console.error(`Error executing curl command: ${err}`);
+      }
+      // Wait a small amount of time to ensure window manager has time to process
+      setTimeout(done, 100);
+    });
+  });
+}
+
 /**
  * Detect and set the current display configuration
  * @returns {string} The current display type
@@ -117,20 +158,16 @@ function setLineWindowVisible(show) {
  * @param {string} display - The display configuration to use
  * @param {boolean} fullscreen - Whether to use fullscreen mode
  * @param {boolean} frontmostOnly - Whether to only move the frontmost window
+ * @returns {Promise} A promise that resolves when the window has been positioned
  */
 function positionKittyWindow(pid, display = currentDisplay, fullscreen = false, frontmostOnly = false) {
   const position = fullscreen ? 
     defaultPositions[display].terminalFullscreen : 
     defaultPositions[display].terminal;
     
-  exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": ${frontmostOnly}, "pid": ${pid}, "x": ${position.x}, "y": ${position.y}, "width": ${position.width}, "height": ${position.height}}' localhost:57320`,
-    (err) => {
-      if (err) {
-        console.error(`Error moving Kitty window: ${err}`);
-      }
-    }
-  );
+  const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": ${frontmostOnly}, "pid": ${pid}, "x": ${position.x}, "y": ${position.y}, "width": ${position.width}, "height": ${position.height}}' localhost:57320`;
+  
+  return executeCurl(command);
 }
 
 /**
@@ -139,20 +176,16 @@ function positionKittyWindow(pid, display = currentDisplay, fullscreen = false, 
  * @param {string} display - The display configuration to use
  * @param {boolean} fullscreen - Whether to use fullscreen mode
  * @param {boolean} frontmostOnly - Whether to only move the frontmost window
+ * @returns {Promise} A promise that resolves when the window has been positioned
  */
 function positionEditorWindow(pid, display = currentDisplay, fullscreen = false, frontmostOnly = false) {
   const position = fullscreen ? 
     defaultPositions[display].editorFullscreen : 
     defaultPositions[display].editor;
     
-  exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": ${frontmostOnly}, "pid": ${pid}, "x": ${position.x}, "y": ${position.y}, "width": ${position.width}, "height": ${position.height}}' localhost:57320`,
-    (err) => {
-      if (err) {
-        console.error(`Error moving editor window: ${err}`);
-      }
-    }
-  );
+  const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": ${frontmostOnly}, "pid": ${pid}, "x": ${position.x}, "y": ${position.y}, "width": ${position.width}, "height": ${position.height}}' localhost:57320`;
+  
+  return executeCurl(command);
 }
 
 /**
@@ -160,48 +193,48 @@ function positionEditorWindow(pid, display = currentDisplay, fullscreen = false,
  * @param {string} kittyMainPID - The process ID of the main Kitty instance
  * @param {string} kittyLfPID - The process ID of the Kitty LF instance
  * @param {string} codePID - The process ID of the code editor
+ * @returns {Promise} A promise that resolves when all windows have been positioned
  */
-function applyExternalDisplayLayout(kittyMainPID, kittyLfPID, codePID) {
+async function applyExternalDisplayLayout(kittyMainPID, kittyLfPID, codePID) {
   currentDisplay = "external";
   
   // Position terminal window
-  positionKittyWindow(kittyMainPID);
+  await positionKittyWindow(kittyMainPID);
   
   // Position editor window
-  positionEditorWindow(codePID);
+  await positionEditorWindow(codePID);
   
   // Position LF window
   if (kittyLfPID) {
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving Kitty LF window: ${err}`);
-        }
-      }
-    );
+    const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`;
+    await executeCurl(command);
   }
 
   // Update UI elements
   updateTopBarPositionAndSize();
+  
+  return Promise.resolve();
 }
 
 /**
  * Apply the internal display layout configuration
  * @param {string} kittyMainPID - The process ID of the main Kitty instance
  * @param {string} codePID - The process ID of the code editor
+ * @returns {Promise} A promise that resolves when all windows have been positioned
  */
-function applyInternalDisplayLayout(kittyMainPID, codePID) {
+async function applyInternalDisplayLayout(kittyMainPID, codePID) {
   currentDisplay = "internal";
   
   // Position terminal window
-  positionKittyWindow(kittyMainPID);
+  await positionKittyWindow(kittyMainPID);
   
   // Position editor window
-  positionEditorWindow(codePID);
+  await positionEditorWindow(codePID);
   
   // Update UI elements
   updateTopBarPositionAndSize();
+  
+  return Promise.resolve();
 }
 
 /**
@@ -209,13 +242,14 @@ function applyInternalDisplayLayout(kittyMainPID, codePID) {
  * @param {Object} currentTab - The current tab object
  * @param {string} kittyMainPID - The process ID of the main Kitty instance
  * @param {string} codePID - The process ID of the code editor
+ * @returns {Object} The updated tab object
  */
-function toggleFullscreen(currentTab, kittyMainPID, codePID) {
+async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
   if (currentTab.focusedApp === "kitty-main") {
     currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
     setLineWindowVisible(!currentTab.terminalFullScreen);
     
-    positionKittyWindow(
+    await positionKittyWindow(
       kittyMainPID, 
       currentDisplay, 
       currentTab.terminalFullScreen, 
@@ -225,7 +259,7 @@ function toggleFullscreen(currentTab, kittyMainPID, codePID) {
     currentTab.editorFullScreen = !currentTab.editorFullScreen;
     setLineWindowVisible(!currentTab.editorFullScreen);
     
-    positionEditorWindow(
+    await positionEditorWindow(
       codePID, 
       currentDisplay, 
       currentTab.editorFullScreen, 
@@ -233,10 +267,13 @@ function toggleFullscreen(currentTab, kittyMainPID, codePID) {
     );
     
     // Ensure focus is on the editor
-    exec(`cursor`, (error) => {
-      if (error) {
-        console.error(`Error opening editor: ${error}`);
-      }
+    await enqueueRequest((done) => {
+      exec(`cursor`, (error) => {
+        if (error) {
+          console.error(`Error opening editor: ${error}`);
+        }
+        done();
+      });
     });
   }
   
