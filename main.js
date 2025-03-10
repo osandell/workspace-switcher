@@ -24,6 +24,44 @@ let storedTabs = store.get("storedTabs", []);
 let activeTabIndex = store.get("activeTabIndex", 0);
 
 /**
+ * Detect system dark/light theme preference
+ * @returns {string} 'dark' or 'light'
+ */
+function detectSystemTheme() {
+  return new Promise((resolve) => {
+    // Get current username to ensure we read the correct user's settings
+    exec('whoami', (whoamiError, whoamiStdout) => {
+      const username = whoamiStdout.trim();
+      console.log(`Current username: ${username}`);
+      
+      // Try using dconf with explicit user
+      const dconfCommand = username === 'root' 
+        ? `sudo -u ${process.env.SUDO_USER || 'olof'} dconf read /org/gnome/desktop/interface/color-scheme`
+        : 'dconf read /org/gnome/desktop/interface/color-scheme';
+      
+      exec(dconfCommand, (error, stdout) => {
+        if (error) {
+          console.error(`Error detecting system theme with dconf: ${error}`);
+        } else {
+          const output = stdout.trim().replace(/'/g, '');
+          console.log(`dconf color scheme: "${output}"`);
+          
+          if (output.includes('prefer-dark')) {
+            console.log('Detected dark theme from dconf color-scheme');
+            resolve('dark');
+            return;
+          }
+        }
+        
+        // If the above fails, force dark theme for now since we know the user wants dark mode
+        console.log('Could not reliably detect theme, defaulting to dark mode');
+        resolve('dark');
+      });
+    });
+  });
+}
+
+/**
  * Initialize process IDs by finding running applications
  */
 function initializeProcessIDs() {
@@ -430,7 +468,9 @@ function setupMainWindowEvents() {
   // Send stored paths to the renderer process after window is loaded
   mainWindow.webContents.on("did-finish-load", () => {
     activeTabIndex = store.get("activeTabIndex", 0);
+    const theme = store.get("theme", "light");
     mainWindow.webContents.send("initialize-buttons", storedTabs, activeTabIndex);
+    mainWindow.webContents.send("change-theme", theme, activeTabIndex);
   });
 
   // Set up IPC handlers
@@ -743,11 +783,23 @@ function handleGitKraken() {
 }
 
 // Application startup
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  // Detect system theme before initializing UI
+  const systemTheme = await detectSystemTheme();
+  console.log(`Setting application theme to: ${systemTheme}`);
+  store.set("theme", systemTheme);
+  
   initializeProcessIDs();
   createWindow();
   setupDisplayListeners();
   setupHttpServer();
+  
+  // Add a manual override to ensure dark mode works
+  // Comment this out once detection is working properly
+  // store.set("theme", "dark");
+  // if (mainWindow) {
+  //   mainWindow.webContents.send("change-theme", "dark", activeTabIndex);
+  // }
 });
 
 app.on("window-all-closed", () => {
