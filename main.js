@@ -824,9 +824,10 @@ function handleGitKraken() {
           storedTabs[activeTabIndex].gitkrakenInitialized = true;
           store.set("storedTabs", storedTabs);
 
-          setTimeout(() => {
-            focusKittyWindow(storedTabs[activeTabIndex].kittyPlatformWindowId, storedTabs[activeTabIndex].path);
-          }, 1000);
+          // TODO: Add this back in when found a way to solve it better in kmonad.kbd, see note there.
+          //setTimeout(() => {
+           // focusKittyWindow(storedTabs[activeTabIndex].kittyPlatformWindowId, storedTabs[activeTabIndex].path);
+          //}, 1000);
         }
       );
     }
@@ -854,11 +855,11 @@ app.whenReady().then(async () => {
   setupHttpServer();
   
   // Position all windows on startup with a short delay to ensure everything is ready
-  setTimeout(() => {
-    console.log("Positioning all windows on startup");
-    windowManager.detectAndSetCurrentDisplay();
-    positionAllWindows();
-  }, 2000);
+  // setTimeout(() => {
+    // console.log("Positioning all windows on startup");
+    // windowManager.detectAndSetCurrentDisplay();
+    // positionAllWindows();
+  // }, 2000);
 });
 
 app.on("window-all-closed", () => {
