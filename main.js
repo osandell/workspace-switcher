@@ -535,8 +535,8 @@ function toggleFullscreen() {
  * Create a new workspace with the specified path
  * @param {string} path - The workspace path
  */
-function createNewWorkspace(path) {
-  const isGitRepo = fs.existsSync(path.join(path, ".git"));
+function createNewWorkspace(dirPath) {
+  const isGitRepo = fs.existsSync(path.join(dirPath, ".git"));
   const kittyDelay = 500;
 
   // Add new tab
@@ -546,17 +546,17 @@ function createNewWorkspace(path) {
     gitkrakenVisible: false,
     gitkrakenInitialized: false,
     kittyPlatformWindowId: "",
-    path: path,
+    path: dirPath,
     terminalFullScreen: false,
     editorFullScreen: false,
   });
 
   store.set("storedTabs", storedTabs);
-  mainWindow.webContents.send("add-new-button", path);
+  mainWindow.webContents.send("add-new-button", dirPath);
 
   // Open Kitty terminal
   exec(
-    `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${path}`,
+    `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${dirPath}`,
     (error, stdout, stderr) => {
       if (error) {
         console.error(`Error opening Kitty: ${error}`);
