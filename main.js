@@ -63,46 +63,66 @@ function detectSystemTheme() {
 
 /**
  * Initialize process IDs by finding running applications
+ * @returns {Promise} Promise that resolves when all PIDs are found
  */
 function initializeProcessIDs() {
-  // Find Kitty main process
-  exec(
-    `wmctrl -lpx | awk '$4 == "kitty-main.kitty-main" {print $3}' | sort -u`,
-    (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error finding Kitty main process: ${error}`);
-        return;
-      }
-      kittyMainPID = stdout.trim();
-      console.log(`Kitty Main PID: ${kittyMainPID}`);
-    }
-  );
-
-  // Find Kitty LF process
-  exec(
-    `wmctrl -lpx | awk '$4 == "kitty-lf.kitty-lf" {print $3}' | sort -u`,
-    (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error finding Kitty LF process: ${error}`);
-        return;
-      }
-      kittyLfPID = stdout.trim();
-      console.log(`Kitty LF PID: ${kittyLfPID}`);
-    }
-  );
-
-  // Find Cursor/VS Code process
-  exec(
-    "pgrep -f 'opt/cursor/cursor'",
-    (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error finding Cursor process: ${error}`);
-        return;
-      }
-      codePID = stdout.split("\n")[0];
-      console.log(`Code PID: ${codePID}`);
-    }
-  );
+  return new Promise((resolve) => {
+    const promises = [];
+    
+    // Find Kitty main process
+    promises.push(new Promise((resolveKitty) => {
+      exec(
+        `wmctrl -lpx | awk '$4 == "kitty-main.kitty-main" {print $3}' | sort -u`,
+        (error, stdout) => {
+          if (error) {
+            console.error(`Error finding Kitty main process: ${error}`);
+          } else {
+            kittyMainPID = stdout.trim();
+            console.log(`Kitty Main PID: ${kittyMainPID}`);
+          }
+          resolveKitty();
+        }
+      );
+    }));
+    
+    // Find Kitty LF process
+    promises.push(new Promise((resolveKittyLF) => {
+      exec(
+        `wmctrl -lpx | awk '$4 == "kitty-lf.kitty-lf" {print $3}' | sort -u`,
+        (error, stdout) => {
+          if (error) {
+            console.error(`Error finding Kitty LF process: ${error}`);
+          } else {
+            kittyLfPID = stdout.trim();
+            console.log(`Kitty LF PID: ${kittyLfPID}`);
+          }
+          resolveKittyLF();
+        }
+      );
+    }));
+    
+    // Find Cursor/VS Code process
+    promises.push(new Promise((resolveCursor) => {
+      exec(
+        "pgrep -f 'opt/cursor/cursor'",
+        (error, stdout) => {
+          if (error) {
+            console.error(`Error finding Cursor process: ${error}`);
+          } else {
+            codePID = stdout.split("\n")[0];
+            console.log(`Code PID: ${codePID}`);
+          }
+          resolveCursor();
+        }
+      );
+    }));
+    
+    // Wait for all process ID lookups to complete
+    Promise.all(promises).then(() => {
+      console.log("All process IDs initialized");
+      resolve();
+    });
+  });
 }
 
 /**
@@ -569,6 +589,45 @@ function createNewWorkspace(path) {
 }
 
 /**
+ * Positions all windows according to the current display configuration
+ */
+function positionAllWindows() {
+  const currentDisplay = windowManager.getCurrentDisplay();
+  console.log(`Positioning all windows for ${currentDisplay} display`);
+  
+  // Position Kitty main window
+  if (kittyMainPID) {
+    windowManager.positionKittyWindow(kittyMainPID, currentDisplay, false, false);
+  } else {
+    console.warn("Cannot position Kitty main - PID not found");
+  }
+  
+  // Position Kitty LF window if available
+  if (kittyLfPID) {
+    exec(
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${kittyLfPID}, "x": ${windowManager.defaultPositions[currentDisplay].terminal.x}, "y": ${windowManager.defaultPositions[currentDisplay].terminal.y}, "width": ${windowManager.defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${windowManager.defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving Kitty LF window: ${err}`);
+        } else {
+          console.log("Successfully positioned Kitty LF window");
+        }
+      }
+    );
+  }
+  
+  // Position Cursor/VS Code window
+  if (codePID) {
+    windowManager.positionEditorWindow(codePID, currentDisplay, false, false);
+  } else {
+    console.warn("Cannot position Cursor/Code - PID not found");
+  }
+  
+  // Update top bar position
+  windowManager.updateTopBarPositionAndSize();
+}
+
+/**
  * Set up HTTP server for external commands
  */
 function setupHttpServer() {
@@ -619,11 +678,7 @@ function setupHttpServer() {
           
         case "resetWindows":
           // Reposition all windows based on current display setting
-          windowManager.positionKittyWindow(kittyMainPID);
-          windowManager.positionKittyWindow(kittyLfPID);
-          windowManager.positionEditorWindow(codePID);
-          windowManager.updateTopBarPositionAndSize();
-          windowManager.updateLineWindowPositionAndSize();
+          positionAllWindows();
           break;
           
         case "toFullscreen":
@@ -789,17 +844,21 @@ app.whenReady().then(async () => {
   console.log(`Setting application theme to: ${systemTheme}`);
   store.set("theme", systemTheme);
   
-  initializeProcessIDs();
+  // Initialize process IDs first
+  await initializeProcessIDs();
+  console.log("Process IDs initialized, setting up windows and layouts");
+  
+  // Create window and set up window management
   createWindow();
   setupDisplayListeners();
   setupHttpServer();
   
-  // Add a manual override to ensure dark mode works
-  // Comment this out once detection is working properly
-  // store.set("theme", "dark");
-  // if (mainWindow) {
-  //   mainWindow.webContents.send("change-theme", "dark", activeTabIndex);
-  // }
+  // Position all windows on startup with a short delay to ensure everything is ready
+  setTimeout(() => {
+    console.log("Positioning all windows on startup");
+    windowManager.detectAndSetCurrentDisplay();
+    positionAllWindows();
+  }, 2000);
 });
 
 app.on("window-all-closed", () => {
