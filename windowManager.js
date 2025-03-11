@@ -2,34 +2,12 @@ const { exec } = require('child_process');
 const { screen } = require('electron');
 
 /**
- * Window manager module to handle positioning and resizing of application windows
+ * Window manager module to handle positioning and resizing of application windows dynamically
  */
 
-// Window position configurations
-const internalTopOffset = 47;
-const externalTopOffset = 300;
-const internalWindowHeight = 2085;  
-const externalWindowHeight = 2340;
-const topBarHeight = 23;
-
-// Default window positions for different display configurations
-const defaultPositions = {
-  internal: {
-    editor: { x: 1300, y: internalTopOffset + 2, width: 2112, height: internalWindowHeight - 2 },
-    editorFullscreen: { x: 0, y: 155, width: 1920, height: internalWindowHeight },
-    line: { x: 300, y: 155, width: 1, height: internalWindowHeight },
-    terminal: { x: 0, y: internalTopOffset, width: 1300, height: internalWindowHeight },
-    terminalFullscreen: { x: 0, y: internalTopOffset, width: 4000, height: internalWindowHeight },
-  },
-  external: {
-    editor: { x: 2300, y: externalTopOffset, width: 2500, height: externalWindowHeight },
-    editorFullscreen: { x: externalTopOffset, y: 50, width: 2305, height: externalWindowHeight },
-    line: { x: 932, y: externalTopOffset, width: 1, height: externalWindowHeight },
-    terminal: { x: 300, y: externalTopOffset, width: 2000, height: externalWindowHeight },
-    terminalFullscreen: { x: externalTopOffset, y: 300, width: 4500, height: externalWindowHeight },
-  },
-};
-
+const topBarHeightPercentage = 0.023; // 2% of screen height
+const hiddenEdgeSize = 0.01; // 1% of screen width and height
+const padding = 0.05; // 1% of screen width and height
 // State
 let currentDisplay = "internal";
 let mainWindow = null;
@@ -37,6 +15,31 @@ let lineWindow = null;
 
 // Request queue for window positioning
 let requestQueue = Promise.resolve();
+
+/**
+ * Get screen dimensions dynamically
+ */
+function getScreenDimensions() {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const scaleFactor = primaryDisplay.scaleFactor;
+  
+  return {
+    width: primaryDisplay.bounds.width * scaleFactor,
+    height: primaryDisplay.bounds.height * scaleFactor,
+  };
+}
+
+/**
+ * Get screen dimensions dynamically
+ */
+function getScreenDimensionsScaled() {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  
+  return {
+    width: primaryDisplay.bounds.width,
+    height: primaryDisplay.bounds.height,
+  };
+}
 
 /**
  * Add a request to the queue
@@ -81,8 +84,8 @@ function executeCurl(command) {
  * @returns {string} The current display type
  */
 function detectAndSetCurrentDisplay() {
-  const displays = screen.getAllDisplays();
-  currentDisplay = displays.length > 1 ? "external" : "internal";
+  const primaryDisplay = screen.getPrimaryDisplay();
+  currentDisplay = primaryDisplay.bounds.width  === 1704 ? "internal" : "external";
   console.log(`Current display set to: ${currentDisplay}`);
   return currentDisplay;
 }
@@ -104,195 +107,95 @@ function setLineWindow(window) {
 }
 
 /**
- * Update the top bar window position and size
+ * Update the top bar window position and size dynamically
  */
 function updateTopBarPositionAndSize() {
   if (mainWindow) {
-    const { width } = screen.getPrimaryDisplay().workAreaSize;
+    const { width, height } = getScreenDimensionsScaled();
     const newBounds = {
-      x: 0,
-      y: 0,
-      width: width,
-      height: topBarHeight,
+      x: currentDisplay === "external" ? hiddenEdgeSize * width : 0,
+      y: currentDisplay === "external" ? hiddenEdgeSize * height : 0,
+      width: currentDisplay === "external" ? width - (width * hiddenEdgeSize * 2) : width,
+      height: height * topBarHeightPercentage,
     };
     mainWindow.setBounds(newBounds);
   }
 }
 
 /**
- * Update the line window position and size
+ * Position a window dynamically based on screen size
  */
-function updateLineWindowPositionAndSize() {
-  if (lineWindow) {
-    const newBounds = {
-      width: 1,
-      height: defaultPositions[currentDisplay].line.height,
-      x: defaultPositions[currentDisplay].line.x,
-      y: defaultPositions[currentDisplay].line.y,
-    };
-    lineWindow.setBounds(newBounds);
-  }
-}
-
-/**
- * Set the line window visibility
- * @param {boolean} show - Whether to show or hide the line
- */
-function setLineWindowVisible(show) {
-  if (lineWindow) {
-    if (show) {
-      if (lineWindow.isVisible() === false) {
-        lineWindow.show();
-      }
-    } else {
-      if (lineWindow.isVisible() === true) {
-        lineWindow.hide();
-      }
-    }
-  }
-}
-
-/**
- * Position the Kitty terminal window
- * @param {string} pid - The process ID of Kitty
- * @param {string} display - The display configuration to use
- * @param {boolean} fullscreen - Whether to use fullscreen mode
- * @param {boolean} frontmostOnly - Whether to only move the frontmost window
- * @returns {Promise} A promise that resolves when the window has been positioned
- */
-function positionKittyWindow(pid, display = currentDisplay, fullscreen = false, frontmostOnly = false) {
-  const position = fullscreen ? 
-    defaultPositions[display].terminalFullscreen : 
-    defaultPositions[display].terminal;
-    
-  const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": ${frontmostOnly}, "pid": ${pid}, "x": ${position.x}, "y": ${position.y}, "width": ${position.width}, "height": ${position.height}}' localhost:57320`;
-  
+function positionWindow(pid, xPercent, yPercent, widthPercent, heightPercent) {
+  const { width, height } = getScreenDimensions();
+  console.log("\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    height    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 115 \n", 'color: white; background: black; font-weight: bold', '', height);
+  console.log("\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    width    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 115 \n", 'color: white; background: black; font-weight: bold', '', width);
+  const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${pid}, "x": ${Math.floor(width * xPercent)}, "y": ${Math.floor(height * yPercent)}, "width": ${Math.floor(width * widthPercent)}, "height": ${Math.floor(height * heightPercent)}}' localhost:57320`;
   return executeCurl(command);
 }
 
 /**
- * Position the code editor window
- * @param {string} pid - The process ID of the editor
- * @param {string} display - The display configuration to use
- * @param {boolean} fullscreen - Whether to use fullscreen mode
- * @param {boolean} frontmostOnly - Whether to only move the frontmost window
- * @returns {Promise} A promise that resolves when the window has been positioned
+ * Position the Kitty terminal window dynamically
  */
-function positionEditorWindow(pid, display = currentDisplay, fullscreen = false, frontmostOnly = false) {
-  const position = fullscreen ? 
-    defaultPositions[display].editorFullscreen : 
-    defaultPositions[display].editor;
-    
-  const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": ${frontmostOnly}, "pid": ${pid}, "x": ${position.x}, "y": ${position.y}, "width": ${position.width}, "height": ${position.height}}' localhost:57320`;
-  
-  return executeCurl(command);
-}
-
-/**
- * Apply the external display layout configuration
- * @param {string} kittyMainPID - The process ID of the main Kitty instance
- * @param {string} kittyLfPID - The process ID of the Kitty LF instance
- * @param {string} codePID - The process ID of the code editor
- * @returns {Promise} A promise that resolves when all windows have been positioned
- */
-async function applyExternalDisplayLayout(kittyMainPID, kittyLfPID, codePID) {
-  currentDisplay = "external";
-  
-  // Position terminal window
-  await positionKittyWindow(kittyMainPID);
-  
-  // Position editor window
-  await positionEditorWindow(codePID);
-  
-  // Position LF window
-  if (kittyLfPID) {
-    const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`;
-    await executeCurl(command);
+function positionKittyWindow(pid, fullscreen = false) {
+  if (fullscreen) {
+    return positionWindow(pid, 0, 0, 1, 1);
   }
 
-  // Update UI elements
-  updateTopBarPositionAndSize();
-  
-  return Promise.resolve();
+  if (currentDisplay === "internal") {
+    return positionWindow(pid, 0.0, topBarHeightPercentage, 0.4, 1-topBarHeightPercentage );
+  } else {
+    return positionWindow(pid, 0.0 + hiddenEdgeSize + padding, topBarHeightPercentage + hiddenEdgeSize + padding, 0.4 - hiddenEdgeSize - padding, 1-topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2));
+  }
 }
 
 /**
- * Apply the internal display layout configuration
- * @param {string} kittyMainPID - The process ID of the main Kitty instance
- * @param {string} codePID - The process ID of the code editor
- * @returns {Promise} A promise that resolves when all windows have been positioned
+ * Position the code editor window dynamically
  */
-async function applyInternalDisplayLayout(kittyMainPID, codePID) {
-  currentDisplay = "internal";
-  
-  // Position terminal window
+function positionEditorWindow(pid, fullscreen = false) {
+  if (fullscreen) {
+    return positionWindow(pid, 0, 0, 1, 1);
+  }
+  if (currentDisplay === "internal") {
+    return positionWindow(pid, 0.4, topBarHeightPercentage, 0.6, 1 - topBarHeightPercentage );
+  } else {
+    return positionWindow(pid, 0.4, topBarHeightPercentage + hiddenEdgeSize + padding, 0.6 - hiddenEdgeSize - padding, 1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2));
+  }
+}
+
+/**
+ * Apply the display layout configuration dynamically
+ */
+async function applyDisplayLayout(kittyMainPID, codePID) {
+  detectAndSetCurrentDisplay();
   await positionKittyWindow(kittyMainPID);
-  
-  // Position editor window
   await positionEditorWindow(codePID);
-  
-  // Update UI elements
   updateTopBarPositionAndSize();
-  
   return Promise.resolve();
 }
 
 /**
  * Toggle fullscreen mode for the current application
- * @param {Object} currentTab - The current tab object
- * @param {string} kittyMainPID - The process ID of the main Kitty instance
- * @param {string} codePID - The process ID of the code editor
- * @returns {Object} The updated tab object
  */
 async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
   if (currentTab.focusedApp === "kitty-main") {
     currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
-    setLineWindowVisible(!currentTab.terminalFullScreen);
-    
-    await positionKittyWindow(
-      kittyMainPID, 
-      currentDisplay, 
-      currentTab.terminalFullScreen, 
-      true
-    );
+    await positionKittyWindow(kittyMainPID, currentTab.terminalFullScreen);
   } else if (currentTab.focusedApp === "vscode") {
     currentTab.editorFullScreen = !currentTab.editorFullScreen;
-    setLineWindowVisible(!currentTab.editorFullScreen);
-    
-    await positionEditorWindow(
-      codePID, 
-      currentDisplay, 
-      currentTab.editorFullScreen, 
-      true
-    );
-    
-    // Ensure focus is on the editor
-    await enqueueRequest((done) => {
-      exec(`cursor`, (error) => {
-        if (error) {
-          console.error(`Error opening editor: ${error}`);
-        }
-        done();
-      });
-    });
+    await positionEditorWindow(codePID, currentTab.editorFullScreen);
   }
-  
   return currentTab;
 }
 
 // Export the module
 module.exports = {
-  defaultPositions,
   detectAndSetCurrentDisplay,
   setMainWindow,
   setLineWindow,
   updateTopBarPositionAndSize,
-  updateLineWindowPositionAndSize,
-  setLineWindowVisible,
   positionKittyWindow,
   positionEditorWindow,
-  applyExternalDisplayLayout,
-  applyInternalDisplayLayout,
+  applyDisplayLayout,
   toggleFullscreen,
   getCurrentDisplay: () => currentDisplay,
 };

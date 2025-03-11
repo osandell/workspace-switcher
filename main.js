@@ -15,7 +15,7 @@ const path = require("path");
 const { exec } = require("child_process");
 
 // Process IDs for various applications
-let kittyMainPID;
+let kittyMainPID; 
 let kittyLfPID;
 let codePID;
 
@@ -139,18 +139,18 @@ function setupDisplayListeners() {
 
     const displays = screen.getAllDisplays();
     if (displays.length > 1) {
-      windowManager.applyExternalDisplayLayout(kittyMainPID, kittyLfPID, codePID);
+      windowManager.applyDisplayLayout(kittyMainPID, kittyLfPID, codePID);
     }
   });
 
   screen.on("display-added", () => {
     console.log("Display added");
-    windowManager.applyExternalDisplayLayout(kittyMainPID, kittyLfPID, codePID);
+    windowManager.applyDisplayLayout(kittyMainPID, kittyLfPID, codePID);
   });
 
   screen.on("display-removed", () => {
     console.log("Display removed");
-    windowManager.applyInternalDisplayLayout(kittyMainPID, codePID);
+    windowManager.applyDisplayLayout(kittyMainPID, codePID);
   });
 }
 
@@ -180,6 +180,10 @@ function changeActiveTab(direction) {
 
   // Format path for display (replace home directory with ~)
   const homeDir = process.env.HOME;
+
+const test = storedTabs[activeTabIndex].path
+console.log("\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    test    \x1b[8m\x1b[40m\x1b[0m%c main.js 184 \n", 'color: white; background: black; font-weight: bold', '', test);
+
   let pathShort;
   if (storedTabs[activeTabIndex].path.startsWith(homeDir + "/")) {
     pathShort = storedTabs[activeTabIndex].path.replace(homeDir, "~");
@@ -410,10 +414,21 @@ function createWindow() {
       gitkrakenVisible: false,
       gitkrakenInitialized: false,
       kittyPlatformWindowId: "",
-      path: "~/", // Set the path to home directory
+      path: "~/dev/osandell",
       terminalFullScreen: false,
       editorFullScreen: false,
     });
+    storedTabs.push({
+      focusedApp: "kitty-main",
+      fullscreenApps: [],
+      gitkrakenVisible: false,
+      gitkrakenInitialized: false,
+      kittyPlatformWindowId: "",
+      path: "~/Downloads",
+      terminalFullScreen: false,
+      editorFullScreen: false,
+    });
+    
     store.set("storedTabs", storedTabs); // Save the new tab
   }
 
@@ -541,6 +556,7 @@ function toggleFullscreen() {
  * @param {string} path - The workspace path
  */
 function createNewWorkspace(dirPath) {
+  console.log("\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    dirPath    \x1b[8m\x1b[40m\x1b[0m%c main.js 547 \n", 'color: white; background: black; font-weight: bold', '', dirPath);
   const isGitRepo = fs.existsSync(path.join(dirPath, ".git"));
   const kittyDelay = 500;
 
@@ -759,12 +775,12 @@ function setupHttpServer() {
           
         case "external":
           console.log("Manually triggering external display configuration");
-          windowManager.applyExternalDisplayLayout(kittyMainPID, kittyLfPID, codePID);
+          windowManager.applyDisplayLayout(kittyMainPID, codePID);
           break;
           
         case "internal":
           console.log("Manually triggering internal display configuration");
-          windowManager.applyInternalDisplayLayout(kittyMainPID, codePID);
+          windowManager.applyDisplayLayout(kittyMainPID, codePID);
           break;
           
         case "setDefocused":
