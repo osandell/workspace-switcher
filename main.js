@@ -579,7 +579,7 @@ function createNewWorkspace(dirPath) {
 
   // Open VS Code/Cursor
   exec(
-    `cursor ${path}`,
+    `cursor ${dirPath}`,
     (vscodeError, vscodeStdout, vscodeStderr) => {
       if (vscodeError) {
         console.error(`Error opening editor: ${vscodeError}`);
