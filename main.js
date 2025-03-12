@@ -627,7 +627,7 @@ function createNewWorkspace(dirPath) {
       updateKittyPlatformWindowId(kittyWindowId);
 
       setTimeout(() => {
-        windowManager.positionKittyWindow(kittyMainPID);
+        windowManager.positionKittyWindow(kittyMainPID, false);
       }, kittyDelay);
     }
   );
@@ -640,7 +640,7 @@ function createNewWorkspace(dirPath) {
     }
 
     setTimeout(() => {
-      windowManager.positionEditorWindow(codePID);
+      windowManager.positionEditorWindow(codePID, false);
     }, kittyDelay + 1000);
   });
 }
@@ -795,13 +795,7 @@ function setupHttpServer() {
           windowManager.detectAndSetCurrentDisplay();
           break;
 
-        case "external":
-          console.log("Manually triggering external display configuration");
-          windowManager.applyDisplayLayout(kittyMainPID, codePID);
-          break;
-
-        case "internal":
-          console.log("Manually triggering internal display configuration");
+        case "reposition":
           windowManager.applyDisplayLayout(kittyMainPID, codePID);
           break;
 

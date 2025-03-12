@@ -263,8 +263,8 @@ function positionEditorWindow(pid, fullscreen = false) {
  */
 async function applyDisplayLayout(kittyMainPID, codePID) {
   detectAndSetCurrentDisplay();
-  await positionKittyWindow(kittyMainPID);
-  await positionEditorWindow(codePID);
+  await positionKittyWindow(kittyMainPID, false);
+  await positionEditorWindow(codePID, false);
   updateTopBarPositionAndSize();
   return Promise.resolve();
 }
