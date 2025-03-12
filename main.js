@@ -898,12 +898,14 @@ app.whenReady().then(async () => {
     "Process IDs initialized, updating platform window IDs for stored tabs"
   );
 
-  await removeStoredTabsPlatformIDs();
+  removeStoredTabsPlatformIDs();
 
   // Create window and set up window management
   createWindow();
   setupDisplayListeners();
   setupHttpServer();
+
+  changeActiveTab(null);
 
   // Position all windows on startup with a short delay to ensure everything is ready
   setTimeout(() => {
