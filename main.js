@@ -181,9 +181,6 @@ function changeActiveTab(direction) {
   // Format path for display (replace home directory with ~)
   const homeDir = process.env.HOME;
 
-const test = storedTabs[activeTabIndex].path
-console.log("\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    test    \x1b[8m\x1b[40m\x1b[0m%c main.js 184 \n", 'color: white; background: black; font-weight: bold', '', test);
-
   let pathShort;
   if (storedTabs[activeTabIndex].path.startsWith(homeDir + "/")) {
     pathShort = storedTabs[activeTabIndex].path.replace(homeDir, "~");
@@ -196,10 +193,18 @@ console.log("\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    test    \x1b[8m\x1b[40m\x1b[0m%c
     focusVSCodeWindow(codePID, pathShort)
       .then(response => {
         console.log('Successfully focused VS Code window:', response);
+       
         
-        // Focus Kitty window
-        focusKittyWindow(storedTabs[activeTabIndex].kittyPlatformWindowId, pathShort);
-        
+        const kittyPlatformWindowId = storedTabs[activeTabIndex].kittyPlatformWindowId;
+
+        if (kittyPlatformWindowId) {
+          focusKittyWindow(kittyPlatformWindowId, pathShort);
+        } else {
+          console.log("No Kitty platform window ID found, creating new window");
+          launchNewKittyWindow(pathShort);
+          updateKittyPlatformWindowId(kittyWindowId);
+        }
+
         // Line window visibility update commented out
         // if (storedTabs[activeTabIndex].terminalFullScreen || 
         //     storedTabs[activeTabIndex].editorFullscreen) {
@@ -246,7 +251,7 @@ function focusKittyWindow(platformWindowId, path) {
           `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
           (error, stdout, stderr) => {
             if (error) {
-              launchNewKittyWindow(path);
+              console.error(`Error focusing Kitty window: ${error}`);
               return;
             }
             if (stderr) {
@@ -257,7 +262,7 @@ function focusKittyWindow(platformWindowId, path) {
           }
         );
       } else {
-        launchNewKittyWindow(path);
+        console.error("No Kitty window ID found");  
       }
     }
   );
@@ -284,10 +289,7 @@ function launchNewKittyWindow(path) {
       updateKittyPlatformWindowId(kittyWindowId);
       
       // Position window
-      windowManager.positionKittyWindow(kittyMainPID, 
-                                       windowManager.getCurrentDisplay(), 
-                                       false, 
-                                       true);
+      windowManager.positionKittyWindow(kittyMainPID, storedTabs[activeTabIndex].terminalFullScreen);
       
       console.log(`Kitty opened with path: ${path}`);
     }
@@ -866,78 +868,13 @@ function handleGitKraken() {
   store.set("storedTabs", storedTabs);
 }
 
-/**
- * Update platform window IDs for all tabs on startup
- * This maps existing Kitty windows to stored tabs based on their working directories
- */
-function updateStoredTabsPlatformIDs() {
-  return new Promise((resolve) => {
-    // Get all Kitty windows with their platform IDs and working directories
-    exec(
-      `kitty @ --to unix:/tmp/kitty_main ls | jq -c '.[] | {platform_window_id: .platform_window_id, tabs: [.tabs[] | {title: .title, cwd: .windows[0].cwd}]}'`,
-      (error, stdout) => {
-        if (error) {
-          console.error(`Error getting Kitty windows info: ${error}`);
-          resolve();
-          return;
-        }
-
-        try {
-          // Parse output into an array of window info objects
-          const kittyWindows = stdout.trim().split('\n')
-            .map(line => {
-              try {
-                return JSON.parse(line);
-              } catch (e) {
-                console.error(`Error parsing JSON: ${e}`, line);
-                return null;
-              }
-            })
-            .filter(win => win !== null);
-
-          console.log(`Found ${kittyWindows.length} Kitty windows to match with stored tabs`);
-          
-          // Update stored tabs with matching platform window IDs
-          storedTabs.forEach((tab, index) => {
-            // Handle home directory paths (convert ~ to actual home path)
-            const tabFullPath = tab.path.replace(/^~/, process.env.HOME);
-            
-            // Find matching Kitty window by comparing path
-            for (const kittyWindow of kittyWindows) {
-              for (const kittyTab of kittyWindow.tabs) {
-                const kittyPath = kittyTab.cwd;
-                
-                // Check if paths match (either exact or related)
-                if (kittyPath === tabFullPath || 
-                    kittyPath.startsWith(tabFullPath + '/') || 
-                    tabFullPath.startsWith(kittyPath + '/')) {
-                  
-                  // Found a match, update platform window ID
-                  tab.kittyPlatformWindowId = kittyWindow.platform_window_id;
-                  console.log(`Updated tab ${index} (${tab.path}) with platform ID: ${kittyWindow.platform_window_id}`);
-                  break;
-                }
-              }
-              
-              // If we found a match, no need to check other windows
-              if (tab.kittyPlatformWindowId) break;
-            }
-          });
-          
-          // Save updated tabs
-          store.set("storedTabs", storedTabs);
-          console.log("Platform window IDs updated for all tabs");
-          resolve();
-        } catch (e) {
-          console.error(`Error processing Kitty windows: ${e}`);
-          resolve();
-        }
-      }
-    );
+function removeStoredTabsPlatformIDs() {
+  storedTabs.forEach(tab => {
+    tab.kittyPlatformWindowId = "";
   });
+  store.set("storedTabs", storedTabs);
 }
 
-// Application startup
 // Application startup
 app.whenReady().then(async () => {
   // Detect system theme before initializing UI
@@ -949,9 +886,7 @@ app.whenReady().then(async () => {
   await initializeProcessIDs();
   console.log("Process IDs initialized, updating platform window IDs for stored tabs");
   
-  // Update platform window IDs for stored tabs
-  await updateStoredTabsPlatformIDs();
-  console.log("Platform window IDs updated, setting up windows and layouts");
+  await removeStoredTabsPlatformIDs();
   
   // Create window and set up window management
   createWindow();
@@ -959,11 +894,11 @@ app.whenReady().then(async () => {
   setupHttpServer();
   
   // Position all windows on startup with a short delay to ensure everything is ready
-  // setTimeout(() => {
-  //   console.log("Positioning all windows on startup");
-  //   windowManager.detectAndSetCurrentDisplay();
-  //   positionAllWindows();
-  // }, 2000);
+  setTimeout(() => {
+    console.log("Positioning all windows on startup");
+    windowManager.detectAndSetCurrentDisplay();
+    positionAllWindows();
+  }, 2000);
 });
 
 app.on("window-all-closed", () => {
