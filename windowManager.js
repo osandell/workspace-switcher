@@ -1,11 +1,12 @@
 const { exec } = require('child_process');
 const { screen } = require('electron');
+const fs = require('fs').promises;
 
 /**
  * Window manager module to handle positioning and resizing of application windows dynamically
  */
 
-const topBarHeightPercentage = 0.023; // 2% of screen height
+const topBarHeightPercentage = 0.02; // 2% of screen height
 const hiddenEdgeSize = 0.01; // 1% of screen width and height
 const padding = 0.05; // 1% of screen width and height
 // State
@@ -22,7 +23,7 @@ let requestQueue = Promise.resolve();
 function getScreenDimensions() {
   const primaryDisplay = screen.getPrimaryDisplay();
   const scaleFactor = primaryDisplay.scaleFactor;
-  
+
   return {
     width: primaryDisplay.bounds.width * scaleFactor,
     height: primaryDisplay.bounds.height * scaleFactor,
@@ -127,8 +128,6 @@ function updateTopBarPositionAndSize() {
  */
 function positionWindow(pid, xPercent, yPercent, widthPercent, heightPercent) {
   const { width, height } = getScreenDimensions();
-  console.log("\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    height    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 115 \n", 'color: white; background: black; font-weight: bold', '', height);
-  console.log("\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    width    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 115 \n", 'color: white; background: black; font-weight: bold', '', width);
   const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${pid}, "x": ${Math.floor(width * xPercent)}, "y": ${Math.floor(height * yPercent)}, "width": ${Math.floor(width * widthPercent)}, "height": ${Math.floor(height * heightPercent)}}' localhost:57320`;
   return executeCurl(command);
 }
@@ -138,7 +137,11 @@ function positionWindow(pid, xPercent, yPercent, widthPercent, heightPercent) {
  */
 function positionKittyWindow(pid, fullscreen = false) {
   if (fullscreen) {
-    return positionWindow(pid, 0, 0, 1, 1);
+    if (currentDisplay === "internal") {  
+      return positionWindow(pid, 0, topBarHeightPercentage, 1, 1 - topBarHeightPercentage );
+    } else {
+      return positionWindow(pid, 0.0 + hiddenEdgeSize + padding, topBarHeightPercentage + hiddenEdgeSize + padding, 1 - hiddenEdgeSize - padding, 1-topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2));
+    }
   }
 
   if (currentDisplay === "internal") {
@@ -153,8 +156,13 @@ function positionKittyWindow(pid, fullscreen = false) {
  */
 function positionEditorWindow(pid, fullscreen = false) {
   if (fullscreen) {
-    return positionWindow(pid, 0, 0, 1, 1);
+    if (currentDisplay === "internal") {  
+      return positionWindow(pid, 0, topBarHeightPercentage, 1, 1 - topBarHeightPercentage );
+    } else {
+      return positionWindow(pid, 0.0 + hiddenEdgeSize + padding, topBarHeightPercentage + hiddenEdgeSize + padding, 1 - hiddenEdgeSize - padding, 1-topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2));
+    }
   }
+  
   if (currentDisplay === "internal") {
     return positionWindow(pid, 0.4, topBarHeightPercentage, 0.6, 1 - topBarHeightPercentage );
   } else {
@@ -177,14 +185,22 @@ async function applyDisplayLayout(kittyMainPID, codePID) {
  * Toggle fullscreen mode for the current application
  */
 async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
-  if (currentTab.focusedApp === "kitty-main") {
-    currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
-    await positionKittyWindow(kittyMainPID, currentTab.terminalFullScreen);
-  } else if (currentTab.focusedApp === "vscode") {
-    currentTab.editorFullScreen = !currentTab.editorFullScreen;
-    await positionEditorWindow(codePID, currentTab.editorFullScreen);
+
+  try { 
+    const activeWindow =  (await fs.readFile('/tmp/active_window.log', 'utf8')).trim();
+
+
+    if (activeWindow === "kitty") {
+      currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
+      await positionKittyWindow(kittyMainPID, currentTab.terminalFullScreen);
+    } else if (activeWindow === "cursor") {
+      currentTab.editorFullScreen = !currentTab.editorFullScreen;
+      await positionEditorWindow(codePID, currentTab.editorFullScreen);
+    }
+    return currentTab;
+  } catch (err) {
+    console.error('Error reading active window data:', err);
   }
-  return currentTab;
 }
 
 // Export the module
