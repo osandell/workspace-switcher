@@ -652,30 +652,9 @@ function positionAllWindows() {
   const currentDisplay = windowManager.getCurrentDisplay();
   console.log(`Positioning all windows for ${currentDisplay} display`);
 
-  // Position Kitty main window
-  if (kittyMainPID) {
-    windowManager.positionKittyWindow(kittyMainPID, false);
-  } else {
-    console.warn("Cannot position Kitty main - PID not found");
-  }
-
-  // Position Kitty LF window if available
-  if (kittyLfPID) {
-    exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${kittyLfPID}, "x": ${windowManager.defaultPositions[currentDisplay].terminal.x}, "y": ${windowManager.defaultPositions[currentDisplay].terminal.y}, "width": ${windowManager.defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${windowManager.defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving Kitty LF window: ${err}`);
-        } else {
-          console.log("Successfully positioned Kitty LF window");
-        }
-      }
-    );
-  }
-
   // Position Cursor/VS Code window
   if (codePID) {
-    windowManager.positionEditorWindow(codePID, currentDisplay, false, false);
+    windowManager.positionEditorWindow(codePID, false);
   } else {
     console.warn("Cannot position Cursor/Code - PID not found");
   }
