@@ -7,7 +7,7 @@ const fs = require("fs").promises;
  */
 
 const topBarHeightPercentage = 0.02; // 2% of screen height
-const hiddenEdgeSize = 0.01; // 1% of screen width and height
+let hiddenEdgeSize = 0.01; // 1% of screen width and height
 const padding = 0.05; // 1% of screen width and height
 // State
 let currentDisplay = "internal";
@@ -20,9 +20,26 @@ let requestQueue = Promise.resolve();
 /**
  * Get screen dimensions dynamically
  */
-function getScreenDimensions() {
+function getScreenDimensionsScaled() {
   const primaryDisplay = screen.getPrimaryDisplay();
   const scaleFactor = primaryDisplay.scaleFactor;
+
+  if (
+    primaryDisplay.bounds.width === 1280 &&
+    primaryDisplay.bounds.height === 1440
+  ) {
+    // This is most likely an Apple Studio Display which is seen as 2 half-size displays
+    // We need to adjust the width and height accordingly
+
+    hiddenEdgeSize = 0.0; // The Studio Display has no hidden area
+
+    return {
+      width: primaryDisplay.bounds.width * scaleFactor * 2,
+      height: primaryDisplay.bounds.height * scaleFactor,
+    };
+  }
+
+  hiddenEdgeSize = 0.01;
 
   return {
     width: primaryDisplay.bounds.width * scaleFactor,
@@ -33,9 +50,20 @@ function getScreenDimensions() {
 /**
  * Get screen dimensions dynamically
  */
-function getScreenDimensionsScaled() {
+function getScreenDimensionsRaw() {
   const primaryDisplay = screen.getPrimaryDisplay();
 
+  if (
+    primaryDisplay.bounds.width === 1280 &&
+    primaryDisplay.bounds.height === 1440
+  ) {
+    // This is most likely an Apple Studio Display which is seen as 2 half-size displays
+    // We need to adjust the width and height accordingly
+    return {
+      width: primaryDisplay.bounds.width * 2,
+      height: primaryDisplay.bounds.height,
+    };
+  }
   return {
     width: primaryDisplay.bounds.width,
     height: primaryDisplay.bounds.height,
@@ -115,7 +143,7 @@ function setLineWindow(window) {
  */
 function updateTopBarPositionAndSize() {
   if (mainWindow) {
-    const { width, height } = getScreenDimensionsScaled();
+    const { width, height } = getScreenDimensionsRaw();
     const newBounds = {
       x: currentDisplay === "external" ? hiddenEdgeSize * width : 0,
       y: currentDisplay === "external" ? hiddenEdgeSize * height : 0,
@@ -133,12 +161,14 @@ function updateTopBarPositionAndSize() {
  * Position a window dynamically based on screen size
  */
 function positionWindow(pid, xPercent, yPercent, widthPercent, heightPercent) {
-  const { width, height } = getScreenDimensions();
+  const { height, width } = getScreenDimensionsScaled();
+
   const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${pid}, "x": ${Math.floor(
     width * xPercent
   )}, "y": ${Math.floor(height * yPercent)}, "width": ${Math.floor(
     width * widthPercent
   )}, "height": ${Math.floor(height * heightPercent)}}' localhost:57320`;
+
   return executeCurl(command);
 }
 
@@ -160,7 +190,7 @@ function positionKittyWindow(pid, fullscreen = false) {
         pid,
         0.0 + hiddenEdgeSize + padding,
         topBarHeightPercentage + hiddenEdgeSize + padding,
-        1 - hiddenEdgeSize - padding,
+        1 - hiddenEdgeSize - padding * 2,
         1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
       );
     }
@@ -203,7 +233,7 @@ function positionEditorWindow(pid, fullscreen = false) {
         pid,
         0.0 + hiddenEdgeSize + padding,
         topBarHeightPercentage + hiddenEdgeSize + padding,
-        1 - hiddenEdgeSize - padding,
+        1 - hiddenEdgeSize - padding * 2,
         1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
       );
     }
