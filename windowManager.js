@@ -1,6 +1,6 @@
-const { exec } = require('child_process');
-const { screen } = require('electron');
-const fs = require('fs').promises;
+const { exec } = require("child_process");
+const { screen } = require("electron");
+const fs = require("fs").promises;
 
 /**
  * Window manager module to handle positioning and resizing of application windows dynamically
@@ -35,7 +35,7 @@ function getScreenDimensions() {
  */
 function getScreenDimensionsScaled() {
   const primaryDisplay = screen.getPrimaryDisplay();
-  
+
   return {
     width: primaryDisplay.bounds.width,
     height: primaryDisplay.bounds.height,
@@ -49,17 +49,19 @@ function getScreenDimensionsScaled() {
  */
 function enqueueRequest(fn) {
   return new Promise((resolve) => {
-    requestQueue = requestQueue.then(() => {
-      return new Promise((innerResolve) => {
-        fn(() => {
-          innerResolve();
-          resolve();
+    requestQueue = requestQueue
+      .then(() => {
+        return new Promise((innerResolve) => {
+          fn(() => {
+            innerResolve();
+            resolve();
+          });
         });
+      })
+      .catch((err) => {
+        console.error("Error in request queue:", err);
+        resolve(); // Continue queue even if there's an error
       });
-    }).catch(err => {
-      console.error('Error in request queue:', err);
-      resolve(); // Continue queue even if there's an error
-    });
   });
 }
 
@@ -86,7 +88,8 @@ function executeCurl(command) {
  */
 function detectAndSetCurrentDisplay() {
   const primaryDisplay = screen.getPrimaryDisplay();
-  currentDisplay = primaryDisplay.bounds.width  === 1704 ? "internal" : "external";
+  currentDisplay =
+    primaryDisplay.bounds.width === 1704 ? "internal" : "external";
   console.log(`Current display set to: ${currentDisplay}`);
   return currentDisplay;
 }
@@ -116,7 +119,10 @@ function updateTopBarPositionAndSize() {
     const newBounds = {
       x: currentDisplay === "external" ? hiddenEdgeSize * width : 0,
       y: currentDisplay === "external" ? hiddenEdgeSize * height : 0,
-      width: currentDisplay === "external" ? width - (width * hiddenEdgeSize * 2) : width,
+      width:
+        currentDisplay === "external"
+          ? width - width * hiddenEdgeSize * 2
+          : width,
       height: height * topBarHeightPercentage,
     };
     mainWindow.setBounds(newBounds);
@@ -128,7 +134,11 @@ function updateTopBarPositionAndSize() {
  */
 function positionWindow(pid, xPercent, yPercent, widthPercent, heightPercent) {
   const { width, height } = getScreenDimensions();
-  const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${pid}, "x": ${Math.floor(width * xPercent)}, "y": ${Math.floor(height * yPercent)}, "width": ${Math.floor(width * widthPercent)}, "height": ${Math.floor(height * heightPercent)}}' localhost:57320`;
+  const command = `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "pid": ${pid}, "x": ${Math.floor(
+    width * xPercent
+  )}, "y": ${Math.floor(height * yPercent)}, "width": ${Math.floor(
+    width * widthPercent
+  )}, "height": ${Math.floor(height * heightPercent)}}' localhost:57320`;
   return executeCurl(command);
 }
 
@@ -137,17 +147,41 @@ function positionWindow(pid, xPercent, yPercent, widthPercent, heightPercent) {
  */
 function positionKittyWindow(pid, fullscreen = false) {
   if (fullscreen) {
-    if (currentDisplay === "internal") {  
-      return positionWindow(pid, 0, topBarHeightPercentage, 1, 1 - topBarHeightPercentage );
+    if (currentDisplay === "internal") {
+      return positionWindow(
+        pid,
+        0,
+        topBarHeightPercentage,
+        1,
+        1 - topBarHeightPercentage
+      );
     } else {
-      return positionWindow(pid, 0.0 + hiddenEdgeSize + padding, topBarHeightPercentage + hiddenEdgeSize + padding, 1 - hiddenEdgeSize - padding, 1-topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2));
+      return positionWindow(
+        pid,
+        0.0 + hiddenEdgeSize + padding,
+        topBarHeightPercentage + hiddenEdgeSize + padding,
+        1 - hiddenEdgeSize - padding,
+        1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
+      );
     }
   }
 
   if (currentDisplay === "internal") {
-    return positionWindow(pid, 0.0, topBarHeightPercentage, 0.4, 1-topBarHeightPercentage );
+    return positionWindow(
+      pid,
+      0.0,
+      topBarHeightPercentage,
+      0.4,
+      1 - topBarHeightPercentage
+    );
   } else {
-    return positionWindow(pid, 0.0 + hiddenEdgeSize + padding, topBarHeightPercentage + hiddenEdgeSize + padding, 0.4 - hiddenEdgeSize - padding, 1-topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2));
+    return positionWindow(
+      pid,
+      0.0 + hiddenEdgeSize + padding,
+      topBarHeightPercentage + hiddenEdgeSize + padding,
+      0.4 - hiddenEdgeSize - padding,
+      1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
+    );
   }
 }
 
@@ -156,17 +190,41 @@ function positionKittyWindow(pid, fullscreen = false) {
  */
 function positionEditorWindow(pid, fullscreen = false) {
   if (fullscreen) {
-    if (currentDisplay === "internal") {  
-      return positionWindow(pid, 0, topBarHeightPercentage, 1, 1 - topBarHeightPercentage );
+    if (currentDisplay === "internal") {
+      return positionWindow(
+        pid,
+        0,
+        topBarHeightPercentage,
+        1,
+        1 - topBarHeightPercentage
+      );
     } else {
-      return positionWindow(pid, 0.0 + hiddenEdgeSize + padding, topBarHeightPercentage + hiddenEdgeSize + padding, 1 - hiddenEdgeSize - padding, 1-topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2));
+      return positionWindow(
+        pid,
+        0.0 + hiddenEdgeSize + padding,
+        topBarHeightPercentage + hiddenEdgeSize + padding,
+        1 - hiddenEdgeSize - padding,
+        1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
+      );
     }
   }
-  
+
   if (currentDisplay === "internal") {
-    return positionWindow(pid, 0.4, topBarHeightPercentage, 0.6, 1 - topBarHeightPercentage );
+    return positionWindow(
+      pid,
+      0.4,
+      topBarHeightPercentage,
+      0.6,
+      1 - topBarHeightPercentage
+    );
   } else {
-    return positionWindow(pid, 0.4, topBarHeightPercentage + hiddenEdgeSize + padding, 0.6 - hiddenEdgeSize - padding, 1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2));
+    return positionWindow(
+      pid,
+      0.4,
+      topBarHeightPercentage + hiddenEdgeSize + padding,
+      0.6 - hiddenEdgeSize - padding,
+      1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
+    );
   }
 }
 
@@ -185,10 +243,10 @@ async function applyDisplayLayout(kittyMainPID, codePID) {
  * Toggle fullscreen mode for the current application
  */
 async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
-
-  try { 
-    const activeWindow =  (await fs.readFile('/tmp/active_window.log', 'utf8')).trim();
-
+  try {
+    const activeWindow = (
+      await fs.readFile("/tmp/active_window.log", "utf8")
+    ).trim();
 
     if (activeWindow === "kitty") {
       currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
@@ -199,7 +257,7 @@ async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
     }
     return currentTab;
   } catch (err) {
-    console.error('Error reading active window data:', err);
+    console.error("Error reading active window data:", err);
   }
 }
 
