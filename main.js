@@ -19,6 +19,8 @@ let kittyMainPID;
 let kittyLfPID;
 let codePID;
 
+store.clear();
+
 // Store for application state
 let storedTabs = store.get("storedTabs", []);
 let activeTabIndex = store.get("activeTabIndex", 0);
@@ -209,7 +211,6 @@ function changeActiveTab(direction) {
         } else {
           console.log("No Kitty platform window ID found, creating new window");
           launchNewKittyWindow(pathShort);
-          updateKittyPlatformWindowId(kittyWindowId);
         }
 
         // Line window visibility update commented out
@@ -245,37 +246,83 @@ function changeActiveTab(direction) {
  * @param {string} path - The working directory path
  */
 function focusKittyWindow(platformWindowId, path) {
-  // Get kitty window id from platform_window_id
-  exec(
-    `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${platformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
-    (err, stdout) => {
-      if (err) {
-        console.error(`Error getting kitty window id: ${err}`);
+  return new Promise((resolve, reject) => {
+    const { exec } = require("child_process");
+
+    // Escape quotes in path to prevent command injection
+    const escapedPath = path.replace(/"/g, '\\"');
+
+    // Construct the command to execute AutoHotkey with the test.ahk script
+    const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-wt.ahk ${platformWindowId} "${escapedPath}"`;
+
+    console.log("Executing command:", command); // Debug log
+
+    exec(command, (error, stdout, stderr) => {
+      console.log(
+        "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    hmm    \x1b[8m\x1b[40m\x1b[0m%c main.js 300 \n",
+        "color: white; background: black; font-weight: bold",
+        ""
+      );
+      if (error) {
+        console.error("Error executing AutoHotkey:", error);
+        reject(error);
         return;
       }
 
-      const kittyWindowId = stdout.trim();
-      if (kittyWindowId) {
-        // Focus existing kitty window
-        exec(
-          `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
-          (error, stdout, stderr) => {
-            if (error) {
-              console.error(`Error focusing Kitty window: ${error}`);
-              return;
-            }
-            if (stderr) {
-              console.error(`Kitty stderr: ${stderr}`);
-              return;
-            }
-            console.log(`Kitty window focused with path: ${path}`);
-          }
-        );
-      } else {
-        console.error("No Kitty window ID found");
+      if (stderr) {
+        console.error("AutoHotkey stderr:", stderr);
       }
-    }
-  );
+
+      if (stdout) {
+        // if stdout is a number, update the kittyPlatformWindowId
+        if (!isNaN(stdout)) {
+          console.log("AutoHotkey stdout:", stdout);
+          updateKittyPlatformWindowId(stdout);
+          setTimeout(() => {
+            windowManager.positionKittyWindow(stdout, false);
+          }, 500);
+        }
+      }
+
+      console.log("AutoHotkey script executed successfully");
+      resolve({
+        statusCode: 200,
+        data: stdout,
+      });
+    });
+  });
+
+  // Get kitty window id from platform_window_id
+  // exec(
+  //   `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${platformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+  //   (err, stdout) => {
+  //     if (err) {
+  //       console.error(`Error getting kitty window id: ${err}`);
+  //       return;
+  //     }
+
+  //     const kittyWindowId = stdout.trim();
+  //     if (kittyWindowId) {
+  //       // Focus existing kitty window
+  //       exec(
+  //         `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+  //         (error, stdout, stderr) => {
+  //           if (error) {
+  //             console.error(`Error focusing Kitty window: ${error}`);
+  //             return;
+  //           }
+  //           if (stderr) {
+  //             console.error(`Kitty stderr: ${stderr}`);
+  //             return;
+  //           }
+  //           console.log(`Kitty window focused with path: ${path}`);
+  //         }
+  //       );
+  //     } else {
+  //       console.error("No Kitty window ID found");
+  //     }
+  //   }
+  // );
 }
 
 /**
@@ -283,30 +330,61 @@ function focusKittyWindow(platformWindowId, path) {
  * @param {string} path - The working directory path
  */
 function launchNewKittyWindow(path) {
-  exec(
-    `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${path}`,
-    (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error opening Kitty: ${error}`);
-        return;
-      }
-      if (stderr) {
-        console.error(`Kitty stderr: ${stderr}`);
-        return;
-      }
+  const { exec } = require("child_process");
 
-      let kittyWindowId = stdout;
-      updateKittyPlatformWindowId(kittyWindowId);
+  // Escape quotes in path to prevent command injection
+  const escapedPath = path.replace(/"/g, '\\"');
 
-      // Position window
-      windowManager.positionKittyWindow(
-        kittyMainPID,
-        storedTabs[activeTabIndex].terminalFullScreen
-      );
+  // Construct the command to execute AutoHotkey with the test.ahk script
+  const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-wt.ahk 132 "${escapedPath}"`;
 
-      console.log(`Kitty opened with path: ${path}`);
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error("Error executing AutoHotkey:", error);
+      reject(error);
+      return;
     }
-  );
+
+    if (stderr) {
+      console.error("AutoHotkey stderr:", stderr);
+    }
+
+    if (stdout) {
+      console.log("AutoHotkey stdout:", stdout);
+      updateKittyPlatformWindowId(stdout);
+    }
+
+    setTimeout(() => {
+      windowManager.positionKittyWindow(stdout, false);
+    }, 500);
+
+    console.log("AutoHotkey script executed successfully");
+  });
+
+  // exec(
+  //   `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${path}`,
+  //   (error, stdout, stderr) => {
+  //     if (error) {
+  //       console.error(`Error opening Kitty: ${error}`);
+  //       return;
+  //     }
+  //     if (stderr) {
+  //       console.error(`Kitty stderr: ${stderr}`);
+  //       return;
+  //     }
+
+  //     let kittyWindowId = stdout;
+  //     updateKittyPlatformWindowId(kittyWindowId);
+
+  //     // Position window
+  //     windowManager.positionKittyWindow(
+  //       kittyMainPID,
+  //       storedTabs[activeTabIndex].terminalFullScreen
+  //     );
+
+  //     console.log(`Kitty opened with path: ${path}`);
+  //   }
+  // );
 }
 
 /**
@@ -314,19 +392,20 @@ function launchNewKittyWindow(path) {
  * @param {string} kittyWindowId - The Kitty window ID
  */
 function updateKittyPlatformWindowId(kittyWindowId) {
-  exec(
-    `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
-    (err, stdout) => {
-      if (err) {
-        console.error(`Error getting platform_window_id: ${err}`);
-        return;
-      }
+  // exec(
+  //   `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+  //   (err, stdout) => {
+  //     if (err) {
+  //       console.error(`Error getting platform_window_id: ${err}`);
+  //       return;
+  //     }
 
-      const kittyPlatformWindowId = stdout.trim();
-      storedTabs[activeTabIndex].kittyPlatformWindowId = kittyPlatformWindowId;
-      store.set("storedTabs", storedTabs);
-    }
-  );
+  //     const kittyPlatformWindowId = stdout.trim();
+  // storedTabs[activeTabIndex].kittyPlatformWindowId = kittyPlatformWindowId;
+  storedTabs[activeTabIndex].kittyPlatformWindowId = kittyWindowId;
+  store.set("storedTabs", storedTabs);
+  // }
+  // );
 }
 
 /**
@@ -344,39 +423,56 @@ function closeActiveTab() {
     }
 
     // Close VS Code window
-    exec(
-      `curl -f -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": ${pathShort}}' localhost:57320 && xdotool key ctrl+shift+super+w`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error closing VS Code: ${error}`);
-        }
+    // Escape quotes in pathShort to prevent command injection
+    const escapedPath = pathShort.replace(/"/g, '\\"');
 
-        // Close Kitty window
-        closeKittyWindow(storedTabs[activeTabIndex].kittyPlatformWindowId);
+    // Construct the command to execute AutoHotkey with the test.ahk script
+    let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" close-cursor.ahk "${escapedPath}"`;
 
-        // Remove the tab
-        storedTabs.splice(activeTabIndex, 1);
+    console.log("Executing command:", command); // Debug log
 
-        // Adjust activeTabIndex if necessary
-        if (activeTabIndex >= storedTabs.length) {
-          activeTabIndex = Math.max(storedTabs.length - 1, 0);
-        }
-
-        // Update UI
-        const theme = store.get("theme", "light");
-        store.set("storedTabs", storedTabs);
-        store.set("activeTabIndex", activeTabIndex);
-        mainWindow.webContents.send(
-          "update-tabs",
-          storedTabs,
-          activeTabIndex,
-          theme
-        );
-
-        // Focus new active tab
-        changeActiveTab();
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error("Error executing AutoHotkey:", error);
+        reject(error);
+        return;
       }
+
+      if (stderr) {
+        console.error("AutoHotkey stderr:", stderr);
+      }
+
+      if (stdout) {
+        console.log("AutoHotkey stdout:", stdout);
+      }
+
+      console.log("AutoHotkey script executed successfully");
+    });
+
+    // Close Kitty window
+    closeKittyWindow(storedTabs[activeTabIndex].kittyPlatformWindowId);
+
+    // Remove the tab
+    storedTabs.splice(activeTabIndex, 1);
+
+    // Adjust activeTabIndex if necessary
+    if (activeTabIndex >= storedTabs.length) {
+      activeTabIndex = Math.max(storedTabs.length - 1, 0);
+    }
+
+    // Update UI
+    const theme = store.get("theme", "light");
+    store.set("storedTabs", storedTabs);
+    store.set("activeTabIndex", activeTabIndex);
+    mainWindow.webContents.send(
+      "update-tabs",
+      storedTabs,
+      activeTabIndex,
+      theme
     );
+
+    // Focus new active tab
+    changeActiveTab();
   }
 }
 
@@ -385,47 +481,14 @@ function closeActiveTab() {
  * @param {string} platformWindowId - The Kitty platform window ID
  */
 function closeKittyWindow(platformWindowId) {
-  // List all windows within the specified platform window ID
-  exec(
-    `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${platformWindowId}) | .tabs[].windows[].id'`,
-    (err, stdout) => {
-      if (err) {
-        console.error(
-          `Error listing windows for platform_window_id ${platformWindowId}: ${err}`
-        );
-        return;
-      }
-
-      // Parse the output to get all window IDs within the platform window
-      const windowIds = stdout
-        .trim()
-        .split("\n")
-        .map((id) => id.trim())
-        .filter((id) => id);
-
-      // Close each window within the platform window
-      windowIds.forEach((kittyWindowId) => {
-        exec(
-          `kitty @ --to unix:/tmp/kitty_main close-window --match id:${kittyWindowId}`,
-          (error, stdout, stderr) => {
-            if (error) {
-              console.error(
-                `Error closing Kitty window ID ${kittyWindowId}: ${error}`
-              );
-              return;
-            }
-            if (stderr) {
-              console.error(
-                `Kitty stderr for window ID ${kittyWindowId}: ${stderr}`
-              );
-              return;
-            }
-            console.log(`Kitty window closed with ID: ${kittyWindowId}`);
-          }
-        );
-      });
+  // Close WT terminal
+  const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" close-wt.ahk ${platformWindowId}`;
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error closing WT: ${error}`);
+      return;
     }
-  );
+  });
 }
 
 /**
@@ -444,7 +507,7 @@ function createWindow() {
       gitkrakenVisible: false,
       gitkrakenInitialized: false,
       kittyPlatformWindowId: "",
-      path: "~/dev/osandell",
+      path: "\\\\wsl.localhost\\Ubuntu\\home\\olof\\dev\\osandell",
       terminalFullScreen: false,
       editorFullScreen: false,
     });
@@ -454,7 +517,7 @@ function createWindow() {
       gitkrakenVisible: false,
       gitkrakenInitialized: false,
       kittyPlatformWindowId: "",
-      path: "~/Downloads",
+      path: "C:\\Users\\olof\\Downloads",
       terminalFullScreen: false,
       editorFullScreen: false,
     });
@@ -614,35 +677,38 @@ function createNewWorkspace(dirPath) {
   store.set("storedTabs", storedTabs);
   mainWindow.webContents.send("add-new-button", dirPath);
 
-  // Open Kitty terminal
-  exec(
-    `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${dirPath}`,
-    (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error opening Kitty: ${error}`);
-        return;
-      }
+  // Escape quotes in path to prevent command injection
+  const escapedPath = dirPath.replace(/"/g, '\\"');
 
-      let kittyWindowId = stdout;
-      updateKittyPlatformWindowId(kittyWindowId);
+  // Construct the command to execute AutoHotkey with the focus-wt.ahk script
+  let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-wt.ahk 123 "${escapedPath}"`;
 
-      setTimeout(() => {
-        windowManager.positionKittyWindow(kittyMainPID, false);
-      }, kittyDelay);
-    }
-  );
+  console.log("Executing WT command:", command); // Debug log
 
-  // Open VS Code/Cursor
-  exec(`cursor ${dirPath}`, (vscodeError, vscodeStdout, vscodeStderr) => {
-    if (vscodeError) {
-      console.error(`Error opening editor: ${vscodeError}`);
+  // Open Windows Terminal
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error opening WT: ${error}`);
       return;
     }
 
+    if (stderr) {
+      console.error(`WT stderr: ${stderr}`);
+    }
+
+    console.log(`WT stdout: ${stdout}`);
+
+    let wtWindowId = stdout.trim(); // Make sure to trim any whitespace
+    updateKittyPlatformWindowId(wtWindowId);
+
+    // This setTimeout should now execute
     setTimeout(() => {
-      windowManager.positionEditorWindow(codePID, false);
-    }, kittyDelay + 1000);
+      console.log(`Positioning WT window with ID: ${wtWindowId}`);
+      windowManager.positionKittyWindow(wtWindowId, false);
+    }, kittyDelay);
   });
+
+  focusVSCodeWindow(0, dirPath);
 }
 
 /**
@@ -902,11 +968,11 @@ app.whenReady().then(async () => {
   changeActiveTab(null);
 
   // Position all windows on startup with a short delay to ensure everything is ready
-  setTimeout(() => {
-    console.log("Positioning all windows on startup");
-    windowManager.detectAndSetCurrentDisplay();
-    positionAllWindows();
-  }, 2000);
+  // setTimeout(() => {
+  //   console.log("Positioning all windows on startup");
+  //   windowManager.detectAndSetCurrentDisplay();
+  //   positionAllWindows();
+  // }, 2000);
 });
 
 app.on("window-all-closed", () => {

@@ -116,8 +116,9 @@ function executeCurl(command) {
  */
 function detectAndSetCurrentDisplay() {
   const primaryDisplay = screen.getPrimaryDisplay();
+
   currentDisplay =
-    primaryDisplay.bounds.width === 1704 ? "internal" : "external";
+    primaryDisplay.bounds.width === 1463 ? "internal" : "external";
   console.log(`Current display set to: ${currentDisplay}`);
   return currentDisplay;
 }
@@ -197,13 +198,24 @@ function positionKittyWindow(pid, fullscreen = false) {
   }
 
   if (currentDisplay === "internal") {
-    return positionWindow(
-      pid,
-      0.0,
-      topBarHeightPercentage,
-      0.4,
-      1 - topBarHeightPercentage
-    );
+    let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-wt.ahk "${pid}"`;
+
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error positioning WT: ${error}`);
+        return;
+      }
+    });
+
+    return;
+
+    // return positionWindow(
+    //   pid,
+    //   0.0,
+    //   topBarHeightPercentage,
+    //   0.4,
+    //   1 - topBarHeightPercentage
+    // );
   } else {
     return positionWindow(
       pid,
@@ -218,43 +230,60 @@ function positionKittyWindow(pid, fullscreen = false) {
 /**
  * Position the code editor window dynamically
  */
-function positionEditorWindow(pid, fullscreen = false) {
-  if (fullscreen) {
-    if (currentDisplay === "internal") {
-      return positionWindow(
-        pid,
-        0,
-        topBarHeightPercentage,
-        1,
-        1 - topBarHeightPercentage
-      );
-    } else {
-      return positionWindow(
-        pid,
-        0.0 + hiddenEdgeSize + padding,
-        topBarHeightPercentage + hiddenEdgeSize + padding,
-        1 - hiddenEdgeSize - padding * 2,
-        1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
-      );
-    }
-  }
+function positionEditorWindow(path, fullscreen = false) {
+  // if (fullscreen) {
+  //   if (currentDisplay === "internal") {
+  //     return positionWindow(
+  //       pid,
+  //       0,
+  //       topBarHeightPercentage,
+  //       1,
+  //       1 - topBarHeightPercentage
+  //     );
+  //   } else {
+  //     return positionWindow(
+  //       pid,
+  //       0.0 + hiddenEdgeSize + padding,
+  //       topBarHeightPercentage + hiddenEdgeSize + padding,
+  //       1 - hiddenEdgeSize - padding * 2,
+  //       1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
+  //     );
+  //   }
+  // }
+
+  console.log(
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    path    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 179 \n",
+    "color: white; background: black; font-weight: bold",
+    "",
+    path
+  );
+
+  console.log(
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    currentDisplay    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 261 \n",
+    "color: white; background: black; font-weight: bold",
+    "",
+    currentDisplay
+  );
 
   if (currentDisplay === "internal") {
-    return positionWindow(
-      pid,
-      0.4,
-      topBarHeightPercentage,
-      0.6,
-      1 - topBarHeightPercentage
-    );
+    let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-cursor.ahk "${path}"`;
+
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error positioning WT: ${error}`);
+        return;
+      }
+    });
+
+    return;
   } else {
-    return positionWindow(
-      pid,
-      0.4,
-      topBarHeightPercentage + hiddenEdgeSize + padding,
-      0.6 - hiddenEdgeSize - padding,
-      1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
-    );
+    // return positionWindow(
+    //   pid,
+    //   0.4,
+    //   topBarHeightPercentage + hiddenEdgeSize + padding,
+    //   0.6 - hiddenEdgeSize - padding,
+    //   1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
+    // );
   }
 }
 

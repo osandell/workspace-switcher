@@ -1,5 +1,6 @@
 // vscodeFocus.js
-const http = require('http');
+const http = require("http");
+const windowManager = require("./windowManager");
 
 /**
  * Sends a focus command to VSCode window
@@ -8,48 +9,51 @@ const http = require('http');
  * @returns {Promise} Resolves with response data or rejects with error
  */
 function focusVSCodeWindow(codePID, pathShort) {
+  console.log(
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    pathShort    \x1b[8m\x1b[40m\x1b[0m%c httpHandler.js 10 \n",
+    "color: white; background: black; font-weight: bold",
+    "",
+    pathShort
+  );
+
   return new Promise((resolve, reject) => {
-    // Make sure pathShort is properly quoted as a JSON string
-    const data = `{"command": "focus", "pid": ${codePID}, "title": "${pathShort}"}`;
-    
-    console.log('Sending data:', data); // Debug log
+    const { exec } = require("child_process");
 
-    const options = {
-      hostname: 'localhost',
-      port: 57320,
-      path: '/',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(data)
+    // Escape quotes in pathShort to prevent command injection
+    const escapedPath = pathShort.replace(/"/g, '\\"');
+
+    // Construct the command to execute AutoHotkey with the test.ahk script
+    const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-cursor.ahk "${escapedPath}"`;
+
+    console.log("Executing command:", command); // Debug log
+
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error("Error executing AutoHotkey:", error);
+        reject(error);
+        return;
       }
-    };
 
-    const req = http.request(options, (res) => {
-      console.log('Focusing VSCode window');
-      console.log('Status code:', res.statusCode);
+      if (stderr) {
+        console.error("AutoHotkey stderr:", stderr);
+      }
 
-      let responseData = '';
+      if (stdout === "new") {
+        console.log("New window, positioning in 7 seconds");
+        setTimeout(() => {
+          console.log(`Positioning Cursor window for path: ${escapedPath}`);
+          windowManager.positionEditorWindow(escapedPath, false);
+        }, 7000);
+      } else {
+        console.log("Existing window focused, not repositioning");
+      }
 
-      res.on('data', (chunk) => {
-        responseData += chunk;
-      });
-
-      res.on('end', () => {
-        resolve({
-          statusCode: res.statusCode,
-          data: responseData
-        });
+      console.log("AutoHotkey script executed successfully");
+      resolve({
+        statusCode: 200,
+        data: stdout,
       });
     });
-
-    req.on('error', (error) => {
-      console.error('Error focusing VSCode window:', error);
-      reject(error);
-    });
-
-    req.write(data);
-    req.end();
   });
 }
 
