@@ -24,8 +24,8 @@ screenHeight := A_ScreenHeight
 ; Calculate right half dimensions with top offset
 halfWidth := screenWidth // 2
 oneThirdWidth := screenWidth // 3
-leftPosition := oneThirdWidth  ; Start at the middle of the screen
-topPosition := 16
+leftPosition := oneThirdWidth + 10 ; Start at the middle of the screen
+topPosition := 38
 windowWidth := oneThirdWidth * 2 + 16
 windowHeight := screenHeight - topPosition
 

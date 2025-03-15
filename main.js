@@ -528,7 +528,7 @@ function createWindow() {
   // Create main top bar window
   mainWindow = new BrowserWindow({
     width: displayType === "internal" ? width : width * 2,
-    height: 23, // topBarHeight
+    height: 20,
     x: 0,
     y: 0,
     alwaysOnTop: true,
@@ -539,6 +539,10 @@ function createWindow() {
     frame: false,
     roundedCorners: false,
     hasShadow: false,
+    thickFrame: false,
+    transparent: true,
+    resizable: false,
+    useContentSize: true,
   });
 
   // Register the main window with the window manager

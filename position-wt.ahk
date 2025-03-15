@@ -16,9 +16,9 @@ screenHeight := A_ScreenHeight
 halfWidth := screenWidth // 2
 oneThirdWidth := screenWidth // 3
 leftPosition := -10
-topPosition := 50
+topPosition := 38
 windowWidth := oneThirdWidth + 32
-windowHeight := screenHeight - topPosition
+windowHeight := screenHeight - topPosition + 10
 
 ; Find and position the specific window
 existingWindows := WinGetList("ahk_exe WindowsTerminal.exe")
