@@ -783,7 +783,7 @@ function setupHttpServer() {
           positionAllWindows();
           break;
 
-        case "toggleFullScreen":
+        case "toggleFullscreen":
           toggleFullscreen();
           break;
 
