@@ -1,11 +1,11 @@
 #Requires AutoHotkey v2.0
-
-if (A_Args.Length < 1) {
-    MsgBox("Please provide a file path as an argument.")
-    ExitApp
-}
+#SingleInstance Force
 
 targetPath := A_Args[1]
+fullScreen := A_Args[2]
+currentDisplay := A_Args[3]
+
+
 foundMatch := false
 
 ; Convert path formats if needed
@@ -21,13 +21,27 @@ if InStr(targetPath, "/home/olof/") {
 screenWidth := A_ScreenWidth
 screenHeight := A_ScreenHeight
 
-; Calculate right half dimensions with top offset
 halfWidth := screenWidth // 2
 oneThirdWidth := screenWidth // 3
-leftPosition := oneThirdWidth + 10 ; Start at the middle of the screen
-topPosition := 38
-windowWidth := oneThirdWidth * 2 + 16
-windowHeight := screenHeight - topPosition
+leftPosition := -10
+
+if (currentDisplay == "internal") {
+    if (fullScreen == "true") {
+        leftPosition := -10
+        topPosition := 38
+        windowWidth := screenWidth + 20
+        windowHeight := screenHeight - topPosition + 10
+    } else {
+        leftPosition := oneThirdWidth + 10
+        topPosition := 38
+        windowWidth := oneThirdWidth * 2 + 16
+        windowHeight := screenHeight - topPosition
+    }
+} else {
+    topPosition := 38
+    windowWidth := oneThirdWidth + 32
+    windowHeight := screenHeight - topPosition + 10
+}
 
 ; Find cursor windows matching the path
 cursorWindows := WinGetList("ahk_exe cursor.exe")
@@ -48,8 +62,7 @@ For index, hwnd in cursorWindows {
 
 ; If no matching window was found, we'll exit without doing anything
 if (!foundMatch) {
-    ; Optional: Add a message or log that no matching window was found
-    ; MsgBox("No window matching path: " . targetPath)
+    WinMove(leftPosition, topPosition, windowWidth, windowHeight, "A")
 }
 
 ; Always exit the script when done

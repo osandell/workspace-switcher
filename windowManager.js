@@ -177,114 +177,34 @@ function positionWindow(pid, xPercent, yPercent, widthPercent, heightPercent) {
  * Position the Kitty terminal window dynamically
  */
 function positionKittyWindow(pid, fullscreen = false) {
-  if (fullscreen) {
-    if (currentDisplay === "internal") {
-      return positionWindow(
-        pid,
-        0,
-        topBarHeightPercentage,
-        1,
-        1 - topBarHeightPercentage
-      );
-    } else {
-      return positionWindow(
-        pid,
-        0.0 + hiddenEdgeSize + padding,
-        topBarHeightPercentage + hiddenEdgeSize + padding,
-        1 - hiddenEdgeSize - padding * 2,
-        1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
-      );
+  let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-wt.ahk "${pid}" "${fullscreen}" "${currentDisplay}"`;
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error positioning WT: ${error}`);
+      return;
     }
-  }
-
-  if (currentDisplay === "internal") {
-    let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-wt.ahk "${pid}"`;
-
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error positioning WT: ${error}`);
-        return;
-      }
-    });
-
-    return;
-
-    // return positionWindow(
-    //   pid,
-    //   0.0,
-    //   topBarHeightPercentage,
-    //   0.4,
-    //   1 - topBarHeightPercentage
-    // );
-  } else {
-    return positionWindow(
-      pid,
-      0.0 + hiddenEdgeSize + padding,
-      topBarHeightPercentage + hiddenEdgeSize + padding,
-      0.4 - hiddenEdgeSize - padding,
-      1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
-    );
-  }
+  });
 }
 
 /**
  * Position the code editor window dynamically
  */
 function positionEditorWindow(path, fullscreen = false) {
-  // if (fullscreen) {
-  //   if (currentDisplay === "internal") {
-  //     return positionWindow(
-  //       pid,
-  //       0,
-  //       topBarHeightPercentage,
-  //       1,
-  //       1 - topBarHeightPercentage
-  //     );
-  //   } else {
-  //     return positionWindow(
-  //       pid,
-  //       0.0 + hiddenEdgeSize + padding,
-  //       topBarHeightPercentage + hiddenEdgeSize + padding,
-  //       1 - hiddenEdgeSize - padding * 2,
-  //       1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
-  //     );
-  //   }
-  // }
-
   console.log(
-    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    path    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 179 \n",
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    pathhhh    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 193 \n",
     "color: white; background: black; font-weight: bold",
     "",
     path
   );
+  let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-cursor.ahk "${path}" "${fullscreen}" "${currentDisplay}"`;
 
-  console.log(
-    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    currentDisplay    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 261 \n",
-    "color: white; background: black; font-weight: bold",
-    "",
-    currentDisplay
-  );
-
-  if (currentDisplay === "internal") {
-    let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-cursor.ahk "${path}"`;
-
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error positioning WT: ${error}`);
-        return;
-      }
-    });
-
-    return;
-  } else {
-    // return positionWindow(
-    //   pid,
-    //   0.4,
-    //   topBarHeightPercentage + hiddenEdgeSize + padding,
-    //   0.6 - hiddenEdgeSize - padding,
-    //   1 - topBarHeightPercentage - (hiddenEdgeSize * 2 + padding * 2)
-    // );
-  }
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error positioning WT: ${error}`);
+      return;
+    }
+  });
 }
 
 /**
@@ -302,17 +222,30 @@ async function applyDisplayLayout(kittyMainPID, codePID) {
  * Toggle fullscreen mode for the current application
  */
 async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
+  console.log(
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    currentTab    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 264 \n",
+    "color: white; background: black; font-weight: bold",
+    "",
+    currentTab
+  );
+  console.log("toggleFullscreen9");
   try {
     const activeWindow = (
-      await fs.readFile("/tmp/active_window.log", "utf8")
+      await fs.readFile(
+        "C:\\Users\\Olof\\AppData\\Local\\Temp\\active-window.log",
+        "utf8"
+      )
     ).trim();
 
-    if (activeWindow === "kitty") {
+    console.log("activeWindow", activeWindow);
+
+    if (activeWindow === "Ubuntu") {
       currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
-      await positionKittyWindow(kittyMainPID, currentTab.terminalFullScreen);
-    } else if (activeWindow === "cursor") {
+      positionKittyWindow(kittyMainPID, currentTab.terminalFullScreen);
+    } else if (activeWindow.includes("(Text Editor)")) {
+      console.log("testy");
       currentTab.editorFullScreen = !currentTab.editorFullScreen;
-      await positionEditorWindow(codePID, currentTab.editorFullScreen);
+      positionEditorWindow(codePID, currentTab.editorFullScreen);
     }
     return currentTab;
   } catch (err) {

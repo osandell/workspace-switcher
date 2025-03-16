@@ -40,6 +40,7 @@ function focusVSCodeWindow(codePID, pathShort) {
 
       if (stdout === "new") {
         console.log("New window, positioning in 7 seconds");
+        console.log("esc path", escapedPath);
         setTimeout(() => {
           console.log(`Positioning Cursor window for path: ${escapedPath}`);
           windowManager.positionEditorWindow(escapedPath, false);

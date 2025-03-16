@@ -1,11 +1,6 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-if (A_Args.Length < 1) {
-    MsgBox("Please provide a window ID as an argument.")
-    ExitApp
-}
-
 targetHwnd := A_Args[1]
 fullScreen := A_Args[2]
 currentDisplay := A_Args[3]
@@ -27,10 +22,10 @@ if (currentDisplay == "internal") {
         windowWidth := screenWidth + 20
         windowHeight := screenHeight - topPosition + 10
     } else {
-        leftPosition := -10
+        leftPosition := oneThirdWidth + 10
         topPosition := 38
-        windowWidth := oneThirdWidth + 32
-        windowHeight := screenHeight - topPosition + 10
+        windowWidth := oneThirdWidth * 2 + 16
+        windowHeight := screenHeight - topPosition
     }
 } else {
     topPosition := 38
@@ -39,7 +34,7 @@ if (currentDisplay == "internal") {
 }
 
 ; Find and position the specific window
-existingWindows := WinGetList("ahk_exe WindowsTerminal.exe")
+existingWindows := WinGetList("ahk_exe GitKraken.exe")
 
 For _, hwnd in existingWindows {
     if (hwnd = targetHwnd) {
