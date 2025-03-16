@@ -9,16 +9,19 @@ if (A_Args.Length < 1) {
 targetHwnd := A_Args[1]
 fullScreen := A_Args[2]
 currentDisplay := A_Args[3]
-windowFound := false
+windowFound := 0
 
 ; Get screen dimensions
 screenWidth := A_ScreenWidth
 screenHeight := A_ScreenHeight
 
-; Calculate left half dimensions with top offset
-halfWidth := screenWidth // 2
-oneThirdWidth := screenWidth // 3
-leftPosition := -10
+; Calculate padding percentages for external display
+leftPadding := Integer(screenWidth * 0.10)  ; 10% of screen width
+rightPadding := Integer(screenWidth * 0.10)  ; 10% of screen width
+topPadding := Integer(screenHeight * 0.05)   ; 5% of screen height
+bottomPadding := Integer(screenHeight * 0.05) ; 5% of screen height
+heightOffset := Integer(screenHeight * 0.004)
+widthOffset := Integer(screenWidth * 0.002)
 
 if (currentDisplay == "internal") {
     if (fullScreen == "true") {
@@ -29,13 +32,26 @@ if (currentDisplay == "internal") {
     } else {
         leftPosition := -10
         topPosition := 38
-        windowWidth := oneThirdWidth + 32
+        windowWidth := Integer(screenWidth * 0.35)
         windowHeight := screenHeight - topPosition + 10
     }
-} else {
-    topPosition := 38
-    windowWidth := oneThirdWidth + 32
-    windowHeight := screenHeight - topPosition + 10
+} else { ; External monitor
+    if (fullScreen == "true") {
+        leftPosition := leftPadding
+        topPosition := topPadding
+        windowWidth := screenWidth - (leftPadding + rightPadding) + widthOffset
+        windowHeight := screenHeight - (topPadding + bottomPadding) + heightOffset
+    } else {
+        ; For terminal, keep it on the left side always with padding
+        leftPosition := leftPadding
+        topPosition := topPadding
+
+        ; Calculate width based on 35% of usable space
+        totalUsableWidth := screenWidth - (leftPadding + rightPadding)
+        windowWidth := Integer(totalUsableWidth * 0.333333)
+
+        windowHeight := screenHeight - (topPadding + bottomPadding) + heightOffset
+    }
 }
 
 ; Find and position the specific window
@@ -45,16 +61,15 @@ For _, hwnd in existingWindows {
     if (hwnd = targetHwnd) {
         WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . targetHwnd)
         WinActivate("ahk_id " . targetHwnd)
-        windowFound := true
+        windowFound := 1
         break
     }
 }
 
-; If no matching window was found, we'll exit without doing anything
+; If no matching window was found, we'll move the active window
 if (!windowFound) {
     WinMove(leftPosition, topPosition, windowWidth, windowHeight, "A")
 }
-
 
 ; Always exit the script when done
 ExitApp

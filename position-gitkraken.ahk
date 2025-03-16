@@ -10,12 +10,19 @@ windowFound := false
 screenWidth := A_ScreenWidth
 screenHeight := A_ScreenHeight
 
-; Calculate left half dimensions with top offset
 halfWidth := screenWidth // 2
 oneThirdWidth := screenWidth // 3
-leftPosition := -10
+
+; Calculate padding percentages for external display
+leftPadding := Integer(screenWidth * 0.10)  ; 10% of screen width
+rightPadding := Integer(screenWidth * 0.10)  ; 10% of screen width
+topPadding := Integer(screenHeight * 0.05)   ; 5% of screen height
+bottomPadding := Integer(screenHeight * 0.05) ; 5% of screen height
+leftOffset := Integer(screenWidth * 0.003)
+widthOffset := Integer(screenWidth * -0.003)
 
 if (currentDisplay == "internal") {
+    MsgBox('internal')
     if (fullScreen == "true") {
         leftPosition := -10
         topPosition := 38
@@ -27,10 +34,33 @@ if (currentDisplay == "internal") {
         windowWidth := oneThirdWidth * 2 + 16
         windowHeight := screenHeight - topPosition
     }
-} else {
-    topPosition := 38
-    windowWidth := oneThirdWidth + 32
-    windowHeight := screenHeight - topPosition + 10
+} else { ; External monitor
+    if (fullScreen == "true") {
+        MsgBox
+        leftPosition := leftPadding + leftOffset
+        topPosition := topPadding
+        windowWidth := screenWidth - (leftPadding + rightPadding) + widthOffset
+        windowHeight := screenHeight - (topPadding + bottomPadding)
+    } else {
+        ; For two windows side by side with padding around the combined whole
+        leftPosition := leftPadding
+        topPosition := topPadding
+
+        ; Calculate the width for windows with only outer padding
+        totalUsableWidth := screenWidth - (leftPadding + rightPadding)
+
+        ; Left window should take 65% of usable width
+        leftWidth := Integer(totalUsableWidth * 0.33)
+
+        ; Right window gets the remaining space
+        rightWidth := totalUsableWidth - leftWidth
+
+        ; Position on the right side by default for GitKraken
+        leftPosition := leftPadding + leftWidth
+        windowWidth := rightWidth
+
+        windowHeight := screenHeight - (topPadding + bottomPadding)
+    }
 }
 
 ; Find and position the specific window
@@ -45,11 +75,10 @@ For _, hwnd in existingWindows {
     }
 }
 
-; If no matching window was found, we'll exit without doing anything
+; If no matching window was found, we'll move the active window
 if (!windowFound) {
     WinMove(leftPosition, topPosition, windowWidth, windowHeight, "A")
 }
-
 
 ; Always exit the script when done
 ExitApp

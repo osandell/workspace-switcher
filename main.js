@@ -924,7 +924,9 @@ async function handleGitKraken() {
         storedTabs[activeTabIndex].gitkrakenInitialized = true;
         store.set("storedTabs", storedTabs);
 
-        const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-gitkraken.ahk 123 false internal`;
+        const currentDisplay = windowManager.getCurrentDisplay();
+
+        const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-gitkraken.ahk 123 false ${currentDisplay}`;
         exec(command, (error, stdout, stderr) => {
           if (error) {
             console.error(`Error closing WT: ${error}`);
