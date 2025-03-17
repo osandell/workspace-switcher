@@ -1,6 +1,7 @@
 #Requires AutoHotkey v2.0
 #SingleInstance
 
+
 if (A_Args.Length < 1) {
     MsgBox("Please provide a file path as an argument.")
     ExitApp
@@ -8,6 +9,7 @@ if (A_Args.Length < 1) {
 
 targetPath := A_Args[1]
 foundMatch := false
+
 
 if InStr(targetPath, "/home/olof/") {
     targetPath := RegExReplace(targetPath, "/home/olof/", "\\wsl.localhost\Ubuntu\home\olof\")
@@ -23,6 +25,7 @@ totalWindows := cursorWindows.Length
 For index, hwnd in cursorWindows {
     title := WinGetTitle("ahk_id " . hwnd)
     titlePath := RegExReplace(title, " \(.*\)$", "")
+
 
     if (titlePath == targetPath) {
         ; Focus this window

@@ -546,6 +546,8 @@ function createWindow() {
     useContentSize: true,
   });
 
+  mainWindow.setIgnoreMouseEvents(true, { forward: true });
+
   // Register the main window with the window manager
   windowManager.setMainWindow(mainWindow);
 
