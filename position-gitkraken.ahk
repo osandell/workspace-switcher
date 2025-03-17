@@ -22,7 +22,6 @@ leftOffset := Integer(screenWidth * 0.003)
 widthOffset := Integer(screenWidth * -0.003)
 
 if (currentDisplay == "internal") {
-    MsgBox('internal')
     if (fullScreen == "true") {
         leftPosition := -10
         topPosition := 38
