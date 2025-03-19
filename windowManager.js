@@ -116,9 +116,11 @@ function executeCurl(command) {
  */
 function detectAndSetCurrentDisplay() {
   const primaryDisplay = screen.getPrimaryDisplay();
-
   currentDisplay =
-    primaryDisplay.bounds.width === 1463 ? "internal" : "external";
+    primaryDisplay.bounds.width === 1463 ||
+    primaryDisplay.bounds.width === 1707
+      ? "internal"
+      : "external";
   console.log(`Current display set to: ${currentDisplay}`);
   return currentDisplay;
 }
