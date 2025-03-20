@@ -726,12 +726,15 @@ function positionAllWindows() {
   const currentDisplay = windowManager.getCurrentDisplay();
   console.log(`Positioning all windows for ${currentDisplay} display`);
 
-  // Position Cursor/VS Code window
-  if (codePID) {
-    windowManager.positionEditorWindow(codePID, false);
-  } else {
-    console.warn("Cannot position Cursor/Code - PID not found");
-  }
+  // Position Cursor/VS Code windows
+  storedTabs.forEach((tab) => {
+    windowManager.positionEditorWindow(tab.path, false);
+  });
+
+  // Position WT windows
+  storedTabs.forEach((tab) => {
+    windowManager.positionKittyWindow(tab.kittyPlatformWindowId, false);
+  });
 
   // Update top bar position
   windowManager.updateTopBarPositionAndSize();
