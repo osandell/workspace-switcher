@@ -25,8 +25,8 @@ function getScreenDimensionsScaled() {
   const scaleFactor = primaryDisplay.scaleFactor;
 
   if (
-    primaryDisplay.bounds.width === 1280 &&
-    primaryDisplay.bounds.height === 1440
+    primaryDisplay.bounds.width === 2048 &&
+    primaryDisplay.bounds.height === 1152
   ) {
     // This is most likely an Apple Studio Display which is seen as 2 half-size displays
     // We need to adjust the width and height accordingly
@@ -54,11 +54,14 @@ function getScreenDimensionsRaw() {
   const primaryDisplay = screen.getPrimaryDisplay();
 
   if (
-    primaryDisplay.bounds.width === 1280 &&
-    primaryDisplay.bounds.height === 1440
+    primaryDisplay.bounds.width === 2048 &&
+    primaryDisplay.bounds.height === 1152
   ) {
     // This is most likely an Apple Studio Display which is seen as 2 half-size displays
     // We need to adjust the width and height accordingly
+
+    hiddenEdgeSize = 0.0; // The Studio Display has no hidden area
+
     return {
       width: primaryDisplay.bounds.width * 2,
       height: primaryDisplay.bounds.height,
@@ -117,8 +120,7 @@ function executeCurl(command) {
 function detectAndSetCurrentDisplay() {
   const primaryDisplay = screen.getPrimaryDisplay();
   currentDisplay =
-    primaryDisplay.bounds.width === 1463 ||
-    primaryDisplay.bounds.width === 1707
+    primaryDisplay.bounds.width === 1463 || primaryDisplay.bounds.width === 1707
       ? "internal"
       : "external";
   console.log(`Current display set to: ${currentDisplay}`);
@@ -146,6 +148,13 @@ function setLineWindow(window) {
  */
 function updateTopBarPositionAndSize() {
   if (mainWindow) {
+    console.log(
+      "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    hiddenEdgeSize    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 192 \n",
+      "color: white; background: black; font-weight: bold",
+      "",
+      hiddenEdgeSize
+    );
+
     const { width, height } = getScreenDimensionsRaw();
     const newBounds = {
       x: currentDisplay === "external" ? hiddenEdgeSize * width : 0,

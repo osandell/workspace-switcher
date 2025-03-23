@@ -908,7 +908,7 @@ async function handleGitKraken() {
 
   const activeWindow = (
     await fsPromises.readFile(
-      "C:\\Users\\Olof\\AppData\\Local\\Temp\\active-window.log"
+      "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-window.log"
     )
   )
     .toString()
