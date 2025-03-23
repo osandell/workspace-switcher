@@ -9,7 +9,6 @@ if (A_Args.Length < 2) {
 targetHwnd := A_Args[1]
 targetPath := A_Args[2]
 
-
 driveLetter := SubStr(targetPath, 1, 1)
 if InStr(targetPath, "wsl.localhost") {
     wslPath := RegExReplace(targetPath, "\\\\wsl\.localhost\\Ubuntu", "")
@@ -21,17 +20,15 @@ if InStr(targetPath, "wsl.localhost") {
     wslPath := targetPath
 }
 
-
 existingWindows := WinGetList("ahk_exe WindowsTerminal.exe")
 windowFound := false
 
-For _, hwnd in existingWindows {
+for _, hwnd in existingWindows {
     if (hwnd = targetHwnd) {
         WinActivate("ahk_id " . targetHwnd)
         ExitApp
     }
 }
-
 
 winPath := wslPath
 if InStr(winPath, "/home/olof/") {
@@ -61,9 +58,9 @@ try {
     newWindows := WinGetList("ahk_exe WindowsTerminal.exe")
     newHwnd := 0
 
-    For index, hwnd in newWindows {
+    for index, hwnd in newWindows {
         isNew := true
-        For _, oldHwnd in existingWindows {
+        for _, oldHwnd in existingWindows {
             if (hwnd = oldHwnd) {
                 isNew := false
                 break

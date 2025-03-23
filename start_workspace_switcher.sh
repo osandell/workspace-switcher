@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-cd /Users/olof/dev/osandell/workspace-switcher/
+cd /Users/Olof.Sandell/dev/osandell/workspace-switcher/
 pnpm start

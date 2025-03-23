@@ -234,7 +234,7 @@ async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
   try {
     const activeWindow = (
       await fs.readFile(
-        "C:\\Users\\Olof\\AppData\\Local\\Temp\\active-window.log",
+        "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-window.log",
         "utf8"
       )
     ).trim();
