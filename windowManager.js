@@ -53,20 +53,32 @@ function getScreenDimensionsScaled() {
 function getScreenDimensionsRaw() {
   const primaryDisplay = screen.getPrimaryDisplay();
 
+  // Apple Studio Display
   if (
     primaryDisplay.bounds.width === 2048 &&
     primaryDisplay.bounds.height === 1152
   ) {
-    // This is most likely an Apple Studio Display which is seen as 2 half-size displays
-    // We need to adjust the width and height accordingly
-
     hiddenEdgeSize = 0.0; // The Studio Display has no hidden area
 
     return {
-      width: primaryDisplay.bounds.width * 2,
+      width: primaryDisplay.bounds.width,
       height: primaryDisplay.bounds.height,
     };
   }
+
+  // ThinkVision
+  if (
+    primaryDisplay.bounds.width === 2560 &&
+    primaryDisplay.bounds.height === 1440
+  ) {
+    hiddenEdgeSize = 0.0; // The ThinkVision has no hidden area
+
+    return {
+      width: primaryDisplay.bounds.width,
+      height: primaryDisplay.bounds.height,
+    };
+  }
+
   return {
     width: primaryDisplay.bounds.width,
     height: primaryDisplay.bounds.height,
