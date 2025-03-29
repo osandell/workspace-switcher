@@ -956,7 +956,7 @@ async function handleGitKraken() {
 
   console.log("activeWindow", activeWindow);
 
-  if (activeWindow === "GitKraken Desktop") {
+  if (activeWindow === "GitKraken Desktop (Ubuntu)") {
     console.log("GitKraken is active");
   } else {
     console.log(
@@ -965,19 +965,27 @@ async function handleGitKraken() {
     );
     // Open GitKraken if not initialized
     if (!storedTabs[activeTabIndex].gitkrakenInitialized) {
-      exec(`gitkraken -p "${activeWindow.split("(")[0].trim()}" `, () => {
+      const command = `wsl -d Ubuntu -e bash -c "GDK_DPI_SCALE=1.25 gitkraken --disable-gpu -p ${activeWindow
+        .split("(")[0]
+        .trim()}" `;
+      console.log("Executing command:", command);
+      exec(command, (error) => {
+        if (error) {
+          console.error(`Error opening GitKraken: ${error}`);
+        }
+
         storedTabs[activeTabIndex].gitkrakenInitialized = true;
         store.set("storedTabs", storedTabs);
 
         const currentDisplay = windowManager.getCurrentDisplay();
 
-        const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-gitkraken.ahk 123 false ${currentDisplay}`;
-        exec(command, (error, stdout, stderr) => {
-          if (error) {
-            console.error(`Error closing WT: ${error}`);
-            return;
-          }
-        });
+        // const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-gitkraken.ahk 123 false ${currentDisplay}`;
+        // exec(command, (error, stdout, stderr) => {
+        //   if (error) {
+        //     console.error(`Error closing WT: ${error}`);
+        //     return;
+        //   }
+        // });
 
         // TODO: Add this back in when found a way to solve it better in kmonad.kbd, see note there.
         //setTimeout(() => {

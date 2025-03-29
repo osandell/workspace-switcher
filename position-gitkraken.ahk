@@ -63,9 +63,9 @@ if (currentDisplay == "internal") {
 }
 
 ; Find and position the specific window
-existingWindows := WinGetList("ahk_exe GitKraken.exe")
+existingWindows := WinGetList("GitKraken Desktop (Ubuntu)")
 
-For _, hwnd in existingWindows {
+for _, hwnd in existingWindows {
     if (hwnd = targetHwnd) {
         WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . targetHwnd)
         WinActivate("ahk_id " . targetHwnd)
