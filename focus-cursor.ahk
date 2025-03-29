@@ -11,10 +11,7 @@ targetHwnd := A_Args[1]
 targetPath := A_Args[2]
 foundMatch := false
 
-if InStr(targetPath, "/home/olof/") {
-    targetPath := RegExReplace(targetPath, "/home/olof/", "\\wsl.localhost\Ubuntu\home\olof\")
-    targetPath := RegExReplace(targetPath, "/", "\")
-} else if InStr(targetPath, "/mnt/c/") {
+if InStr(targetPath, "/mnt/c/") {
     targetPath := RegExReplace(targetPath, "/mnt/c/", "C:\")
     targetPath := RegExReplace(targetPath, "/", "\")
 }
@@ -51,7 +48,11 @@ if (!foundMatch) {
 
     try {
         ; Use the imported function to launch and get the new window handle
-        command := '"' . cursorPath . '" "' . targetPath . '"'
+        if InStr(targetPath, "/home/olof/") {
+            command := '"' . cursorPath . '" --remote wsl+Ubuntu "' . targetPath . '"'
+        } else {
+            command := '"' . cursorPath . '" "' . targetPath . '"'
+        }
 
         newHwnd := GetNewWindowHandle("cursor.exe", command)
 

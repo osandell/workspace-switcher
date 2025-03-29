@@ -548,7 +548,7 @@ function createWindow() {
       gitkrakenVisible: false,
       gitkrakenInitialized: false,
       kittyPlatformWindowId: "",
-      path: "\\\\wsl.localhost\\Ubuntu\\home\\olof\\dev\\osandell",
+      path: "/home/olof/dev/osandell",
       terminalFullScreen: false,
       editorFullScreen: false,
     });
