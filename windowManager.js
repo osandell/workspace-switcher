@@ -213,14 +213,8 @@ function positionKittyWindow(pid, fullscreen = false) {
 /**
  * Position the code editor window dynamically
  */
-function positionEditorWindow(path, fullscreen = false) {
-  console.log(
-    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    pathhhh    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 193 \n",
-    "color: white; background: black; font-weight: bold",
-    "",
-    path
-  );
-  let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-cursor.ahk "${path}" "${fullscreen}" "${currentDisplay}"`;
+function positionEditorWindow(pid, fullscreen = false) {
+  let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-cursor.ahk "${pid}" "${fullscreen}" "${currentDisplay}"`;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {

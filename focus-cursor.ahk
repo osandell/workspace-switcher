@@ -1,12 +1,14 @@
 #Requires AutoHotkey v2.0
 #SingleInstance
+#Include GetNewWindowHandle.ahk
 
-if (A_Args.Length < 1) {
-    MsgBox("Please provide a file path as an argument.")
+if (A_Args.Length < 2) {
+    MsgBox("Please provide a window ID and a file path as arguments.")
     ExitApp
 }
 
-targetPath := A_Args[1]
+targetHwnd := A_Args[1]
+targetPath := A_Args[2]
 foundMatch := false
 
 if InStr(targetPath, "/home/olof/") {
@@ -20,6 +22,16 @@ if InStr(targetPath, "/home/olof/") {
 cursorWindows := WinGetList("ahk_exe cursor.exe")
 totalWindows := cursorWindows.Length
 
+; First check if the target window handle exists
+for _, hwnd in cursorWindows {
+    if (hwnd = targetHwnd) {
+        WinActivate("ahk_id " . targetHwnd)
+        FileAppend(targetHwnd, "*")
+        ExitApp
+    }
+}
+
+; If we didn't find the specific handle, check if any window has the file open
 for index, hwnd in cursorWindows {
     title := WinGetTitle("ahk_id " . hwnd)
     titlePath := RegExReplace(title, " \(.*\)$", "")
@@ -28,8 +40,8 @@ for index, hwnd in cursorWindows {
         ; Focus this window
         WinActivate("ahk_id " . hwnd)
         foundMatch := true
-        ; Write "focused" to stdout
-        FileAppend("focused", "*")
+        ; Write window handle to stdout
+        FileAppend(hwnd, "*")
         break
     }
 }
@@ -38,9 +50,16 @@ if (!foundMatch) {
     cursorPath := "C:\Users\Olof.Sandell\AppData\Local\Programs\cursor\Cursor.exe"
 
     try {
-        Run('"' . cursorPath . '" "' . targetPath . '"')
-        ; Write "new" to stdout
-        FileAppend("new", "*")
+        ; Use the imported function to launch and get the new window handle
+        command := '"' . cursorPath . '" "' . targetPath . '"'
+
+        newHwnd := GetNewWindowHandle("cursor.exe", command)
+
+        if (newHwnd) {
+            FileAppend(newHwnd, "*") ; Write new handle to stdout
+        } else {
+            MsgBox("Could not identify new window within the timeout period.")
+        }
     } catch Error as e {
         MsgBox("Error launching Cursor: " . e.Message)
     }

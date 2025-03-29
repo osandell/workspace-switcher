@@ -1,5 +1,6 @@
 #Requires AutoHotkey v2.0
 #SingleInstance
+#Include GetNewWindowHandle.ahk
 
 if (A_Args.Length < 2) {
     MsgBox("Please provide a window ID and a file path as arguments.")
@@ -48,35 +49,18 @@ try {
         command := '"' . 'wt.exe' . '" -p "Ubuntu" -- wsl.exe -d Ubuntu zsh -c "cd \"' . parentDir . '\" && exec zsh"'
     }
 } catch Error as e {
-    MsgBox("Error launching Windows Terminal: " . e.Message)
+    MsgBox("Error preparing Windows Terminal command: " . e.Message)
+    ExitApp
 }
 
 try {
-    Run(command)
-    Sleep(1000)
-
-    newWindows := WinGetList("ahk_exe WindowsTerminal.exe")
-    newHwnd := 0
-
-    for index, hwnd in newWindows {
-        isNew := true
-        for _, oldHwnd in existingWindows {
-            if (hwnd = oldHwnd) {
-                isNew := false
-                break
-            }
-        }
-
-        if (isNew) {
-            newHwnd := hwnd
-            break
-        }
-    }
+    ; Use the imported function to launch and get the new window handle
+    newHwnd := GetNewWindowHandle("WindowsTerminal.exe", command)
 
     if (newHwnd) {
         FileAppend(newHwnd, "*") ; Write to stdout
     } else {
-        MsgBox("Could not definitively identify new window.")
+        MsgBox("Could not identify new window within the timeout period.")
     }
 } catch Error as e {
     MsgBox("Error launching Windows Terminal: " . e.Message)

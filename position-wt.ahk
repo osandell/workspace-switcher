@@ -57,18 +57,13 @@ if (currentDisplay == "internal") {
 ; Find and position the specific window
 existingWindows := WinGetList("ahk_exe WindowsTerminal.exe")
 
-For _, hwnd in existingWindows {
+for _, hwnd in existingWindows {
     if (hwnd = targetHwnd) {
         WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . targetHwnd)
         WinActivate("ahk_id " . targetHwnd)
         windowFound := 1
         break
     }
-}
-
-; If no matching window was found, we'll move the active window
-if (!windowFound) {
-    WinMove(leftPosition, topPosition, windowWidth, windowHeight, "A")
 }
 
 ; Always exit the script when done

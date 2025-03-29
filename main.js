@@ -5,7 +5,7 @@ const {
   powerMonitor,
   screen,
 } = require("electron");
-const focusVSCodeWindow = require("./httpHandler.js");
+// const focusCursorWindow = require("./httpHandler.js");
 const windowManager = require("./windowManager");
 const http = require("http");
 const Store = require("electron-store");
@@ -200,44 +200,25 @@ function changeActiveTab(direction) {
 
   // Handle navigation based on focused app
   if (storedTabs[activeTabIndex].focusedApp === "kitty-main") {
-    focusVSCodeWindow(codePID, pathShort)
-      .then((response) => {
-        console.log("Successfully focused VS Code window:", response);
-
-        const kittyPlatformWindowId =
-          storedTabs[activeTabIndex].kittyPlatformWindowId;
-
-        if (kittyPlatformWindowId) {
-          focusKittyWindow(kittyPlatformWindowId, pathShort);
-        } else {
-          console.log("No Kitty platform window ID found, creating new window");
-          launchNewKittyWindow(pathShort);
-        }
-
-        // Line window visibility update commented out
-        // if (storedTabs[activeTabIndex].terminalFullScreen ||
-        //     storedTabs[activeTabIndex].editorFullscreen) {
-        //   windowManager.setLineWindowVisible(false);
-        // } else {
-        //   windowManager.setLineWindowVisible(true);
-        // }
-      })
-      .catch((error) => {
-        console.error("Failed to focus VS Code window:", error);
-      });
+    focusCursorWindow(
+      storedTabs[activeTabIndex].cursorPlatformWindowId,
+      pathShort
+    ).then((response) => {
+      focusKittyWindow(
+        storedTabs[activeTabIndex].kittyPlatformWindowId,
+        pathShort
+      );
+    });
   } else {
     focusKittyWindow(
       storedTabs[activeTabIndex].kittyPlatformWindowId,
       pathShort
-    );
-
-    focusVSCodeWindow(codePID, pathShort)
-      .then((response) => {
-        console.log("Successfully focused VS Code window:", response);
-      })
-      .catch((error) => {
-        console.error("Failed to focus VS Code window:", error);
-      });
+    ).then((response) => {
+      focusCursorWindow(
+        storedTabs[activeTabIndex].cursorPlatformWindowId,
+        pathShort
+      );
+    });
   }
 }
 
@@ -254,7 +235,9 @@ function focusKittyWindow(platformWindowId, path) {
     const escapedPath = path.replace(/"/g, '\\"');
 
     // Construct the command to execute AutoHotkey with the test.ahk script
-    const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-wt.ahk ${platformWindowId} "${escapedPath}"`;
+    const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-wt.ahk ${
+      platformWindowId || 0
+    } "${escapedPath}"`;
 
     console.log("Executing command:", command); // Debug log
 
@@ -324,6 +307,58 @@ function focusKittyWindow(platformWindowId, path) {
   //     }
   //   }
   // );
+}
+
+function focusCursorWindow(codePID, pathShort) {
+  console.log(
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    pathShort    \x1b[8m\x1b[40m\x1b[0m%c httpHandler.js 10 \n",
+    "color: white; background: black; font-weight: bold",
+    "",
+    pathShort
+  );
+
+  return new Promise((resolve, reject) => {
+    const { exec } = require("child_process");
+
+    // Escape quotes in pathShort to prevent command injection
+    const escapedPath = pathShort.replace(/"/g, '\\"');
+
+    // Construct the command to execute AutoHotkey with the test.ahk script
+    const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-cursor.ahk ${
+      codePID || 0
+    } "${escapedPath}"`;
+
+    console.log("Executing command:", command); // Debug log
+
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error("Error executing AutoHotkey:", error);
+        reject(error);
+        return;
+      }
+
+      if (stderr) {
+        console.error("AutoHotkey stderr:", stderr);
+      }
+
+      if (stdout) {
+        // if stdout is a number, update the kittyPlatformWindowId
+        if (!isNaN(stdout)) {
+          console.log("AutoHotkey stdout:", stdout);
+          updateCursorPlatformWindowId(stdout);
+          setTimeout(() => {
+            windowManager.positionEditorWindow(stdout, false);
+          }, 500);
+        }
+      }
+
+      console.log("AutoHotkey script executed successfully");
+      resolve({
+        statusCode: 200,
+        data: stdout,
+      });
+    });
+  });
 }
 
 /**
@@ -407,6 +442,11 @@ function updateKittyPlatformWindowId(kittyWindowId) {
   store.set("storedTabs", storedTabs);
   // }
   // );
+}
+
+function updateCursorPlatformWindowId(cursorWindowId) {
+  storedTabs[activeTabIndex].cursorPlatformWindowId = cursorWindowId;
+  store.set("storedTabs", storedTabs);
 }
 
 /**
@@ -716,7 +756,7 @@ function createNewWorkspace(dirPath) {
     }, kittyDelay);
   });
 
-  focusVSCodeWindow(0, dirPath);
+  focusCursorWindow(0, dirPath);
 }
 
 /**
@@ -728,7 +768,7 @@ function positionAllWindows() {
 
   // Position Cursor/VS Code windows
   storedTabs.forEach((tab) => {
-    windowManager.positionEditorWindow(tab.path, false);
+    windowManager.positionEditorWindow(tab.cursorPlatformWindowId, false);
   });
 
   // Position WT windows

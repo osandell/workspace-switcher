@@ -1,20 +1,19 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-targetPath := A_Args[1]
+if (A_Args.Length < 1) {
+    MsgBox("Please provide a window ID as an argument.")
+    ExitApp
+}
+
+targetHwnd := A_Args[1]
 fullScreen := A_Args[2]
 currentDisplay := A_Args[3]
+windowFound := 0
 
-foundMatch := false
-
-; Convert path formats if needed
-if InStr(targetPath, "/home/olof/") {
-    targetPath := RegExReplace(targetPath, "/home/olof/", "\\wsl.localhost\Ubuntu\home\olof\")
-    targetPath := RegExReplace(targetPath, "/", "\")
-} else if InStr(targetPath, "/mnt/c/") {
-    targetPath := RegExReplace(targetPath, "/mnt/c/", "C:\")
-    targetPath := RegExReplace(targetPath, "/", "\")
-}
+; Get screen dimensions
+screenWidth := A_ScreenWidth
+screenHeight := A_ScreenHeight
 
 ; Get screen dimensions
 screenWidth := A_ScreenWidth
@@ -67,7 +66,7 @@ if (currentDisplay == "internal") {
         hasWindowOnLeft := 0
 
         ; Scan windows to check if there's already a positioned window
-        For index, hwnd in WinGetList("ahk_exe cursor.exe") {
+        for index, hwnd in WinGetList("ahk_exe cursor.exe") {
             WinGetPos(&wx, &wy, &ww, &wh, "ahk_id " . hwnd)
             if (wx >= leftPadding && wx < screenWidth / 2 &&
                 wy >= topPadding && wy < screenHeight - bottomPadding) {
@@ -90,26 +89,16 @@ if (currentDisplay == "internal") {
     }
 }
 
-; Find cursor windows matching the path
-cursorWindows := WinGetList("ahk_exe cursor.exe")
-totalWindows := cursorWindows.Length
+; Find and position the specific window
+existingWindows := WinGetList("ahk_exe cursor.exe")
 
-For index, hwnd in cursorWindows {
-    title := WinGetTitle("ahk_id " . hwnd)
-    titlePath := RegExReplace(title, " \(.*\)$", "")
-
-    if (titlePath == targetPath) {
-        ; Found matching window, position it
-        WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . hwnd)
-        WinActivate("ahk_id " . hwnd)
-        foundMatch := true
+for _, hwnd in existingWindows {
+    if (hwnd = targetHwnd) {
+        WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . targetHwnd)
+        WinActivate("ahk_id " . targetHwnd)
+        windowFound := 1
         break
     }
-}
-
-; If no matching window was found, we'll move the active window
-if (!foundMatch) {
-    WinMove(leftPosition, topPosition, windowWidth, windowHeight, "A")
 }
 
 ; Always exit the script when done

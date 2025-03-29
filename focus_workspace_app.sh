@@ -21,7 +21,7 @@ case $focused_workspace_app in
     open -a 'Cursor'
     open -a 'kitty-main'
     open -a 'Electron'
-    # Make sure VSCode is focused
+    # Make sure Cursor is focused
     sleep 0.2
     open -a 'Cursor'
     sleep 0.2
