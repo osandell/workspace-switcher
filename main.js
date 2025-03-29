@@ -463,32 +463,8 @@ function closeActiveTab() {
       pathShort = storedTabs[activeTabIndex].path;
     }
 
-    // Close VS Code window
-    // Escape quotes in pathShort to prevent command injection
-    const escapedPath = pathShort.replace(/"/g, '\\"');
-
-    // Construct the command to execute AutoHotkey with the test.ahk script
-    let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" close-cursor.ahk "${escapedPath}"`;
-
-    console.log("Executing command:", command); // Debug log
-
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error("Error executing AutoHotkey:", error);
-        reject(error);
-        return;
-      }
-
-      if (stderr) {
-        console.error("AutoHotkey stderr:", stderr);
-      }
-
-      if (stdout) {
-        console.log("AutoHotkey stdout:", stdout);
-      }
-
-      console.log("AutoHotkey script executed successfully");
-    });
+    // Close Cursor window
+    closeCursorWindow(storedTabs[activeTabIndex].cursorPlatformWindowId);
 
     // Close Kitty window
     closeKittyWindow(storedTabs[activeTabIndex].kittyPlatformWindowId);
@@ -527,6 +503,21 @@ function closeKittyWindow(platformWindowId) {
   exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error closing WT: ${error}`);
+      return;
+    }
+  });
+}
+
+/**
+ * Close a Cursor window
+ * @param {string} platformWindowId - The Cursor platform window ID
+ */
+function closeCursorWindow(platformWindowId) {
+  // Close Cursor
+  const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" close-cursor.ahk ${platformWindowId}`;
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error closing Cursor: ${error}`);
       return;
     }
   });

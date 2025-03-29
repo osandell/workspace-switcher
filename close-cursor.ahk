@@ -2,40 +2,29 @@
 #SingleInstance
 
 if (A_Args.Length < 1) {
-    MsgBox("Please provide a file path as an argument.")
+    MsgBox("Please provide a window ID as an argument.")
     ExitApp
 }
 
-targetPath := A_Args[1]
-foundMatch := false
+targetHwnd := A_Args[1]
+windowFound := false
 
-if InStr(targetPath, "/home/olof/") {
-    targetPath := RegExReplace(targetPath, "/home/olof/", "\\wsl.localhost\Ubuntu\home\olof\")
-    targetPath := RegExReplace(targetPath, "/", "\")
-} else if InStr(targetPath, "/mnt/c/") {
-    targetPath := RegExReplace(targetPath, "/mnt/c/", "C:\")
-    targetPath := RegExReplace(targetPath, "/", "\")
-}
+; Find and close the specific window
+existingWindows := WinGetList("ahk_exe cursor.exe")
 
-cursorWindows := WinGetList("ahk_exe cursor.exe")
-totalWindows := cursorWindows.Length
-
-For index, hwnd in cursorWindows {
-    title := WinGetTitle("ahk_id " . hwnd)
-    titlePath := RegExReplace(title, " \(.*\)$", "")
-
-    if (titlePath == targetPath) {
-        ; Close this window instead of focusing it
-        WinClose("ahk_id " . hwnd)
-        foundMatch := true
+for _, hwnd in existingWindows {
+    if (hwnd = targetHwnd) {
+        ; Found the window, close it
+        WinClose("ahk_id " . targetHwnd)
+        windowFound := true
         break
     }
 }
 
-; If no matching window was found, we'll exit without doing anything
-if (!foundMatch) {
-    ; Optional: Add a message or log that no matching window was found
-    ; MsgBox("No window matching path: " . targetPath)
+; Optionally, notify if the window was not found
+if (!windowFound) {
+    ; Uncomment if you want notification when window isn't found
+    ; MsgBox("Window with ID " . targetHwnd . " not found.")
 }
 
 ; Always exit the script when done

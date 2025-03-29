@@ -11,6 +11,7 @@ targetHwnd := A_Args[1]
 targetPath := A_Args[2]
 foundMatch := false
 
+targetPathShort := ""
 if InStr(targetPath, "/home/olof/") {
     targetPathShort := RegExReplace(targetPath, "/home/olof/", "~/")
 } else if InStr(targetPath, "/mnt/c/") {
@@ -35,7 +36,7 @@ for index, hwnd in cursorWindows {
     title := WinGetTitle("ahk_id " . hwnd)
     titlePath := RegExReplace(title, " \(.*\)$", "")
 
-    if (titlePath == targetPathShort) {
+    if (titlePath == targetPathShort || titlePath == targetPath) {
         ; Focus this window
         WinActivate("ahk_id " . hwnd)
         foundMatch := true
