@@ -247,22 +247,28 @@ async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
   );
   console.log("toggleFullscreen9");
   try {
-    const activeWindow = (
+    const activeProcess = (
       await fs.readFile(
-        "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-window.log",
+        "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-process.log",
         "utf8"
       )
     ).trim();
 
-    console.log("activeWindow", activeWindow);
+    console.log("activeProcess", activeProcess);
 
-    if (activeWindow === "Ubuntu") {
+    if (activeProcess === "WindowsTerminal.exe") {
       currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
-      positionKittyWindow(kittyMainPID, currentTab.terminalFullScreen);
-    } else if (activeWindow.includes("(Text Editor)")) {
+      positionKittyWindow(
+        currentTab.kittyPlatformWindowId,
+        currentTab.terminalFullScreen
+      );
+    } else if (activeProcess === "Cursor.exe") {
       console.log("testy");
       currentTab.editorFullScreen = !currentTab.editorFullScreen;
-      positionEditorWindow(codePID, currentTab.editorFullScreen);
+      positionEditorWindow(
+        currentTab.cursorPlatformWindowId,
+        currentTab.editorFullScreen
+      );
     }
     return currentTab;
   } catch (err) {
