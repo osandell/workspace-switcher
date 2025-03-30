@@ -26,12 +26,12 @@ widthOffset := Integer(screenWidth * 0.002)
 if (currentDisplay == "internal") {
     if (fullScreen == "true") {
         leftPosition := -10
-        topPosition := 38
+        topPosition := 34
         windowWidth := screenWidth + 20
         windowHeight := screenHeight - topPosition + 10
     } else {
         leftPosition := -10
-        topPosition := 38
+        topPosition := 34
         windowWidth := Integer(screenWidth * 0.35)
         windowHeight := screenHeight - topPosition + 10
     }

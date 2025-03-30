@@ -32,7 +32,10 @@ for _, hwnd in existingWindows {
 }
 
 winPath := wslPath
-if InStr(winPath, "/home/olof/") {
+if InStr(winPath, "/home/olof/AiQu") {
+    winPath := RegExReplace(winPath, "/home/olof/", "\\wsl.localhost\AiQu\home\olof\")
+    winPath := RegExReplace(winPath, "/", "\")
+} else if InStr(winPath, "/home/olof/") {
     winPath := RegExReplace(winPath, "/home/olof/", "\\wsl.localhost\Ubuntu\home\olof\")
     winPath := RegExReplace(winPath, "/", "\")
 } else if InStr(winPath, "/mnt/") {
@@ -42,7 +45,9 @@ if InStr(winPath, "/home/olof/") {
 
 isDirectory := DirExist(winPath)
 try {
-    if (isDirectory) {
+    if (isDirectory && InStr(targetPath, "/home/olof/AiQu")) {
+        command := '"' . 'wt.exe' . '" -p "AiQu" -- wsl.exe -d AiQu zsh -c "cd \"' . wslPath . '\" && exec zsh"'
+    } else if (isDirectory) {
         command := '"' . 'wt.exe' . '" -p "Ubuntu" -- wsl.exe -d Ubuntu zsh -c "cd \"' . wslPath . '\" && exec zsh"'
     } else {
         parentDir := RegExReplace(wslPath, "/[^/]+$", "")

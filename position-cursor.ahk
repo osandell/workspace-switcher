@@ -33,14 +33,14 @@ widthOffset := Integer(screenWidth * -0.003)
 if (currentDisplay == "internal") {
     if (fullScreen == "true") {
         leftPosition := -10
-        topPosition := 38
+        topPosition := 34
         windowWidth := screenWidth + 20
         windowHeight := screenHeight - topPosition + 10
     } else {
-        leftPosition := oneThirdWidth + 20
-        topPosition := 38
-        windowWidth := oneThirdWidth * 2 + 16
-        windowHeight := screenHeight - topPosition
+        leftPosition := oneThirdWidth + 12
+        topPosition := 34
+        windowWidth := oneThirdWidth * 2
+        windowHeight := screenHeight - topPosition + 10
     }
 } else { ; External monitor
     if (fullScreen == "true") {

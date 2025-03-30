@@ -553,6 +553,16 @@ function createWindow() {
       terminalFullScreen: false,
       editorFullScreen: false,
     });
+    storedTabs.push({
+      focusedApp: "kitty-main",
+      fullscreenApps: [],
+      gitkrakenVisible: false,
+      gitkrakenInitialized: false,
+      kittyPlatformWindowId: "",
+      path: "/home/olof/AiQu",
+      terminalFullScreen: false,
+      editorFullScreen: false,
+    });
 
     store.set("storedTabs", storedTabs); // Save the new tab
   }
@@ -560,7 +570,7 @@ function createWindow() {
   // Create main top bar window
   mainWindow = new BrowserWindow({
     width: displayType === "internal" ? width : width * 2,
-    height: 20,
+    height: 23,
     x: 0,
     y: 0,
     alwaysOnTop: true,

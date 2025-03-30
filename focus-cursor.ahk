@@ -51,7 +51,9 @@ if (!foundMatch) {
 
     try {
         ; Use the imported function to launch and get the new window handle
-        if InStr(targetPath, "/home/olof/") {
+        if InStr(targetPath, "/home/olof/AiQu") {
+            command := '"' . cursorPath . '" --remote wsl+AiQu "' . targetPath . '"'
+        } else if InStr(targetPath, "/home/olof/") {
             command := '"' . cursorPath . '" --remote wsl+Ubuntu "' . targetPath . '"'
         } else {
             command := '"' . cursorPath . '" "' . targetPath . '"'
