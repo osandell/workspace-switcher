@@ -9,7 +9,6 @@
 GetNewWindowHandle(processName, launchCommand, timeoutSeconds := 10) {
     ; Get list of existing window handles
     existingWindows := WinGetList("ahk_exe " . processName)
-
     ; Launch the application
     Run(launchCommand)
 

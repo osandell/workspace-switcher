@@ -23,8 +23,8 @@ halfWidth := screenWidth // 2
 oneThirdWidth := screenWidth // 3
 
 ; Calculate padding percentages for external display
-leftPadding := Integer(screenWidth * 0.10)  ; 10% of screen width
-rightPadding := Integer(screenWidth * 0.10)  ; 10% of screen width
+leftPadding := Integer(screenWidth * 0.03)  ; 10% of screen width
+rightPadding := Integer(screenWidth * 0.03)  ; 10% of screen width
 topPadding := Integer(screenHeight * 0.05)   ; 5% of screen height
 bottomPadding := Integer(screenHeight * 0.05) ; 5% of screen height
 leftOffset := Integer(screenWidth * 0.003)
@@ -57,7 +57,7 @@ if (currentDisplay == "internal") {
         totalUsableWidth := screenWidth - (leftPadding + rightPadding)
 
         ; Left window should take 65% of usable width
-        leftWidth := Integer(totalUsableWidth * 0.33)
+        leftWidth := Integer(totalUsableWidth * 0.325)
 
         ; Right window gets the remaining space
         rightWidth := totalUsableWidth - leftWidth
