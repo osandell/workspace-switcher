@@ -46,12 +46,15 @@ if InStr(winPath, "/home/olof/AiQu") {
 isDirectory := DirExist(winPath)
 try {
     if (isDirectory && InStr(targetPath, "/home/olof/AiQu")) {
-        command := '"' . 'wt.exe' . '" -p "AiQu" -- wsl.exe -d AiQu zsh -c "cd \"' . wslPath . '\" && exec zsh"'
+        command := '"' . 'wt.exe' . '" -p "AiQu" -- wsl.exe -d AiQu zsh -c "cd \"' . wslPath .
+            '\" && exec zsh -c tmux"'
     } else if (isDirectory) {
-        command := '"' . 'wt.exe' . '" -p "Ubuntu" -- wsl.exe -d Ubuntu zsh -c "cd \"' . wslPath . '\" && exec zsh"'
+        command := '"' . 'wt.exe' . '" -p "Ubuntu" -- wsl.exe -d Ubuntu zsh -c "cd \"' . wslPath .
+            '\" && exec zsh -c tmux"'
     } else {
         parentDir := RegExReplace(wslPath, "/[^/]+$", "")
-        command := '"' . 'wt.exe' . '" -p "Ubuntu" -- wsl.exe -d Ubuntu zsh -c "cd \"' . parentDir . '\" && exec zsh"'
+        command := '"' . 'wt.exe' . '" -p "Ubuntu" -- wsl.exe -d Ubuntu zsh -c "cd \"' . parentDir .
+            '\" && exec zsh -c tmux"'
     }
 } catch Error as e {
     MsgBox("Error preparing Windows Terminal command: " . e.Message)
