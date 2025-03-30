@@ -957,6 +957,15 @@ async function handleGitKraken() {
 
   console.log("activeWindow", activeWindow);
 
+  // We run AiQu in it's own WSL instance, so we don't need to open GitKraken in Ubuntu.
+  if (
+    activeWindow === "GitKraken Desktop (AiQu)" ||
+    activeWindow.includes("~/AiQu") ||
+    activeWindow === "AiQu"
+  ) {
+    return;
+  }
+
   if (activeWindow === "GitKraken Desktop (Ubuntu)") {
     console.log("GitKraken is active");
   } else {
@@ -977,64 +986,9 @@ async function handleGitKraken() {
 
         storedTabs[activeTabIndex].gitkrakenInitialized = true;
         store.set("storedTabs", storedTabs);
-
-        const currentDisplay = windowManager.getCurrentDisplay();
-
-        // const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-gitkraken.ahk 123 false ${currentDisplay}`;
-        // exec(command, (error, stdout, stderr) => {
-        //   if (error) {
-        //     console.error(`Error closing WT: ${error}`);
-        //     return;
-        //   }
-        // });
-
-        // TODO: Add this back in when found a way to solve it better in kmonad.kbd, see note there.
-        //setTimeout(() => {
-        // focusKittyWindow(storedTabs[activeTabIndex].kittyPlatformWindowId, storedTabs[activeTabIndex].path);
-        //}, 1000);
       });
     }
   }
-
-  // if (gitkrakenVisible) {
-  //   // Close GitKraken and focus back on editor
-  //   exec(`cursor ${storedTabs[activeTabIndex].path}`, (vscodeError) => {
-  //     if (vscodeError) {
-  //       console.error(`Error opening editor: ${vscodeError}`);
-  //     }
-  //   });
-
-  //   setTimeout(() => {
-  //     if (focusedApp === "kitty-main") {
-  //       exec(`wmctrl -xa kitty-main.kitty-main`, (error) => {
-  //         if (error) {
-  //           console.error(`Error focusing kitty: ${error}`);
-  //         }
-  //       });
-  //     }
-  //   }, 500);
-
-  //   storedTabs[activeTabIndex].gitkrakenVisible = false;
-  // } else {
-  //   // Open GitKraken if not initialized
-  //   if (!storedTabs[activeTabIndex].gitkrakenInitialized) {
-  //     const fullPath = storedTabs[activeTabIndex].path;
-
-  //     exec(`gitkraken -p "${fullPath}" `, () => {
-  //       storedTabs[activeTabIndex].gitkrakenInitialized = true;
-  //       store.set("storedTabs", storedTabs);
-
-  //       // TODO: Add this back in when found a way to solve it better in kmonad.kbd, see note there.
-  //       //setTimeout(() => {
-  //       // focusKittyWindow(storedTabs[activeTabIndex].kittyPlatformWindowId, storedTabs[activeTabIndex].path);
-  //       //}, 1000);
-  //     });
-  //   }
-
-  //   storedTabs[activeTabIndex].gitkrakenVisible = true;
-  // }
-
-  // store.set("storedTabs", storedTabs);
 }
 
 function removeStoredTabsPlatformIDs() {
