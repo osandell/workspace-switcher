@@ -1,6 +1,7 @@
 const { exec } = require("child_process");
 const { screen } = require("electron");
 const fs = require("fs").promises;
+const os = require("os");
 
 /**
  * Window manager module to handle positioning and resizing of application windows dynamically
@@ -77,6 +78,12 @@ function getScreenDimensionsRaw() {
       width: primaryDisplay.bounds.width,
       height: primaryDisplay.bounds.height,
     };
+  }
+
+  // When connecting the RedGiant to the LG 65" TV we don't get the hidden edge areas
+  const hostname = os.hostname();
+  if (hostname === "RedGiant") {
+    hiddenEdgeSize = 0.0; // The ThinkVision has no hidden area
   }
 
   return {
