@@ -900,7 +900,6 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
   setupDisplayListeners();
-  detectDisplays();
 });
 
 app.on("window-all-closed", () => {
