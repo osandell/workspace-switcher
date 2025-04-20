@@ -59,7 +59,8 @@ if (!foundMatch) {
             command := '"' . cursorPath . '" "' . targetPath . '"'
         }
 
-        newHwnd := GetNewWindowHandle("cursor.exe", command)
+        ; It can sometimes take a while for Cursor to open a new window, so we give it 30 seconds
+        newHwnd := GetNewWindowHandle("cursor.exe", command, 30000)
 
         if (newHwnd) {
             FileAppend(newHwnd, "*") ; Write new handle to stdout
