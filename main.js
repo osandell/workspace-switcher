@@ -957,15 +957,6 @@ async function handleGitKraken() {
 
   console.log("activeWindow", activeWindow);
 
-  // We run AiQu in it's own WSL instance, so we don't need to open GitKraken in Ubuntu.
-  if (
-    activeWindow === "GitKraken Desktop (AiQu)" ||
-    activeWindow.includes("~/AiQu") ||
-    activeWindow === "AiQu"
-  ) {
-    return;
-  }
-
   if (activeWindow === "GitKraken Desktop (Ubuntu)") {
     console.log("GitKraken is active");
   } else {
@@ -973,11 +964,22 @@ async function handleGitKraken() {
       "GitKraken is not active",
       storedTabs[activeTabIndex].gitkrakenInitialized
     );
+
+    let path = storedTabs[activeTabIndex].path;
+    if (path.startsWith("/home/olof/AiQu")) {
+      path = `\\\\wsl.localhost\\AiQu\\home\\olof\\AiQu`;
+    } else {
+      path = path.replace("~", `\\\\wsl.localhost\\Ubuntu\\home`);
+      path = path.replace(
+        "/home/olof",
+        `\\\\wsl.localhost\\Ubuntu\\home\\olof`
+      );
+      path = path.replace("/mnt/c", `C:\\`);
+    }
+
     // Open GitKraken if not initialized
     if (!storedTabs[activeTabIndex].gitkrakenInitialized) {
-      const command = `wsl -d Ubuntu -e bash -c "GDK_DPI_SCALE=1.25 gitkraken --disable-gpu -p ${activeWindow
-        .split("(")[0]
-        .trim()}" `;
+      const command = `"C:\\Users\\Olof.Sandell\\AppData\\Local\\Fork\\current\\Fork.exe" "${path}"`;
       console.log("Executing command:", command);
       exec(command, (error) => {
         if (error) {
