@@ -56,8 +56,10 @@ function getScreenDimensionsRaw() {
 
   // Apple Studio Display
   if (
-    primaryDisplay.bounds.width === 2048 &&
-    primaryDisplay.bounds.height === 1152
+    (primaryDisplay.bounds.width === 2048 &&
+      primaryDisplay.bounds.height === 1152) ||
+    (primaryDisplay.bounds.width === 2276 &&
+      primaryDisplay.bounds.height === 1280)
   ) {
     hiddenEdgeSize = 0.0; // The Studio Display has no hidden area
 
@@ -66,6 +68,9 @@ function getScreenDimensionsRaw() {
       height: primaryDisplay.bounds.height,
     };
   }
+
+  console.log("primaryDisplay width", primaryDisplay.bounds.width);
+  console.log("primaryDisplay height", primaryDisplay.bounds.height);
 
   // ThinkVision
   if (
