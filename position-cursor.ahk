@@ -37,10 +37,10 @@ if (currentDisplay == "internal") {
         windowWidth := screenWidth + 20
         windowHeight := screenHeight - topPosition + 10
     } else {
-        leftPosition := oneThirdWidth + 12
-        topPosition := 34
-        windowWidth := oneThirdWidth * 2
-        windowHeight := screenHeight - topPosition + 10
+        leftPosition := oneThirdWidth + 20
+        topPosition := 41
+        windowWidth := oneThirdWidth * 2 - 10
+        windowHeight := screenHeight - topPosition - 1
     }
 } else { ; External monitor
     if (fullScreen == "true") {
@@ -77,7 +77,7 @@ if (currentDisplay == "internal") {
 
         if (hasWindowOnLeft) {
             ; Position on the right side
-            leftPosition := leftPadding + leftWidth
+            leftPosition := leftPadding + leftWidth + 10
             windowWidth := rightWidth
         } else {
             ; Position on the left side

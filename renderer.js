@@ -1,9 +1,10 @@
 const { ipcRenderer, shell } = require("electron");
 
 document.addEventListener("DOMContentLoaded", () => {
+  createContainerStructure();
+  
   document.addEventListener("keydown", (event) => {
     if (event.code === "ArrowRight" || event.code === "ArrowLeft") {
-      // Logic to change active tab
       ipcRenderer.send("change-active-tab", event.code);
     }
 
@@ -16,6 +17,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function createContainerStructure() {
+  const body = document.body;
+  
+  // Create container for buttons and background
+  const container = document.createElement("div");
+  container.id = "button-container";
+  container.style.position = "relative";
+  container.style.width = "100%";
+  
+  // Create the red background div
+  const backgroundDiv = document.createElement("div");
+  backgroundDiv.id = "button-background";
+  backgroundDiv.style.position = "absolute";
+  backgroundDiv.style.top = "0";
+  backgroundDiv.style.left = "0";
+  backgroundDiv.style.width = "100%";
+  backgroundDiv.style.height = "100%";
+  backgroundDiv.style.zIndex = "1";
+  backgroundDiv.style.backgroundColor = "#d4cbb7";
+
+  // Create the button wrapper div (will contain all buttons)
+  const buttonWrapper = document.createElement("div");
+  buttonWrapper.id = "button-wrapper";
+  buttonWrapper.style.position = "relative";
+  buttonWrapper.style.zIndex = "2";
+  buttonWrapper.style.display = "flex";
+  
+  // Add elements to the DOM
+  container.appendChild(backgroundDiv);
+  container.appendChild(buttonWrapper);
+  body.appendChild(container);
+}
 
 ipcRenderer.on("add-new-button", (event, path) => {
   addDynamicButton(path);
@@ -31,22 +65,25 @@ ipcRenderer.on("initialize-buttons", (event, storedTabs, activeTabIndex) => {
 ipcRenderer.on("change-theme", (event, theme, activeTabIndex) => {
   const body = document.body;
   const buttons = document.querySelectorAll("button");
+  const backgroundDiv = document.getElementById("button-background");
 
   if (theme === "dark") {
-    // Gruvbox dark background color
-    body.style.backgroundColor = "#282828"; // Gruvbox dark background
+    body.style.backgroundColor = "#282828";
+    body.style.borderColor = "#665c54"
     document.body.classList.add("dark-mode");
     document.body.classList.remove("light-mode");
+    backgroundDiv.style.backgroundColor = "#3c3836";
 
     buttons.forEach((button, index) => {
-      // Use Gruvbox color palette for buttons
       button.style.backgroundColor =
-        index === activeTabIndex ? "#458588" : "#3c3836"; // Active button gets a distinct color
-      button.style.color = "#ebdbb2"; // Text color for dark mode
+        index === activeTabIndex ? "#458588" : "#3c3836";
+      button.style.color = "#ebdbb2";
       button.style.fontWeight = "normal";
     });
   } else if (theme === "light") {
     body.style.backgroundColor = "#d4cbb7";
+    body.style.borderColor = "#93a1a1"
+    backgroundDiv.style.backgroundColor = "#d4cbb7";
     document.body.classList.remove("light-mode");
 
     buttons.forEach((button, index) => {
@@ -62,16 +99,14 @@ ipcRenderer.on("update-active-tab", (event, theme, newActiveTabIndex) => {
   const body = document.body;
   const buttons = document.querySelectorAll("button");
   if (theme === "dark") {
-    // Gruvbox dark background color
-    body.style.backgroundColor = "#282828"; // Gruvbox dark background
+    body.style.backgroundColor = "#282828";
     document.body.classList.add("dark-mode");
     document.body.classList.remove("light-mode");
 
     buttons.forEach((button, index) => {
-      // Use Gruvbox color palette for buttons
       button.style.backgroundColor =
-        index === newActiveTabIndex ? "#647c73" : "#3c3836"; // Active button gets a distinct color
-      button.style.color = "#ebdbb2"; // Text color for dark mode
+        index === newActiveTabIndex ? "#647c73" : "#3c3836";
+      button.style.color = "#ebdbb2";
       button.style.fontWeight = "normal";
     });
   } else if (theme === "light") {
@@ -91,8 +126,8 @@ ipcRenderer.on(
   "update-tabs",
   (event, updatedstoredTabs, newActiveTabIndex, theme) => {
     // Clear existing buttons
-    const body = document.body;
-    body.innerHTML = "";
+    const buttonWrapper = document.getElementById("button-wrapper");
+    buttonWrapper.innerHTML = "";
 
     // Add new buttons based on the theme
     updatedstoredTabs.forEach((tab, index) => {
@@ -102,9 +137,14 @@ ipcRenderer.on(
 );
 
 function addDynamicButton(path, isActive = false, theme = "light") {
-  // Get the body element
-  const body = document.body;
-
+  // Get the button wrapper element
+  const buttonWrapper = document.getElementById("button-wrapper");
+  
+  // If button wrapper doesn't exist, create container structure
+  if (!buttonWrapper) {
+    createContainerStructure();
+  }
+  
   // Extract the last part of the path (filename or last folder)
   const pathParts = path.split("/");
   const lastPart = pathParts[pathParts.length - 1];
@@ -114,19 +154,22 @@ function addDynamicButton(path, isActive = false, theme = "light") {
   button.textContent = lastPart;
 
   if (theme === "dark") {
-    button.style.backgroundColor = isActive ? "#458588" : "#3c3836"; // Active and inactive colors for dark theme
-    button.style.color = "#ebdbb2"; // Text color for dark theme
+    button.style.backgroundColor = isActive ? "#458588" : "#3c3836";
+    button.style.color = "#ebdbb2";
   } else {
-    button.style.backgroundColor = isActive ? "#fdf6e3" : "#d4cbb7"; // Active and inactive colors for light theme
-    button.style.color = isActive ? "#2aa198" : "#93a1a1"; // Text color for light theme
+    button.style.backgroundColor = isActive ? "#fdf6e3" : "#d4cbb7";
+    button.style.color = isActive ? "#2aa198" : "#93a1a1";
   }
 
   button.style.fontWeight = isActive ? "bold" : "normal";
   button.style.userSelect = "none";
+  button.style.position = "relative";
+  button.style.zIndex = "2";
+  
   button.addEventListener("click", () => {
     shell.openPath(path);
   });
 
-  // Append the button to the body
-  body.appendChild(button);
+  // Append the button to the button wrapper
+  document.getElementById("button-wrapper").appendChild(button);
 }

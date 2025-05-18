@@ -187,7 +187,7 @@ function updateTopBarPositionAndSize() {
         currentDisplay === "external"
           ? width - width * hiddenEdgeSize * 2
           : width,
-      height: height * topBarHeightPercentage,
+      height: 30,
     };
     mainWindow.setBounds(newBounds);
   }

@@ -7,8 +7,9 @@
 ;   launchCommand - Command to launch the application
 ;   timeoutSeconds - Maximum time to wait for the new window (default: 10 seconds)
 GetNewWindowHandle(processName, launchCommand, timeoutSeconds := 10) {
-    ; Get list of existing window handles
-    existingWindows := WinGetList("ahk_exe " . processName)
+    ; Get list of existing real window handles
+    existingWindows := GetRealWindows(processName)
+
     ; Launch the application
     Run(launchCommand)
 
@@ -21,8 +22,8 @@ GetNewWindowHandle(processName, launchCommand, timeoutSeconds := 10) {
         if (A_TickCount - startTime > timeout)
             return 0
 
-        ; Get current windows and look for new ones
-        newWindows := WinGetList("ahk_exe " . processName)
+        ; Get current real windows and look for new ones
+        newWindows := GetRealWindows(processName)
 
         ; Find first new window that wasn't in the existing list
         for _, newHwnd in newWindows {
@@ -41,4 +42,20 @@ GetNewWindowHandle(processName, launchCommand, timeoutSeconds := 10) {
         ; Wait before checking again
         Sleep(100)
     }
+}
+
+; Function to get only real windows (visible, non-tool windows with titles)
+GetRealWindows(processName) {
+    realWindows := []
+    allWindows := WinGetList("ahk_exe " . processName)
+
+    for hwnd in allWindows {
+        if WinGetTitle("ahk_id " hwnd) &&
+        (WinGetStyle("ahk_id " hwnd) & 0x10000000) &&
+        !(WinGetExStyle("ahk_id " hwnd) & 0x00000080) {
+            realWindows.Push(hwnd)
+        }
+    }
+
+    return realWindows
 }
