@@ -80,17 +80,24 @@ function initializeProcessIDs() {
   return new Promise((resolve) => {
     const promises = [];
 
-    // Find Kitty main process
+    // Find Kitty main process - using Windows command
     promises.push(
       new Promise((resolveKitty) => {
         exec(
-          `wmctrl -lpx | awk '$4 == "kitty-main.kitty-main" {print $3}' | sort -u`,
+          `tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV /NH`,
           (error, stdout) => {
             if (error) {
-              console.error(`Error finding Kitty main process: ${error}`);
+              console.error(`Error finding Windows Terminal process: ${error}`);
             } else {
-              kittyMainPID = stdout.trim();
-              console.log(`Kitty Main PID: ${kittyMainPID}`);
+              // Extract PID from CSV output
+              const lines = stdout.trim().split('\n');
+              if (lines.length > 0 && lines[0].includes('WindowsTerminal.exe')) {
+                const parts = lines[0].split(',');
+                if (parts.length > 1) {
+                  kittyMainPID = parts[1].replace(/"/g, '');
+                  console.log(`Windows Terminal PID: ${kittyMainPID}`);
+                }
+              }
             }
             resolveKitty();
           }
@@ -98,17 +105,24 @@ function initializeProcessIDs() {
       })
     );
 
-    // Find Kitty LF process
+    // Find Kitty LF process - using Windows command
     promises.push(
       new Promise((resolveKittyLF) => {
         exec(
-          `wmctrl -lpx | awk '$4 == "kitty-lf.kitty-lf" {print $3}' | sort -u`,
+          `tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV /NH`,
           (error, stdout) => {
             if (error) {
-              console.error(`Error finding Kitty LF process: ${error}`);
+              console.error(`Error finding Windows Terminal LF process: ${error}`);
             } else {
-              kittyLfPID = stdout.trim();
-              console.log(`Kitty LF PID: ${kittyLfPID}`);
+              // Extract PID from CSV output
+              const lines = stdout.trim().split('\n');
+              if (lines.length > 1 && lines[1].includes('WindowsTerminal.exe')) {
+                const parts = lines[1].split(',');
+                if (parts.length > 1) {
+                  kittyLfPID = parts[1].replace(/"/g, '');
+                  console.log(`Windows Terminal LF PID: ${kittyLfPID}`);
+                }
+              }
             }
             resolveKittyLF();
           }
@@ -116,15 +130,22 @@ function initializeProcessIDs() {
       })
     );
 
-    // Find Cursor/VS Code process
+    // Find Cursor/VS Code process - using Windows command
     promises.push(
       new Promise((resolveCursor) => {
-        exec("pgrep -f 'opt/cursor/cursor'", (error, stdout) => {
+        exec(`tasklist /FI "IMAGENAME eq Cursor.exe" /FO CSV /NH`, (error, stdout) => {
           if (error) {
             console.error(`Error finding Cursor process: ${error}`);
           } else {
-            codePID = stdout.split("\n")[0];
-            console.log(`Code PID: ${codePID}`);
+            // Extract PID from CSV output
+            const lines = stdout.trim().split('\n');
+            if (lines.length > 0 && lines[0].includes('Cursor.exe')) {
+              const parts = lines[0].split(',');
+              if (parts.length > 1) {
+                codePID = parts[1].replace(/"/g, '');
+                console.log(`Cursor PID: ${codePID}`);
+              }
+            }
           }
           resolveCursor();
         });
@@ -167,7 +188,7 @@ function setupDisplayListeners() {
  * Handle changing the active tab
  * @param {string} direction - Direction to change tab (ArrowLeft or ArrowRight)
  */
-function changeActiveTab(direction) {
+async function changeActiveTab(direction) {
   // Reset previous tab state
   if (storedTabs[activeTabIndex]) {
     storedTabs[activeTabIndex].gitkrakenInitialized = false;
@@ -198,27 +219,37 @@ function changeActiveTab(direction) {
     pathShort = storedTabs[activeTabIndex].path;
   }
 
-  // Handle navigation based on focused app
-  if (storedTabs[activeTabIndex].focusedApp === "kitty-main") {
-    focusCursorWindow(
-      storedTabs[activeTabIndex].cursorPlatformWindowId,
-      pathShort
-    ).then((response) => {
+  try {
+    const activeProcess = (await fsPromises.readFile(
+      "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-process.log",
+      "utf8"
+    )).trim();
+
+    console.log("activeProcess", activeProcess);
+
+    if (activeProcess === "WindowsTerminal.exe") {
+        focusCursorWindow(
+          storedTabs[activeTabIndex].cursorPlatformWindowId,
+          pathShort
+        ).then((response) => {
+          focusKittyWindow(
+            storedTabs[activeTabIndex].kittyPlatformWindowId,
+            pathShort
+          );
+        });
+    } else if (activeProcess === "Cursor.exe") {
       focusKittyWindow(
         storedTabs[activeTabIndex].kittyPlatformWindowId,
         pathShort
-      );
-    });
-  } else {
-    focusKittyWindow(
-      storedTabs[activeTabIndex].kittyPlatformWindowId,
-      pathShort
-    ).then((response) => {
-      focusCursorWindow(
-        storedTabs[activeTabIndex].cursorPlatformWindowId,
-        pathShort
-      );
-    });
+      ).then((response) => {
+        focusCursorWindow(
+          storedTabs[activeTabIndex].cursorPlatformWindowId,
+          pathShort
+        );
+      });
+    }
+  } catch (err) {
+    console.error("Error reading active window data:", err);
   }
 }
 

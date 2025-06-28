@@ -26,7 +26,7 @@ totalWindows := cursorWindows.Length
 for _, hwnd in cursorWindows {
     if (hwnd = targetHwnd) {
         WinActivate("ahk_id " . targetHwnd)
-        FileAppend(targetHwnd, "*")
+        ;FileAppend(targetHwnd, "*")
         ExitApp
     }
 }
@@ -41,7 +41,7 @@ for index, hwnd in cursorWindows {
         WinActivate("ahk_id " . hwnd)
         foundMatch := true
         ; Write window handle to stdout
-        FileAppend(hwnd, "*")
+        ;FileAppend(hwnd, "*")
         break
     }
 }
