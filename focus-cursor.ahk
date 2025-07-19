@@ -2,6 +2,9 @@
 #SingleInstance
 #Include GetNewWindowHandle.ahk
 
+if FileExist("temp_hwnd.txt")
+    FileDelete("temp_hwnd.txt")
+
 if (A_Args.Length < 2) {
     MsgBox("Please provide a window ID and a file path as arguments.")
     ExitApp
@@ -40,8 +43,10 @@ for index, hwnd in cursorWindows {
         ; Focus this window
         WinActivate("ahk_id " . hwnd)
         foundMatch := true
-        ; Write window handle to stdout
-        ;FileAppend(hwnd, "*")
+        ; I tried to write the new handle to stdout like we do further down, but it didn't
+        ; work for some reason, so I'm writing it to a file instead.
+        ; FileAppend(newHwnd, "*")
+        FileAppend(hwnd, "temp_hwnd.txt")
         break
     }
 }

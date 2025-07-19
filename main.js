@@ -90,11 +90,14 @@ function initializeProcessIDs() {
               console.error(`Error finding Windows Terminal process: ${error}`);
             } else {
               // Extract PID from CSV output
-              const lines = stdout.trim().split('\n');
-              if (lines.length > 0 && lines[0].includes('WindowsTerminal.exe')) {
-                const parts = lines[0].split(',');
+              const lines = stdout.trim().split("\n");
+              if (
+                lines.length > 0 &&
+                lines[0].includes("WindowsTerminal.exe")
+              ) {
+                const parts = lines[0].split(",");
                 if (parts.length > 1) {
-                  kittyMainPID = parts[1].replace(/"/g, '');
+                  kittyMainPID = parts[1].replace(/"/g, "");
                   console.log(`Windows Terminal PID: ${kittyMainPID}`);
                 }
               }
@@ -112,14 +115,19 @@ function initializeProcessIDs() {
           `tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV /NH`,
           (error, stdout) => {
             if (error) {
-              console.error(`Error finding Windows Terminal LF process: ${error}`);
+              console.error(
+                `Error finding Windows Terminal LF process: ${error}`
+              );
             } else {
               // Extract PID from CSV output
-              const lines = stdout.trim().split('\n');
-              if (lines.length > 1 && lines[1].includes('WindowsTerminal.exe')) {
-                const parts = lines[1].split(',');
+              const lines = stdout.trim().split("\n");
+              if (
+                lines.length > 1 &&
+                lines[1].includes("WindowsTerminal.exe")
+              ) {
+                const parts = lines[1].split(",");
                 if (parts.length > 1) {
-                  kittyLfPID = parts[1].replace(/"/g, '');
+                  kittyLfPID = parts[1].replace(/"/g, "");
                   console.log(`Windows Terminal LF PID: ${kittyLfPID}`);
                 }
               }
@@ -133,22 +141,25 @@ function initializeProcessIDs() {
     // Find Cursor/VS Code process - using Windows command
     promises.push(
       new Promise((resolveCursor) => {
-        exec(`tasklist /FI "IMAGENAME eq Cursor.exe" /FO CSV /NH`, (error, stdout) => {
-          if (error) {
-            console.error(`Error finding Cursor process: ${error}`);
-          } else {
-            // Extract PID from CSV output
-            const lines = stdout.trim().split('\n');
-            if (lines.length > 0 && lines[0].includes('Cursor.exe')) {
-              const parts = lines[0].split(',');
-              if (parts.length > 1) {
-                codePID = parts[1].replace(/"/g, '');
-                console.log(`Cursor PID: ${codePID}`);
+        exec(
+          `tasklist /FI "IMAGENAME eq Cursor.exe" /FO CSV /NH`,
+          (error, stdout) => {
+            if (error) {
+              console.error(`Error finding Cursor process: ${error}`);
+            } else {
+              // Extract PID from CSV output
+              const lines = stdout.trim().split("\n");
+              if (lines.length > 0 && lines[0].includes("Cursor.exe")) {
+                const parts = lines[0].split(",");
+                if (parts.length > 1) {
+                  codePID = parts[1].replace(/"/g, "");
+                  console.log(`Cursor PID: ${codePID}`);
+                }
               }
             }
+            resolveCursor();
           }
-          resolveCursor();
-        });
+        );
       })
     );
 
@@ -220,23 +231,25 @@ async function changeActiveTab(direction) {
   }
 
   try {
-    const activeProcess = (await fsPromises.readFile(
-      "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-process.log",
-      "utf8"
-    )).trim();
+    const activeProcess = (
+      await fsPromises.readFile(
+        "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-process.log",
+        "utf8"
+      )
+    ).trim();
 
     console.log("activeProcess", activeProcess);
 
     if (activeProcess === "WindowsTerminal.exe") {
-        focusCursorWindow(
-          storedTabs[activeTabIndex].cursorPlatformWindowId,
+      focusCursorWindow(
+        storedTabs[activeTabIndex].cursorPlatformWindowId,
+        pathShort
+      ).then((response) => {
+        focusKittyWindow(
+          storedTabs[activeTabIndex].kittyPlatformWindowId,
           pathShort
-        ).then((response) => {
-          focusKittyWindow(
-            storedTabs[activeTabIndex].kittyPlatformWindowId,
-            pathShort
-          );
-        });
+        );
+      });
     } else if (activeProcess === "Cursor.exe") {
       focusKittyWindow(
         storedTabs[activeTabIndex].kittyPlatformWindowId,
@@ -340,7 +353,7 @@ function focusKittyWindow(platformWindowId, path) {
   // );
 }
 
-function focusCursorWindow(codePID, pathShort) {
+function focusCursorWindow(cursorPlatformWindowId, pathShort) {
   console.log(
     "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    pathShort    \x1b[8m\x1b[40m\x1b[0m%c httpHandler.js 10 \n",
     "color: white; background: black; font-weight: bold",
@@ -356,7 +369,7 @@ function focusCursorWindow(codePID, pathShort) {
 
     // Construct the command to execute AutoHotkey with the test.ahk script
     const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-cursor.ahk ${
-      codePID || 0
+      cursorPlatformWindowId || 0
     } "${escapedPath}"`;
 
     console.log("Executing command:", command); // Debug log
@@ -372,15 +385,36 @@ function focusCursorWindow(codePID, pathShort) {
         console.error("AutoHotkey stderr:", stderr);
       }
 
-      if (stdout) {
-        // if stdout is a number, update the kittyPlatformWindowId
-        if (!isNaN(stdout)) {
-          console.log("AutoHotkey stdout:", stdout);
-          updateCursorPlatformWindowId(stdout);
-          setTimeout(() => {
-            windowManager.positionEditorWindow(stdout, false);
-          }, 500);
+      try {
+        if (fs.existsSync("temp_hwnd.txt")) {
+          const fileContent = fs.readFileSync("temp_hwnd.txt", "utf8").trim();
+          const hwndNumber = parseInt(fileContent, 10);
+
+          if (!isNaN(hwndNumber) && hwndNumber !== 0) {
+            console.log("AutoHotkey hwnd from file:", hwndNumber);
+            updateCursorPlatformWindowId(hwndNumber);
+            setTimeout(() => {
+              windowManager.positionEditorWindow(hwndNumber, false);
+            }, 500);
+          } else if (cursorPlatformWindowId) {
+            setTimeout(() => {
+              windowManager.positionEditorWindow(cursorPlatformWindowId, false);
+            }, 500);
+          }
+
+          fs.unlinkSync("temp_hwnd.txt");
+        } else if (stdout) {
+          // if stdout is a number, update the kittyPlatformWindowId
+          if (!isNaN(stdout)) {
+            console.log("AutoHotkey stdout:", stdout);
+            updateCursorPlatformWindowId(stdout);
+            setTimeout(() => {
+              windowManager.positionEditorWindow(stdout, false);
+            }, 500);
+          }
         }
+      } catch (error) {
+        console.error("Error reading temp_hwnd.txt:", error);
       }
 
       console.log("AutoHotkey script executed successfully");
