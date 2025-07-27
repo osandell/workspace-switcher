@@ -240,23 +240,23 @@ async function changeActiveTab(direction) {
 
     console.log("activeProcess", activeProcess);
 
-    if (activeProcess === "WindowsTerminal.exe") {
-      focusCursorWindow(
-        storedTabs[activeTabIndex].cursorPlatformWindowId,
-        pathShort
-      ).then((response) => {
-        focusKittyWindow(
-          storedTabs[activeTabIndex].kittyPlatformWindowId,
-          pathShort
-        );
-      });
-    } else if (activeProcess === "Cursor.exe") {
+    if (activeProcess === "Cursor.exe") {
       focusKittyWindow(
         storedTabs[activeTabIndex].kittyPlatformWindowId,
         pathShort
       ).then((response) => {
         focusCursorWindow(
           storedTabs[activeTabIndex].cursorPlatformWindowId,
+          pathShort
+        );
+      });
+    } else {
+      focusCursorWindow(
+        storedTabs[activeTabIndex].cursorPlatformWindowId,
+        pathShort
+      ).then((response) => {
+        focusKittyWindow(
+          storedTabs[activeTabIndex].kittyPlatformWindowId,
           pathShort
         );
       });
