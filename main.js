@@ -624,7 +624,7 @@ function createWindow() {
       gitkrakenVisible: false,
       gitkrakenInitialized: false,
       kittyPlatformWindowId: "",
-      path: "/home/olof/AiQu",
+      path: "/home/olof/dev/aixia/AiQu",
       terminalFullScreen: false,
       editorFullScreen: false,
     });
@@ -1031,8 +1031,8 @@ async function handleGitKraken() {
     );
 
     let path = storedTabs[activeTabIndex].path;
-    if (path.startsWith("/home/olof/AiQu")) {
-      path = `\\\\wsl.localhost\\AiQu\\home\\olof\\AiQu`;
+    if (path.startsWith("/home/olof/dev/aixia/AiQu")) {
+      path = `\\\\wsl.localhost\\Ubuntu\\home\\olof\\dev\\aixia\\AiQu`;
     } else {
       path = path.replace("~", `\\\\wsl.localhost\\Ubuntu\\home`);
       path = path.replace(
