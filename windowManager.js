@@ -268,7 +268,7 @@ async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
 
     console.log("activeProcess", activeProcess);
 
-    if (activeProcess === "WindowsTerminal.exe") {
+    if (activeProcess === "Alacritty.exe") {
       currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
       positionKittyWindow(
         currentTab.kittyPlatformWindowId,

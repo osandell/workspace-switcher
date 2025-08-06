@@ -10,9 +10,9 @@ targetHwnd := A_Args[1]
 windowFound := false
 
 ; Find and close the specific window
-existingWindows := WinGetList("ahk_exe WindowsTerminal.exe")
+existingWindows := WinGetList("ahk_exe alacritty.exe")
 
-For _, hwnd in existingWindows {
+for _, hwnd in existingWindows {
     if (hwnd = targetHwnd) {
         ; Found the window, close it
         WinClose("ahk_id " . targetHwnd)

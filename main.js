@@ -84,21 +84,18 @@ function initializeProcessIDs() {
     promises.push(
       new Promise((resolveKitty) => {
         exec(
-          `tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV /NH`,
+          `tasklist /FI "IMAGENAME eq alacritty.exe" /FO CSV /NH`,
           (error, stdout) => {
             if (error) {
-              console.error(`Error finding Windows Terminal process: ${error}`);
+              console.error(`Error finding alacritty process: ${error}`);
             } else {
               // Extract PID from CSV output
               const lines = stdout.trim().split("\n");
-              if (
-                lines.length > 0 &&
-                lines[0].includes("WindowsTerminal.exe")
-              ) {
+              if (lines.length > 0 && lines[0].includes("alacritty.exe")) {
                 const parts = lines[0].split(",");
                 if (parts.length > 1) {
                   kittyMainPID = parts[1].replace(/"/g, "");
-                  console.log(`Windows Terminal PID: ${kittyMainPID}`);
+                  console.log(`alacritty PID: ${kittyMainPID}`);
                 }
               }
             }
@@ -112,23 +109,18 @@ function initializeProcessIDs() {
     promises.push(
       new Promise((resolveKittyLF) => {
         exec(
-          `tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV /NH`,
+          `tasklist /FI "IMAGENAME eq alacritty.exe" /FO CSV /NH`,
           (error, stdout) => {
             if (error) {
-              console.error(
-                `Error finding Windows Terminal LF process: ${error}`
-              );
+              console.error(`Error finding alacritty LF process: ${error}`);
             } else {
               // Extract PID from CSV output
               const lines = stdout.trim().split("\n");
-              if (
-                lines.length > 1 &&
-                lines[1].includes("WindowsTerminal.exe")
-              ) {
+              if (lines.length > 1 && lines[1].includes("alacritty.exe")) {
                 const parts = lines[1].split(",");
                 if (parts.length > 1) {
                   kittyLfPID = parts[1].replace(/"/g, "");
-                  console.log(`Windows Terminal LF PID: ${kittyLfPID}`);
+                  console.log(`alacritty LF PID: ${kittyLfPID}`);
                 }
               }
             }

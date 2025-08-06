@@ -55,7 +55,7 @@ if (currentDisplay == "internal") {
 }
 
 ; Find and position the specific window
-existingWindows := WinGetList("ahk_exe WindowsTerminal.exe")
+existingWindows := WinGetList("ahk_exe alacritty.exe")
 
 for _, hwnd in existingWindows {
     if (hwnd = targetHwnd) {
