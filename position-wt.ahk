@@ -18,8 +18,8 @@ screenHeight := A_ScreenHeight
 ; Calculate padding percentages for external display
 leftPadding := Integer(screenWidth * 0.03)  ; 3% of screen width
 rightPadding := Integer(screenWidth * 0.03)  ; 3% of screen width
-topPadding := Integer(screenHeight * 0.05)   ; 5% of screen height
-bottomPadding := Integer(screenHeight * 0.05) ; 5% of screen height
+topPadding := Integer(screenHeight * 0.0508)   ; 5% of screen height
+bottomPadding := Integer(screenHeight * 0.055) ; 5% of screen height
 heightOffset := Integer(screenHeight * 0.004)
 widthOffset := Integer(screenWidth * 0.002)
 
@@ -48,7 +48,7 @@ if (currentDisplay == "internal") {
 
         ; Calculate width based on 35% of usable space
         totalUsableWidth := screenWidth - (leftPadding + rightPadding)
-        windowWidth := Integer(totalUsableWidth * 0.331)
+        windowWidth := Integer(totalUsableWidth * 0.3273)
 
         windowHeight := screenHeight - (topPadding + bottomPadding) + heightOffset
     }
