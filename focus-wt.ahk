@@ -62,14 +62,24 @@ try {
 }
 
 try {
-    ; Use the imported function to launch and get the new window handle
+    ; Launch Alacritty and get the new window handle
     newHwnd := GetNewWindowHandle("alacritty.exe", command)
 
     if (newHwnd) {
+        ; Set Alacritty to borderless (remove title bar and borders)
+        style := DllCall("GetWindowLongPtr", "ptr", newHwnd, "int", -16, "ptr")
+        style := style & ~0x00C00000 ; remove WS_CAPTION
+        style := style & ~0x00040000 ; remove WS_SIZEBOX
+        style := style & ~0x00080000 ; remove WS_BORDER
+        DllCall("SetWindowLongPtr", "ptr", newHwnd, "int", -16, "ptr", style)
+
+        ; Force redraw for new style to apply
+        DllCall("SetWindowPos", "ptr", newHwnd, "ptr", 0, "int", 0, "int", 0, "int", 0, "int", 0, "uint", 0x27)
+
         FileAppend(newHwnd, "*") ; Write to stdout
     } else {
         MsgBox("Could not identify new window within the timeout period.")
     }
 } catch Error as e {
-    MsgBox("Error launching Windows Terminal: " . e.Message)
+    MsgBox("Error launching Alacritty: " . e.Message)
 }
