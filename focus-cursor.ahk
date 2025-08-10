@@ -2,6 +2,31 @@
 #SingleInstance
 #Include GetNewWindowHandle.ahk
 
+; --- helpers ---------------------------------------------------------------
+
+ToFileUri(path) {
+    ; Windows path -> file:// URI
+    ; C:\foo\bar -> file:///C:/foo/bar
+    ; \\server\share\dir -> file://server/share/dir
+    p := path
+    if (SubStr(p, 1, 2) = "\\") {
+        p := StrReplace(SubStr(p, 3), "\", "/")
+        return "file://" . p
+    }
+    p := StrReplace(p, "\", "/")
+    if RegExMatch(p, "^[A-Za-z]:/") {
+        return "file:///" . p
+    }
+    return "file:///" . p
+}
+
+ToWslUri(distro, unixPath) {
+    ; /home/olof/... -> vscode-remote://wsl+<distro>/home/olof/...
+    return "vscode-remote://wsl+" . distro . unixPath
+}
+
+; --- main -----------------------------------------------------------------
+
 if FileExist("temp_hwnd.txt")
     FileDelete("temp_hwnd.txt")
 
@@ -14,61 +39,62 @@ targetHwnd := A_Args[1]
 targetPath := A_Args[2]
 foundMatch := false
 
+; Prepare display variants for title matching
 targetPathShort := ""
 if InStr(targetPath, "/home/olof/") {
-    targetPathShort := RegExReplace(targetPath, "/home/olof/", "~/")
+    targetPathShort := RegExReplace(targetPath, "^/home/olof/", "~\/")
 } else if InStr(targetPath, "/mnt/c/") {
-    targetPath := RegExReplace(targetPath, "/mnt/c/", "C:\")
-    targetPath := RegExReplace(targetPath, "/", "\")
+    targetPath := RegExReplace(targetPath, "^/mnt/c/", "C:\")
+    targetPath := StrReplace(targetPath, "/", "\")
 }
 
 cursorWindows := WinGetList("ahk_exe cursor.exe")
-totalWindows := cursorWindows.Length
 
-; First check if the target window handle exists
+; 1) If the target window handle exists, activate it and exit
 for _, hwnd in cursorWindows {
     if (hwnd = targetHwnd) {
         WinActivate("ahk_id " . targetHwnd)
-        ;FileAppend(targetHwnd, "*")
         ExitApp
     }
 }
 
-; If we didn't find the specific handle, check if any window has the file open
-for index, hwnd in cursorWindows {
+; 2) If any existing Cursor window title matches the path, focus it
+for _, hwnd in cursorWindows {
     title := WinGetTitle("ahk_id " . hwnd)
     titlePath := RegExReplace(title, " \(.*\)$", "")
-
     if (titlePath == targetPathShort || titlePath == targetPath) {
-        ; Focus this window
         WinActivate("ahk_id " . hwnd)
         foundMatch := true
-        ; I tried to write the new handle to stdout like we do further down, but it didn't
-        ; work for some reason, so I'm writing it to a file instead.
-        ; FileAppend(newHwnd, "*")
+        ; Could not reliably write to stdout here; write to a temp file
         FileAppend(hwnd, "temp_hwnd.txt")
         break
     }
 }
 
+; 3) Otherwise launch a new Cursor window with --folder-uri
 if (!foundMatch) {
     cursorPath := "C:\Users\Olof.Sandell\AppData\Local\Programs\cursor\Cursor.exe"
 
     try {
-        ; Use the imported function to launch and get the new window handle
+        uri := ""
         if InStr(targetPath, "/home/olof/AiQu") {
-            command := '"' . cursorPath . '" --remote wsl+AiQu "' . targetPath . '"'
+            ; special-case distro name "AiQu"
+            uri := ToWslUri("AiQu", targetPath)
         } else if InStr(targetPath, "/home/olof/") {
-            command := '"' . cursorPath . '" --remote wsl+Ubuntu "' . targetPath . '"'
+            ; default Ubuntu WSL
+            uri := ToWslUri("Ubuntu", targetPath)
         } else {
-            command := '"' . cursorPath . '" "' . targetPath . '"'
+            ; Windows path -> file:// URI
+            uri := ToFileUri(targetPath)
         }
 
-        ; It can sometimes take a while for Cursor to open a new window, so we give it 30 seconds
+        command := '"' . cursorPath . '" --new-window --folder-uri "' . uri . '"'
+
+        ; Allow up to 30s for new window to appear
         newHwnd := GetNewWindowHandle("cursor.exe", command, 30000)
 
         if (newHwnd) {
-            FileAppend(newHwnd, "*") ; Write new handle to stdout
+            FileAppend(newHwnd, "*") ; write new handle to stdout
         } else {
             MsgBox("Could not identify new window within the timeout period.")
         }
