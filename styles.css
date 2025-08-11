@@ -38,9 +38,9 @@ body {
   /*background-color: #d4cbb7; /* Solarized base3 for light background */
 }
 
-@media screen and (min-width: 2500px) and (max-width: 2700px) {
+@media screen and (min-width: 2500px) {
   body {
-    background-image: none;
+    background-size: cover;
   }
 }
 
@@ -78,7 +78,10 @@ button:hover {
 
   body {
     background-color: var(--app-dark-bg);
-    background-image: none;
+    background-image: url("bg.jpg");
+    background-position: top center;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
     border-color: var(--gb-bg-hover);
   }
 
