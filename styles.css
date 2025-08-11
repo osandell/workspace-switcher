@@ -23,17 +23,17 @@
   --color14: #93a1a1;
 
   --color7: #073642;
-  --color15: #002b36;
+  --color15: #000000;
 }
 
 body {
-  background-image: url('bg.jpg');
+  background-image: url("bg.jpg");
   background-position: top center;
   background-size: 100% auto;
   background-repeat: no-repeat;
   overflow: hidden;
   margin: 0;
-  border-width: 0px 0px 2px 0px; 
+  border-width: 0px 0px 2px 0px;
   border-style: solid;
   /*background-color: #d4cbb7; /* Solarized base3 for light background */
 }
@@ -45,9 +45,9 @@ body {
 }
 
 button {
-  background-color: #d4cbb7; /* Match the app background */
+  background-color: #000000; /* Default to Solarized Dark base03; JS overrides per theme */
   border: none; /* No border */
-  color: var(--color8); /* Solarized base00 for button text */
+  color: var(--color7); /* Even darker text */
   font-family: "Consolas Nerd Font", monospace;
   padding: 5px 20px;
   text-align: center;
@@ -58,5 +58,40 @@ button {
 }
 
 button:hover {
-  background-color: var(--base2); /* Slightly lighter background on hover */
+  background-color: #073642; /* Slightly lighter than base03 for hover */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Gruvbox Dark palette */
+    --gb-bg: #282828;
+    --gb-bg-soft: #1d2021;
+    --gb-bg-hover: #3c3836;
+    --gb-fg: #ebdbb2;
+    --gb-muted: #a89984;
+    --gb-accent: #d79921;
+
+    /* App-specific dark background sampled from screenshot */
+    --app-dark-bg: #292829;
+    --app-highlight-bg: var(--gb-bg-soft);
+  }
+
+  body {
+    background-color: var(--app-dark-bg);
+    background-image: none;
+    border-color: var(--gb-bg-hover);
+  }
+
+  button {
+    background-color: var(--app-dark-bg);
+    color: #141414; /* very dark text, still legible on highlight bg */
+  }
+
+  button:hover,
+  button.active,
+  button[aria-selected="true"] {
+    background-color: var(
+      --app-highlight-bg
+    ); /* use previous bg for highlighted */
+  }
 }
