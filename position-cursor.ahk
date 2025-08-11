@@ -26,7 +26,7 @@ oneThirdWidth := screenWidth // 3
 leftPadding := Integer(screenWidth * 0.03)  ; 10% of screen width
 rightPadding := Integer(screenWidth * 0.03)  ; 10% of screen width
 topPadding := Integer(screenHeight * 0.05)   ; 5% of screen height
-bottomPadding := Integer(screenHeight * 0.05) ; 5% of screen height
+bottomPadding := Integer(screenHeight * 0.052) ; 5% of screen height
 leftOffset := Integer(screenWidth * 0.003)
 widthOffset := Integer(screenWidth * -0.003)
 
