@@ -20,7 +20,7 @@ let kittyMainPID;
 let kittyLfPID;
 let codePID;
 
-store.clear();
+// Do not clear the store on startup to preserve open tabs and settings across restarts
 
 // Store for application state
 let storedTabs = store.get("storedTabs", []);
@@ -897,6 +897,26 @@ function setupHttpServer() {
           toggleFullscreen();
           break;
 
+        case "restartApp":
+          // Relaunch the entire Electron app so window/init options reapply
+          // Persist current in-memory state to store before restarting
+          try {
+            if (Array.isArray(storedTabs)) {
+              store.set("storedTabs", storedTabs);
+            }
+            store.set("activeTabIndex", activeTabIndex ?? 0);
+          } catch (persistError) {
+            console.error(
+              "Error persisting state before restart:",
+              persistError
+            );
+          }
+          setTimeout(() => {
+            app.relaunch();
+            app.exit(0);
+          }, 50);
+          break;
+
         case "toCompactScreen":
           // Reset from fullscreen to compact mode
           activeTabIndex = store.get("activeTabIndex", 0);
@@ -1069,8 +1089,6 @@ app.whenReady().then(async () => {
   console.log(
     "Process IDs initialized, updating platform window IDs for stored tabs"
   );
-
-  removeStoredTabsPlatformIDs();
 
   // Create window and set up window management
   createWindow();
