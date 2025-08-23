@@ -32,7 +32,7 @@ if (currentDisplay == "internal") {
     } else {
         leftPosition := -10
         topPosition := 0  ; Removed the 34 offset
-        windowWidth := Integer(screenWidth * 0.3457)
+        windowWidth := Integer(screenWidth * 0.346)
         windowHeight := screenHeight - topPosition + 10
     }
 } else { ; External monitor
