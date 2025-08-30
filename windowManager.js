@@ -268,13 +268,13 @@ async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
 
     console.log("activeProcess", activeProcess);
 
-    if (activeProcess === "Alacritty.exe") {
+    if (activeProcess === "alacritty.exe") {
       currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
       positionKittyWindow(
         currentTab.kittyPlatformWindowId,
         currentTab.terminalFullScreen
       );
-    } else if (activeProcess === "Cursor.exe") {
+    } else if (activeProcess === "cursor.exe") {
       console.log("testy");
       currentTab.editorFullScreen = !currentTab.editorFullScreen;
       positionEditorWindow(
