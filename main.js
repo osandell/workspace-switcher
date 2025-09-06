@@ -15,6 +15,79 @@ const fsPromises = require("fs").promises;
 const path = require("path");
 const { exec } = require("child_process");
 
+// Logging setup
+const logFile = path.join(__dirname, 'app.log');
+let logStream = null;
+let lastLogDate = null;
+
+/**
+ * Initialize or rotate log file
+ */
+function initializeLogger() {
+  const today = new Date().toDateString();
+  
+  if (lastLogDate !== today) {
+    // Close existing stream if any
+    if (logStream) {
+      logStream.end();
+    }
+    
+    // Clear the log file for the new day
+    fs.writeFileSync(logFile, `=== Log started: ${new Date().toISOString()} ===\n`);
+    
+    // Create new write stream in append mode
+    logStream = fs.createWriteStream(logFile, { flags: 'a' });
+    lastLogDate = today;
+  }
+}
+
+/**
+ * Custom log function that writes to both console and file
+ */
+function log(...args) {
+  initializeLogger();
+  
+  const timestamp = new Date().toISOString();
+  const message = args.map(arg => 
+    typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+  ).join(' ');
+  
+  const logEntry = `[${timestamp}] ${message}\n`;
+  
+  // Write to console
+  console.log(...args);
+  
+  // Write to file
+  if (logStream) {
+    logStream.write(logEntry);
+  }
+}
+
+/**
+ * Custom error log function
+ */
+function logError(...args) {
+  initializeLogger();
+  
+  const timestamp = new Date().toISOString();
+  const message = args.map(arg => 
+    typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+  ).join(' ');
+  
+  const logEntry = `[${timestamp}] ERROR: ${message}\n`;
+  
+  // Write to console
+  console.error(...args);
+  
+  // Write to file
+  if (logStream) {
+    logStream.write(logEntry);
+  }
+}
+
+// Initialize logger on startup
+initializeLogger();
+
 // Process IDs for various applications
 let kittyMainPID;
 let kittyLfPID;
@@ -35,7 +108,7 @@ function detectSystemTheme() {
     // Get current username to ensure we read the correct user's settings
     exec("whoami", (whoamiError, whoamiStdout) => {
       const username = whoamiStdout.trim();
-      console.log(`Current username: ${username}`);
+      log(`Current username: ${username}`);
 
       // Try using dconf with explicit user
       const dconfCommand =
@@ -47,25 +120,25 @@ function detectSystemTheme() {
 
       exec(dconfCommand, (error, stdout) => {
         if (error) {
-          console.error(`Error detecting system theme with dconf: ${error}`);
+          logError(`Error detecting system theme with dconf: ${error}`);
         } else {
           const output = stdout.trim().replace(/'/g, "");
-          console.log(`dconf color scheme: "${output}"`);
+          log(`dconf color scheme: "${output}"`);
 
           if (output.includes("prefer-dark")) {
-            console.log("Detected dark theme from dconf color-scheme");
+            log("Detected dark theme from dconf color-scheme");
             resolve("dark");
             return;
           }
           if (output.includes("prefer-light")) {
-            console.log("Detected light theme from dconf color-scheme");
+            log("Detected light theme from dconf color-scheme");
             resolve("light");
             return;
           }
         }
 
         // If the above fails, force dark theme for now since we know the user wants dark mode
-        console.log("Could not reliably detect theme, defaulting to dark mode");
+        log("Could not reliably detect theme, defaulting to dark mode");
         resolve("dark");
       });
     });
@@ -87,7 +160,7 @@ function initializeProcessIDs() {
           `tasklist /FI "IMAGENAME eq alacritty.exe" /FO CSV /NH`,
           (error, stdout) => {
             if (error) {
-              console.error(`Error finding alacritty process: ${error}`);
+              logError(`Error finding alacritty process: ${error}`);
             } else {
               // Extract PID from CSV output
               const lines = stdout.trim().split("\n");
@@ -95,7 +168,7 @@ function initializeProcessIDs() {
                 const parts = lines[0].split(",");
                 if (parts.length > 1) {
                   kittyMainPID = parts[1].replace(/"/g, "");
-                  console.log(`alacritty PID: ${kittyMainPID}`);
+                  log(`alacritty PID: ${kittyMainPID}`);
                 }
               }
             }
@@ -112,7 +185,7 @@ function initializeProcessIDs() {
           `tasklist /FI "IMAGENAME eq alacritty.exe" /FO CSV /NH`,
           (error, stdout) => {
             if (error) {
-              console.error(`Error finding alacritty LF process: ${error}`);
+              logError(`Error finding alacritty LF process: ${error}`);
             } else {
               // Extract PID from CSV output
               const lines = stdout.trim().split("\n");
@@ -120,7 +193,7 @@ function initializeProcessIDs() {
                 const parts = lines[1].split(",");
                 if (parts.length > 1) {
                   kittyLfPID = parts[1].replace(/"/g, "");
-                  console.log(`alacritty LF PID: ${kittyLfPID}`);
+                  log(`alacritty LF PID: ${kittyLfPID}`);
                 }
               }
             }
@@ -137,7 +210,7 @@ function initializeProcessIDs() {
           `tasklist /FI "IMAGENAME eq Cursor.exe" /FO CSV /NH`,
           (error, stdout) => {
             if (error) {
-              console.error(`Error finding Cursor process: ${error}`);
+              logError(`Error finding Cursor process: ${error}`);
             } else {
               // Extract PID from CSV output
               const lines = stdout.trim().split("\n");
@@ -145,7 +218,7 @@ function initializeProcessIDs() {
                 const parts = lines[0].split(",");
                 if (parts.length > 1) {
                   codePID = parts[1].replace(/"/g, "");
-                  console.log(`Cursor PID: ${codePID}`);
+                  log(`Cursor PID: ${codePID}`);
                 }
               }
             }
@@ -157,7 +230,7 @@ function initializeProcessIDs() {
 
     // Wait for all process ID lookups to complete
     Promise.all(promises).then(() => {
-      console.log("All process IDs initialized");
+      log("All process IDs initialized");
       resolve();
     });
   });
@@ -168,7 +241,7 @@ function initializeProcessIDs() {
  */
 function setupDisplayListeners() {
   powerMonitor.on("resume", () => {
-    console.log("System is waking up from sleep");
+    log("System is waking up from sleep");
 
     const displays = screen.getAllDisplays();
     if (displays.length > 1) {
@@ -177,12 +250,12 @@ function setupDisplayListeners() {
   });
 
   screen.on("display-added", () => {
-    console.log("Display added");
+    log("Display added");
     windowManager.applyDisplayLayout(kittyMainPID, kittyLfPID, codePID);
   });
 
   screen.on("display-removed", () => {
-    console.log("Display removed");
+    log("Display removed");
     windowManager.applyDisplayLayout(kittyMainPID, codePID);
   });
 }
@@ -230,7 +303,7 @@ async function changeActiveTab(direction) {
       )
     ).trim();
 
-    console.log("activeProcess", activeProcess);
+    log("activeProcess", activeProcess);
 
     if (activeProcess === "Cursor.exe") {
       focusKittyWindow(
@@ -254,7 +327,7 @@ async function changeActiveTab(direction) {
       });
     }
   } catch (err) {
-    console.error("Error reading active window data:", err);
+    logError("Error reading active window data:", err);
   }
 }
 
@@ -275,28 +348,28 @@ function focusKittyWindow(platformWindowId, path) {
       platformWindowId || 0
     } "${escapedPath}"`;
 
-    console.log("Executing command:", command); // Debug log
+    log("Executing command:", command); // Debug log
 
     exec(command, (error, stdout, stderr) => {
-      console.log(
+      log(
         "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    hmm    \x1b[8m\x1b[40m\x1b[0m%c main.js 300 \n",
         "color: white; background: black; font-weight: bold",
         ""
       );
       if (error) {
-        console.error("Error executing AutoHotkey:", error);
+        logError("Error executing AutoHotkey:", error);
         reject(error);
         return;
       }
 
       if (stderr) {
-        console.error("AutoHotkey stderr:", stderr);
+        logError("AutoHotkey stderr:", stderr);
       }
 
       if (stdout) {
         // if stdout is a number, update the kittyPlatformWindowId
         if (!isNaN(stdout)) {
-          console.log("AutoHotkey stdout:", stdout);
+          log("AutoHotkey stdout:", stdout);
           updateKittyPlatformWindowId(stdout);
           setTimeout(() => {
             windowManager.positionKittyWindow(stdout, false);
@@ -304,7 +377,7 @@ function focusKittyWindow(platformWindowId, path) {
         }
       }
 
-      console.log("AutoHotkey script executed successfully");
+      log("AutoHotkey script executed successfully");
       resolve({
         statusCode: 200,
         data: stdout,
@@ -317,7 +390,7 @@ function focusKittyWindow(platformWindowId, path) {
   //   `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${platformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
   //   (err, stdout) => {
   //     if (err) {
-  //       console.error(`Error getting kitty window id: ${err}`);
+  //       logError(`Error getting kitty window id: ${err}`);
   //       return;
   //     }
 
@@ -328,25 +401,25 @@ function focusKittyWindow(platformWindowId, path) {
   //         `kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
   //         (error, stdout, stderr) => {
   //           if (error) {
-  //             console.error(`Error focusing Kitty window: ${error}`);
+  //             logError(`Error focusing Kitty window: ${error}`);
   //             return;
   //           }
   //           if (stderr) {
-  //             console.error(`Kitty stderr: ${stderr}`);
+  //             logError(`Kitty stderr: ${stderr}`);
   //             return;
   //           }
-  //           console.log(`Kitty window focused with path: ${path}`);
+  //           log(`Kitty window focused with path: ${path}`);
   //         }
   //       );
   //     } else {
-  //       console.error("No Kitty window ID found");
+  //       logError("No Kitty window ID found");
   //     }
   //   }
   // );
 }
 
 function focusCursorWindow(cursorPlatformWindowId, pathShort) {
-  console.log(
+  log(
     "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    pathShort    \x1b[8m\x1b[40m\x1b[0m%c httpHandler.js 10 \n",
     "color: white; background: black; font-weight: bold",
     "",
@@ -364,17 +437,17 @@ function focusCursorWindow(cursorPlatformWindowId, pathShort) {
       cursorPlatformWindowId || 0
     } "${escapedPath}"`;
 
-    console.log("Executing command:", command); // Debug log
+    log("Executing command:", command); // Debug log
 
     exec(command, (error, stdout, stderr) => {
       if (error) {
-        console.error("Error executing AutoHotkey:", error);
+        logError("Error executing AutoHotkey:", error);
         reject(error);
         return;
       }
 
       if (stderr) {
-        console.error("AutoHotkey stderr:", stderr);
+        logError("AutoHotkey stderr:", stderr);
       }
 
       try {
@@ -383,7 +456,7 @@ function focusCursorWindow(cursorPlatformWindowId, pathShort) {
           const hwndNumber = parseInt(fileContent, 10);
 
           if (!isNaN(hwndNumber) && hwndNumber !== 0) {
-            console.log("AutoHotkey hwnd from file:", hwndNumber);
+            log("AutoHotkey hwnd from file:", hwndNumber);
             updateCursorPlatformWindowId(hwndNumber);
             setTimeout(() => {
               windowManager.positionEditorWindow(hwndNumber, false);
@@ -398,7 +471,7 @@ function focusCursorWindow(cursorPlatformWindowId, pathShort) {
         } else if (stdout) {
           // if stdout is a number, update the kittyPlatformWindowId
           if (!isNaN(stdout)) {
-            console.log("AutoHotkey stdout:", stdout);
+            log("AutoHotkey stdout:", stdout);
             updateCursorPlatformWindowId(stdout);
             setTimeout(() => {
               windowManager.positionEditorWindow(stdout, false);
@@ -406,10 +479,10 @@ function focusCursorWindow(cursorPlatformWindowId, pathShort) {
           }
         }
       } catch (error) {
-        console.error("Error reading temp_hwnd.txt:", error);
+        logError("Error reading temp_hwnd.txt:", error);
       }
 
-      console.log("AutoHotkey script executed successfully");
+      log("AutoHotkey script executed successfully");
       resolve({
         statusCode: 200,
         data: stdout,
@@ -433,17 +506,17 @@ function launchNewKittyWindow(path) {
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      console.error("Error executing AutoHotkey:", error);
+      logError("Error executing AutoHotkey:", error);
       reject(error);
       return;
     }
 
     if (stderr) {
-      console.error("AutoHotkey stderr:", stderr);
+      logError("AutoHotkey stderr:", stderr);
     }
 
     if (stdout) {
-      console.log("AutoHotkey stdout:", stdout);
+      log("AutoHotkey stdout:", stdout);
       updateKittyPlatformWindowId(stdout);
     }
 
@@ -451,18 +524,18 @@ function launchNewKittyWindow(path) {
       windowManager.positionKittyWindow(stdout, false);
     }, 500);
 
-    console.log("AutoHotkey script executed successfully");
+    log("AutoHotkey script executed successfully");
   });
 
   // exec(
   //   `kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${path}`,
   //   (error, stdout, stderr) => {
   //     if (error) {
-  //       console.error(`Error opening Kitty: ${error}`);
+  //       logError(`Error opening Kitty: ${error}`);
   //       return;
   //     }
   //     if (stderr) {
-  //       console.error(`Kitty stderr: ${stderr}`);
+  //       logError(`Kitty stderr: ${stderr}`);
   //       return;
   //     }
 
@@ -475,7 +548,7 @@ function launchNewKittyWindow(path) {
   //       storedTabs[activeTabIndex].terminalFullScreen
   //     );
 
-  //     console.log(`Kitty opened with path: ${path}`);
+  //     log(`Kitty opened with path: ${path}`);
   //   }
   // );
 }
@@ -489,7 +562,7 @@ function updateKittyPlatformWindowId(kittyWindowId) {
   //   `kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
   //   (err, stdout) => {
   //     if (err) {
-  //       console.error(`Error getting platform_window_id: ${err}`);
+  //       logError(`Error getting platform_window_id: ${err}`);
   //       return;
   //     }
 
@@ -559,7 +632,7 @@ function closeKittyWindow(platformWindowId) {
   const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" close-wt.ahk ${platformWindowId}`;
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      console.error(`Error closing WT: ${error}`);
+      logError(`Error closing WT: ${error}`);
       return;
     }
   });
@@ -574,7 +647,7 @@ function closeCursorWindow(platformWindowId) {
   const command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" close-cursor.ahk ${platformWindowId}`;
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      console.error(`Error closing Cursor: ${error}`);
+      logError(`Error closing Cursor: ${error}`);
       return;
     }
   });
@@ -740,7 +813,7 @@ function setupMainWindowEvents() {
  * Toggle fullscreen mode for the current application
  */
 async function toggleFullscreen() {
-  console.log("toggleFullscreen8");
+  log("toggleFullscreen8");
   activeTabIndex = store.get("activeTabIndex", 0);
   const currentTab = storedTabs[activeTabIndex];
 
@@ -759,7 +832,7 @@ async function toggleFullscreen() {
  * @param {string} path - The workspace path
  */
 function createNewWorkspace(dirPath) {
-  console.log(
+  log(
     "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    dirPath    \x1b[8m\x1b[40m\x1b[0m%c main.js 547 \n",
     "color: white; background: black; font-weight: bold",
     "",
@@ -789,27 +862,27 @@ function createNewWorkspace(dirPath) {
   // Construct the command to execute AutoHotkey with the focus-wt.ahk script
   let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" focus-wt.ahk 123 "${escapedPath}"`;
 
-  console.log("Executing WT command:", command); // Debug log
+  log("Executing WT command:", command); // Debug log
 
   // Open Windows Terminal
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      console.error(`Error opening WT: ${error}`);
+      logError(`Error opening WT: ${error}`);
       return;
     }
 
     if (stderr) {
-      console.error(`WT stderr: ${stderr}`);
+      logError(`WT stderr: ${stderr}`);
     }
 
-    console.log(`WT stdout: ${stdout}`);
+    log(`WT stdout: ${stdout}`);
 
     let wtWindowId = stdout.trim(); // Make sure to trim any whitespace
     updateKittyPlatformWindowId(wtWindowId);
 
     // This setTimeout should now execute
     setTimeout(() => {
-      console.log(`Positioning WT window with ID: ${wtWindowId}`);
+      log(`Positioning WT window with ID: ${wtWindowId}`);
       windowManager.positionKittyWindow(wtWindowId, false);
     }, kittyDelay);
   });
@@ -822,7 +895,7 @@ function createNewWorkspace(dirPath) {
  */
 function positionAllWindows() {
   const currentDisplay = windowManager.getCurrentDisplay();
-  console.log(`Positioning all windows for ${currentDisplay} display`);
+  log(`Positioning all windows for ${currentDisplay} display`);
 
   // Position Cursor/VS Code windows
   storedTabs.forEach((tab) => {
@@ -893,7 +966,7 @@ function setupHttpServer() {
           break;
 
         case "toggleFullscreen":
-          console.log("toggleFullscreen");
+          log("toggleFullscreen");
           toggleFullscreen();
           break;
 
@@ -906,7 +979,7 @@ function setupHttpServer() {
             }
             store.set("activeTabIndex", activeTabIndex ?? 0);
           } catch (persistError) {
-            console.error(
+            logError(
               "Error persisting state before restart:",
               persistError
             );
@@ -937,7 +1010,7 @@ function setupHttpServer() {
             windowManager.positionEditorWindow(codePID, false);
             exec(`cursor`, (vscodeError) => {
               if (vscodeError) {
-                console.error(`Error opening editor: ${vscodeError}`);
+                logError(`Error opening editor: ${vscodeError}`);
               }
             });
           }
@@ -954,7 +1027,7 @@ function setupHttpServer() {
           break;
 
         case "printStore":
-          console.log(store.get("storedTabs"));
+          log(store.get("storedTabs"));
           break;
 
         case "activateDarkMode":
@@ -1032,12 +1105,12 @@ async function handleGitKraken() {
     .toString()
     .trim();
 
-  console.log("activeWindow", activeWindow);
+  log("activeWindow", activeWindow);
 
   if (activeWindow === "GitKraken Desktop (Ubuntu)") {
-    console.log("GitKraken is active");
+    log("GitKraken is active");
   } else {
-    console.log(
+    log(
       "GitKraken is not active",
       storedTabs[activeTabIndex].gitkrakenInitialized
     );
@@ -1057,10 +1130,10 @@ async function handleGitKraken() {
     // Open GitKraken if not initialized
     if (!storedTabs[activeTabIndex].gitkrakenInitialized) {
       const command = `"C:\\Users\\Olof.Sandell\\AppData\\Local\\Fork\\current\\Fork.exe" "${path}"`;
-      console.log("Executing command:", command);
+      log("Executing command:", command);
       exec(command, (error) => {
         if (error) {
-          console.error(`Error opening GitKraken: ${error}`);
+          logError(`Error opening GitKraken: ${error}`);
         }
 
         storedTabs[activeTabIndex].gitkrakenInitialized = true;
@@ -1081,12 +1154,12 @@ function removeStoredTabsPlatformIDs() {
 app.whenReady().then(async () => {
   // Detect system theme before initializing UI
   const systemTheme = await detectSystemTheme();
-  console.log(`Setting application theme to: ${systemTheme}`);
+  log(`Setting application theme to: ${systemTheme}`);
   store.set("theme", systemTheme);
 
   // Initialize process IDs first
   await initializeProcessIDs();
-  console.log(
+  log(
     "Process IDs initialized, updating platform window IDs for stored tabs"
   );
 
@@ -1099,7 +1172,7 @@ app.whenReady().then(async () => {
 
   // Position all windows on startup with a short delay to ensure everything is ready
   // setTimeout(() => {
-  //   console.log("Positioning all windows on startup");
+  //   log("Positioning all windows on startup");
   //   windowManager.detectAndSetCurrentDisplay();
   //   positionAllWindows();
   // }, 2000);
