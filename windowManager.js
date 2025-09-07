@@ -248,44 +248,43 @@ async function applyDisplayLayout(kittyMainPID, codePID) {
 }
 
 /**
- * Toggle fullscreen mode for the current application
+ * Toggle fullscreen mode for Alacritty terminal
  */
-async function toggleFullscreen(currentTab, kittyMainPID, codePID) {
+function toggleFullscreenAlacritty(currentTab) {
   console.log(
-    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    currentTab    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js 264 \n",
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    toggleFullscreenAlacritty    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js \n",
     "color: white; background: black; font-weight: bold",
     "",
     currentTab
   );
-  console.log("toggleFullscreen9");
-  try {
-    const activeProcess = (
-      await fs.readFile(
-        "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-process.log",
-        "utf8"
-      )
-    ).trim();
+  
+  currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
+  positionKittyWindow(
+    currentTab.kittyPlatformWindowId,
+    currentTab.terminalFullScreen
+  );
+  
+  return currentTab;
+}
 
-    console.log("activeProcess", activeProcess);
-
-    if (activeProcess === "alacritty.exe") {
-      currentTab.terminalFullScreen = !currentTab.terminalFullScreen;
-      positionKittyWindow(
-        currentTab.kittyPlatformWindowId,
-        currentTab.terminalFullScreen
-      );
-    } else if (activeProcess === "cursor.exe") {
-      console.log("testy");
-      currentTab.editorFullScreen = !currentTab.editorFullScreen;
-      positionEditorWindow(
-        currentTab.cursorPlatformWindowId,
-        currentTab.editorFullScreen
-      );
-    }
-    return currentTab;
-  } catch (err) {
-    console.error("Error reading active window data:", err);
-  }
+/**
+ * Toggle fullscreen mode for Cursor editor
+ */
+function toggleFullscreenCursor(currentTab) {
+  console.log(
+    "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    toggleFullscreenCursor    \x1b[8m\x1b[40m\x1b[0m%c windowManager.js \n",
+    "color: white; background: black; font-weight: bold",
+    "",
+    currentTab
+  );
+  
+  currentTab.editorFullScreen = !currentTab.editorFullScreen;
+  positionEditorWindow(
+    currentTab.cursorPlatformWindowId,
+    currentTab.editorFullScreen
+  );
+  
+  return currentTab;
 }
 
 // Export the module
@@ -297,6 +296,7 @@ module.exports = {
   positionKittyWindow,
   positionEditorWindow,
   applyDisplayLayout,
-  toggleFullscreen,
+  toggleFullscreenAlacritty,
+  toggleFullscreenCursor,
   getCurrentDisplay: () => currentDisplay,
 };

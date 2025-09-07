@@ -295,40 +295,16 @@ async function changeActiveTab(direction) {
     pathShort = storedTabs[activeTabIndex].path;
   }
 
-  try {
-    const activeProcess = (
-      await fsPromises.readFile(
-        "C:\\Users\\Olof.Sandell\\AppData\\Local\\Temp\\active-process.log",
-        "utf8"
-      )
-    ).trim();
-
-    log("activeProcess", activeProcess);
-
-    if (activeProcess === "Cursor.exe") {
-      focusKittyWindow(
-        storedTabs[activeTabIndex].kittyPlatformWindowId,
-        pathShort
-      ).then((response) => {
-        focusCursorWindow(
-          storedTabs[activeTabIndex].cursorPlatformWindowId,
-          pathShort
-        );
-      });
-    } else {
-      focusCursorWindow(
-        storedTabs[activeTabIndex].cursorPlatformWindowId,
-        pathShort
-      ).then((response) => {
-        focusKittyWindow(
-          storedTabs[activeTabIndex].kittyPlatformWindowId,
-          pathShort
-        );
-      });
-    }
-  } catch (err) {
-    logError("Error reading active window data:", err);
-  }
+  // Focus both windows - let the caller determine which should be on top
+  focusKittyWindow(
+    storedTabs[activeTabIndex].kittyPlatformWindowId,
+    pathShort
+  );
+  
+  focusCursorWindow(
+    storedTabs[activeTabIndex].cursorPlatformWindowId,
+    pathShort
+  );
 }
 
 /**
@@ -810,18 +786,28 @@ function setupMainWindowEvents() {
 }
 
 /**
- * Toggle fullscreen mode for the current application
+ * Toggle fullscreen mode for Alacritty terminal
  */
-async function toggleFullscreen() {
-  log("toggleFullscreen8");
+function toggleFullscreenAlacritty() {
+  log("toggleFullscreenAlacritty");
   activeTabIndex = store.get("activeTabIndex", 0);
   const currentTab = storedTabs[activeTabIndex];
 
-  const updatedTab = await windowManager.toggleFullscreen(
-    currentTab,
-    kittyMainPID,
-    codePID
-  );
+  const updatedTab = windowManager.toggleFullscreenAlacritty(currentTab);
+
+  storedTabs[activeTabIndex] = updatedTab;
+  store.set("storedTabs", storedTabs);
+}
+
+/**
+ * Toggle fullscreen mode for Cursor editor
+ */
+function toggleFullscreenCursor() {
+  log("toggleFullscreenCursor");
+  activeTabIndex = store.get("activeTabIndex", 0);
+  const currentTab = storedTabs[activeTabIndex];
+
+  const updatedTab = windowManager.toggleFullscreenCursor(currentTab);
 
   storedTabs[activeTabIndex] = updatedTab;
   store.set("storedTabs", storedTabs);
@@ -965,9 +951,21 @@ function setupHttpServer() {
           positionAllWindows();
           break;
 
+        case "toggleFullscreenAlacritty":
+          log("toggleFullscreenAlacritty endpoint");
+          toggleFullscreenAlacritty();
+          break;
+
+        case "toggleFullscreenCursor":
+          log("toggleFullscreenCursor endpoint");
+          toggleFullscreenCursor();
+          break;
+
         case "toggleFullscreen":
-          log("toggleFullscreen");
-          toggleFullscreen();
+          // Deprecated - kept for backward compatibility
+          log("toggleFullscreen endpoint (deprecated - use toggleFullscreenAlacritty or toggleFullscreenCursor)");
+          // Default to Alacritty for backward compatibility
+          toggleFullscreenAlacritty();
           break;
 
         case "restartApp":
