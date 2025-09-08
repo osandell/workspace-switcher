@@ -15,9 +15,9 @@ windowFound := 0
 screenWidth := A_ScreenWidth
 screenHeight := A_ScreenHeight
 
-; Get screen dimensions
-screenWidth := A_ScreenWidth
-screenHeight := A_ScreenHeight
+if (screenWidth == 2560 && screenHeight == 1440) {
+    currentDisplay := "thinkvision"
+}
 
 halfWidth := screenWidth // 2
 oneThirdWidth := screenWidth // 3
@@ -30,7 +30,52 @@ bottomPadding := Integer(screenHeight * 0.052) ; 5% of screen height
 leftOffset := Integer(screenWidth * 0.003)
 widthOffset := Integer(screenWidth * -0.003)
 
-if (currentDisplay == "internal") {
+if (currentDisplay == "thinkvision") {
+    if (fullScreen == "true") {
+        leftPosition := leftPadding + leftOffset - 10
+        topPosition := topPadding - 2
+        windowWidth := screenWidth - (leftPadding + rightPadding) + widthOffset + 22
+        windowHeight := screenHeight - (topPadding + bottomPadding) + 6
+    } else {
+        ; For two windows side by side with padding around the combined whole
+        leftPosition := leftPadding
+        topPosition := topPadding - 2
+
+        ; Calculate the width for windows with only outer padding
+        totalUsableWidth := screenWidth - (leftPadding + rightPadding)
+
+        ; Left window should take 65% of usable width
+        leftWidth := Integer(totalUsableWidth * 0.325)
+
+        ; Right window gets the remaining space
+        rightWidth := totalUsableWidth - leftWidth
+
+        ; Check if we should position on left or right side
+        hasWindowOnLeft := 0
+
+        ; Scan windows to check if there's already a positioned window
+        for index, hwnd in WinGetList("ahk_exe cursor.exe") {
+            WinGetPos(&wx, &wy, &ww, &wh, "ahk_id " . hwnd)
+            if (wx >= leftPadding && wx < screenWidth / 2 &&
+                wy >= topPadding && wy < screenHeight - bottomPadding) {
+                hasWindowOnLeft := 1
+                break
+            }
+        }
+
+        if (hasWindowOnLeft) {
+            ; Position on the right side
+            leftPosition := leftPadding + leftWidth + 2
+            windowWidth := rightWidth + 10
+        } else {
+            ; Position on the left side
+            leftPosition := leftPadding
+            windowWidth := leftWidth
+        }
+
+        windowHeight := screenHeight - (topPadding + bottomPadding) + 5
+    }
+} else if (currentDisplay == "internal") {
     if (fullScreen == "true") {
         leftPosition := -10
         topPosition := 34
