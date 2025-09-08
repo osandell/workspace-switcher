@@ -15,6 +15,10 @@ windowFound := 0
 screenWidth := A_ScreenWidth
 screenHeight := A_ScreenHeight
 
+if (screenWidth == 2560 && screenHeight == 1440) {
+    currentDisplay := "thinkvision"
+}
+
 ; Calculate padding percentages for external display
 leftPadding := Integer(screenWidth * 0.03)  ; 3% of screen width
 rightPadding := Integer(screenWidth * 0.03)  ; 3% of screen width
@@ -23,7 +27,24 @@ bottomPadding := Integer(screenHeight * 0.055) ; 5% of screen height
 heightOffset := Integer(screenHeight * 0.004)
 widthOffset := Integer(screenWidth * 0.002)
 
-if (currentDisplay == "internal") {
+if (currentDisplay == "thinkvision") {
+    if (fullScreen == "true") {
+        leftPosition := leftPadding
+        topPosition := topPadding
+        windowWidth := screenWidth - (leftPadding + rightPadding) + widthOffset + 5
+        windowHeight := screenHeight - (topPadding + bottomPadding) + heightOffset
+    } else {
+        ; For terminal, keep it on the left side always with padding
+        leftPosition := leftPadding
+        topPosition := topPadding
+
+        ; Calculate width based on 35% of usable space
+        totalUsableWidth := screenWidth - (leftPadding + rightPadding)
+        windowWidth := Integer(totalUsableWidth * 0.3273)
+
+        windowHeight := screenHeight - (topPadding + bottomPadding) + heightOffset
+    }
+} else if (currentDisplay == "internal") {
     if (fullScreen == "true") {
         leftPosition := -10
         topPosition := 0  ; Removed the 34 offset
