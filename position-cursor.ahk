@@ -50,28 +50,9 @@ if (currentDisplay == "thinkvision") {
         ; Right window gets the remaining space
         rightWidth := totalUsableWidth - leftWidth
 
-        ; Check if we should position on left or right side
-        hasWindowOnLeft := 0
-
-        ; Scan windows to check if there's already a positioned window
-        for index, hwnd in WinGetList("ahk_exe cursor.exe") {
-            WinGetPos(&wx, &wy, &ww, &wh, "ahk_id " . hwnd)
-            if (wx >= leftPadding && wx < screenWidth / 2 &&
-                wy >= topPadding && wy < screenHeight - bottomPadding) {
-                hasWindowOnLeft := 1
-                break
-            }
-        }
-
-        if (hasWindowOnLeft) {
-            ; Position on the right side
-            leftPosition := leftPadding + leftWidth + 2
-            windowWidth := rightWidth + 10
-        } else {
-            ; Position on the left side
-            leftPosition := leftPadding
-            windowWidth := leftWidth
-        }
+        ; Position on the right side
+        leftPosition := leftPadding + leftWidth + 2
+        windowWidth := rightWidth + 10
 
         windowHeight := screenHeight - (topPadding + bottomPadding) + 5
     }
