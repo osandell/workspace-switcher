@@ -31,7 +31,7 @@ const defaultPositions = {
 const topBarHeight = 23;
 
 let mainWindow; // Main top bar window
-let lineWindow; // Vertical line window
+// let lineWindow; // Vertical line window - DISABLED
 
 let kittyMainPID;
 exec(
@@ -221,7 +221,7 @@ function onExternalDisplaysConnected() {
   );
 
   updateTopBarPositionAndSize();
-  updateLineWindowPositionAndSize();
+  // updateLineWindowPositionAndSize(); // DISABLED
 }
 
 // Monitor for display changes
@@ -281,7 +281,7 @@ function setupDisplayListeners() {
     );
 
     updateTopBarPositionAndSize();
-    updateLineWindowPositionAndSize();
+    // updateLineWindowPositionAndSize(); // DISABLED
   });
 }
 
@@ -304,42 +304,30 @@ function updateTopBarPositionAndSize() {
   }
 }
 
-// Function to update the line window's position and size
-function updateLineWindowPositionAndSize() {
-  if (lineWindow) {
-    // Calculate the new height and position based on current display settings
-    const { height, width } = screen.getPrimaryDisplay().workAreaSize;
-    const newHeight = defaultPositions[currentDisplay].line.height;
-    const newX = defaultPositions[currentDisplay].line.x; // Assuming you have logic to set currentDisplay
-    const newY = defaultPositions[currentDisplay].line.y;
+// Line window functionality DISABLED
+// function updateLineWindowPositionAndSize() {
+//   if (lineWindow) {
+//     // Calculate the new height and position based on current display settings
+//     const { height, width } = screen.getPrimaryDisplay().workAreaSize;
+//     const newHeight = defaultPositions[currentDisplay].line.height;
+//     const newX = defaultPositions[currentDisplay].line.x; // Assuming you have logic to set currentDisplay
+//     const newY = defaultPositions[currentDisplay].line.y;
 
-    const newBounds = {
-      width: 1, // Keep the width as 1px
-      height: newHeight,
-      x: newX,
-      y: newY,
-    };
+//     const newBounds = {
+//       width: 1, // Keep the width as 1px
+//       height: newHeight,
+//       x: newX,
+//       y: newY,
+//     };
 
-    // Set the new bounds to the line window
-    lineWindow.setBounds(newBounds);
-  }
-}
+//     // Set the new bounds to the line window
+//     lineWindow.setBounds(newBounds);
+//   }
+// }
 
-// Function to toggle the visibility of the line window
+// Function to toggle the visibility of the line window - DISABLED
 function setLineWindowVisible(show) {
-  if (lineWindow) {
-    if (show) {
-      // Show the line window if not already visible
-      if (lineWindow.isVisible() === false) {
-        lineWindow.show();
-      }
-    } else {
-      // Hide the line window if visible
-      if (lineWindow.isVisible() === true) {
-        lineWindow.hide();
-      }
-    }
-  }
+  // Line window disabled - do nothing
 }
 
 function changeActiveTab(direction) {
@@ -872,29 +860,30 @@ function createWindow() {
   // Calculate the screen dimensions and center position
   const centerX = Math.round(width / 2);
 
-  lineWindow = new BrowserWindow({
-    width: 1, // 1px wide
-    height: defaultPositions[currentDisplay].line.height,
-    x: defaultPositions[currentDisplay].line.x, // Adjusted to center
-    y: defaultPositions[currentDisplay].line.y,
-    transparent: true, // Ensure transparency for the line
-    frame: false,
-    alwaysOnTop: true,
-    skipTaskbar: true,
-    focusable: false,
-    roundedCorners: false,
-    hasShadow: false,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  });
+  // Line window creation DISABLED
+  // lineWindow = new BrowserWindow({
+  //   width: 1, // 1px wide
+  //   height: defaultPositions[currentDisplay].line.height,
+  //   x: defaultPositions[currentDisplay].line.x, // Adjusted to center
+  //   y: defaultPositions[currentDisplay].line.y,
+  //   transparent: true, // Ensure transparency for the line
+  //   frame: false,
+  //   alwaysOnTop: true,
+  //   skipTaskbar: true,
+  //   focusable: false,
+  //   roundedCorners: false,
+  //   hasShadow: false,
+  //   webPreferences: {
+  //     nodeIntegration: true,
+  //     contextIsolation: false,
+  //   },
+  // });
 
-  lineWindow.loadURL(
-    "data:text/html;charset=utf-8,<style>body { margin: 0; padding: 0; background: rgb(212, 203, 183); }</style><body></body>"
-  );
+  // lineWindow.loadURL(
+  //   "data:text/html;charset=utf-8,<style>body { margin: 0; padding: 0; background: rgb(212, 203, 183); }</style><body></body>"
+  // );
 
-  lineWindow.setIgnoreMouseEvents(true);
+  // lineWindow.setIgnoreMouseEvents(true);
 }
 
 app.whenReady().then(() => {
@@ -985,7 +974,7 @@ const server = http.createServer((req, res) => {
         );
 
         updateTopBarPositionAndSize();
-        updateLineWindowPositionAndSize();
+        // updateLineWindowPositionAndSize(); // DISABLED
         break;
       case "toFullscreen":
         toFullscreen();
