@@ -16,14 +16,12 @@ const defaultPositions = {
   internal: {
     editor: { x: 600, y: 55, width: 1128, height: 1065 },
     editorFullscreen: { x: 0, y: 55, width: 1920, height: 1065 },
-    line: { x: 600, y: 55, width: 1, height: 1065 },
     terminal: { x: 0, y: 55, width: 600, height: 1065 },
     terminalFullscreen: { x: 0, y: 55, width: 1920, height: 1065 },
   },
   external: {
     editor: { x: 932, y: 50, width: 1500, height: 1340 },
     editorFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
-    line: { x: 932, y: 50, width: 1, height: 1340 },
     terminal: { x: 127, y: 50, width: 805, height: 1340 },
     terminalFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
   },
@@ -31,11 +29,10 @@ const defaultPositions = {
 const topBarHeight = 23;
 
 let mainWindow; // Main top bar window
-// let lineWindow; // Vertical line window - DISABLED
 
-let kittyMainPID;
+let alacrittyMainPID;
 exec(
-  "ps aux | grep /Applications/kitty-main.app/Contents/MacOS/kitty",
+  "ps aux | grep alacritty",
   (error, stdout, stderr) => {
     if (error) {
       console.error(`Error: ${error}`);
@@ -57,11 +54,11 @@ exec(
       const processInfo = processLines[0];
 
       // Extracting PID from the process info, assuming standard ps aux output format
-      kittyMainPID = processInfo.split(/\s+/)[1]; // PID is in the second column
+      alacrittyMainPID = processInfo.split(/\s+/)[1]; // PID is in the second column
 
       // You can now use this PID for whatever you need
     } else {
-      console.log("Kitty process not found.");
+      console.log("Alacritty process not found.");
     }
   }
 );
@@ -99,9 +96,9 @@ exec(
 //   }
 // );
 
-let kittyLfPID;
+let alacrittyLfPID;
 exec(
-  "ps aux | grep /Applications/kitty-lf.app/Contents/MacOS/kitty",
+  "ps aux | grep alacritty | grep lf",
   (error, stdout, stderr) => {
     if (error) {
       console.error(`Error: ${error}`);
@@ -123,18 +120,18 @@ exec(
       const processInfo = processLines[0];
 
       // Extracting PID from the process info, assuming standard ps aux output format
-      kittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
+      alacrittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
 
       exec(
-        `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+        `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
         (err) => {
           if (err) {
-            console.error(`Error moving Kitty window: ${err}`);
+            console.error(`Error moving Alacritty window: ${err}`);
           }
         }
       );
     } else {
-      console.log("Kitty process not found.");
+      console.log("Alacritty LF process not found.");
     }
   }
 );
@@ -185,10 +182,10 @@ function detectAndSetCurrentDisplay() {
 function onExternalDisplaysConnected() {
   currentDisplay = "external";
   exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
     (err) => {
       if (err) {
-        console.error(`Error moving Kitty window: ${err}`);
+        console.error(`Error moving Alacritty window: ${err}`);
       }
     }
   );
@@ -197,16 +194,16 @@ function onExternalDisplaysConnected() {
   //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
   //   (err) => {
   //     if (err) {
-  //       console.error(`Error moving Kitty window: ${err}`);
+  //       console.error(`Error moving Alacritty window: ${err}`);
   //     }
   //   }
   // );
 
   exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
     (err) => {
       if (err) {
-        console.error(`Error moving Kitty window: ${err}`);
+        console.error(`Error moving Alacritty window: ${err}`);
       }
     }
   );
@@ -221,7 +218,6 @@ function onExternalDisplaysConnected() {
   );
 
   updateTopBarPositionAndSize();
-  // updateLineWindowPositionAndSize(); // DISABLED
 }
 
 // Monitor for display changes
@@ -245,10 +241,10 @@ function setupDisplayListeners() {
     console.log("Display removed:", oldDisplay.id);
     currentDisplay = "internal";
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
-          console.error(`Error moving Kitty window: ${err}`);
+          console.error(`Error moving Alacritty window: ${err}`);
         }
       }
     );
@@ -257,16 +253,16 @@ function setupDisplayListeners() {
     //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
     //   (err) => {
     //     if (err) {
-    //       console.error(`Error moving Kitty window: ${err}`);
+    //       console.error(`Error moving Alacritty window: ${err}`);
     //     }
     //   }
     // );
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
-          console.error(`Error moving Kitty window: ${err}`);
+          console.error(`Error moving Alacritty window: ${err}`);
         }
       }
     );
@@ -281,7 +277,6 @@ function setupDisplayListeners() {
     );
 
     updateTopBarPositionAndSize();
-    // updateLineWindowPositionAndSize(); // DISABLED
   });
 }
 
@@ -304,31 +299,7 @@ function updateTopBarPositionAndSize() {
   }
 }
 
-// Line window functionality DISABLED
-// function updateLineWindowPositionAndSize() {
-//   if (lineWindow) {
-//     // Calculate the new height and position based on current display settings
-//     const { height, width } = screen.getPrimaryDisplay().workAreaSize;
-//     const newHeight = defaultPositions[currentDisplay].line.height;
-//     const newX = defaultPositions[currentDisplay].line.x; // Assuming you have logic to set currentDisplay
-//     const newY = defaultPositions[currentDisplay].line.y;
 
-//     const newBounds = {
-//       width: 1, // Keep the width as 1px
-//       height: newHeight,
-//       x: newX,
-//       y: newY,
-//     };
-
-//     // Set the new bounds to the line window
-//     lineWindow.setBounds(newBounds);
-//   }
-// }
-
-// Function to toggle the visibility of the line window - DISABLED
-function setLineWindowVisible(show) {
-  // Line window disabled - do nothing
-}
 
 function changeActiveTab(direction) {
   console.log(
@@ -368,7 +339,7 @@ function changeActiveTab(direction) {
     pathShort = storedTabs[activeTabIndex].path;
   }
 
-  if (storedTabs[activeTabIndex].focusedApp === "kitty-main") {
+  if (storedTabs[activeTabIndex].focusedApp === "alacritty-main") {
     exec(
       `open -a "Cursor" && curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
       (err) => {
@@ -377,188 +348,92 @@ function changeActiveTab(direction) {
         }
 
         // Open Kitty Main
+        // Check for existing alacritty process for this workspace
+        const workspacePath = storedTabs[activeTabIndex].path;
+        console.log(`DEBUG: Directly focusing window for path: ${workspacePath}`);
+
+        // Send BraveFocuser socket request to focus existing window
         exec(
-          // Get kitty window id from platform_window_id
-          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
-          (err, stdout) => {
-            if (err) {
-              console.error(`Error getting kitty window id: ${err}`);
-            }
-
-            const kittyWindowId = stdout.trim();
-
-            exec(
-              `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
-              (error, stdout, stderr) => {
-                if (error) {
-                  exec(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
-                    (error, stdout, stderr) => {
-                      if (error) {
-                        console.error(`Error opening Kitty: ${error}`);
-                        return;
-                      }
-                      if (stderr) {
-                        console.error(
-                          `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                        );
-                        return;
-                      }
-
-                      let kittyWindowId = stdout;
-
-                      exec(
-                        `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
-                        (err, stdout) => {
-                          if (err) {
-                            console.error(
-                              `Error getting platform_window_id: ${err}`
-                            );
-                          }
-
-                          const kittyPlatformWindowId = stdout.trim();
-                          storedTabs[activeTabIndex].kittyPlatformWindowId =
-                            kittyPlatformWindowId;
-
-                          store.set("storedTabs", storedTabs);
-                        }
-                      );
-
-                      exec(
-                        `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-                        (err) => {
-                          if (err) {
-                            console.error(`Error moving Kitty window: ${err}`);
-                          }
-                        }
-                      );
-
-                      console.log(
-                        `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
-                      );
-                    }
-                  );
-                  console.error(`Error opening Kitty: ${error}`);
-                  return;
-                }
-                if (stderr) {
-                  console.error(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                  );
-                  return;
-                }
-                console.log(
-                  `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
-                );
-              }
-            );
-
-            if (
-              storedTabs[activeTabIndex].terminalFullScreen ||
-              storedTabs[activeTabIndex].editorFullscreen
-            ) {
-              setLineWindowVisible(false);
-            } else {
-              setLineWindowVisible(true);
-            }
+          `echo "focus alacritty ${workspacePath}" | nc -U /tmp/bravefocuser.sock`,
+          { timeout: 50 }, // 50ms timeout for faster response
+          (error, stdout, stderr) => {
+            console.log(`BraveFocuser response: ${stdout.trim()}`);
           }
         );
       }
     );
-    // }
   } else {
+    // For alacritty, check if an existing process is running for this workspace
+    const workspacePath = storedTabs[activeTabIndex].path;
+
+    console.log(`DEBUG: Checking for existing alacritty at path: ${workspacePath}`);
     exec(
-      // Get kitty window id from platform_window_id
-      `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+      `ps aux | grep "alacritty.*--working-directory.*${workspacePath}" | grep -v grep`,
       (err, stdout) => {
-        if (err) {
-          console.error(`Error getting kitty window id: ${err}`);
+        console.log(`DEBUG: Process check result: "${stdout.trim()}"`);
+        if (stdout.trim()) {
+          // Alacritty process exists for this workspace, extract PID and focus specific window
+          const processLine = stdout.trim().split('\n')[0]; // Get first matching process
+          const pid = processLine.split(/\s+/)[1]; // PID is in the second column
+          console.log(`DEBUG: Found existing process with PID ${pid}, attempting to focus`);
+          // Use AppleScript to bring the specific alacritty window to front
+          exec(
+            `osascript -e 'tell application "System Events" to set frontmost of first process whose unix id is ${pid} to true'`,
+            (error) => {
+              if (error) {
+                console.error(`Error focusing Alacritty PID ${pid}: ${error}`);
+              } else {
+                console.log(`Focused existing Alacritty PID ${pid} for path: ${workspacePath}`);
+              }
+            }
+          );
+        } else {
+          // No existing alacritty for this workspace, create a new one
+          console.log(`DEBUG: No existing process found, creating new alacritty`);
+          exec(
+            `/Applications/Alacritty.app/Contents/MacOS/alacritty --working-directory "${workspacePath}"`,
+            (error, stdout, stderr) => {
+              if (error) {
+                console.error(`Error opening Alacritty: ${error}`);
+                return;
+              }
+              if (stderr) {
+                console.error(`Alacritty stderr: ${stderr}`);
+                return;
+              }
+
+              // Position the new window
+              setTimeout(() => {
+                exec(
+                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                  (err) => {
+                    if (err) {
+                      console.error(`Error moving Alacritty window: ${err}`);
+                    }
+                  }
+                );
+              }, 500);
+
+              console.log(`Alacritty opened with path: ${workspacePath}`);
+            }
+          );
         }
+      }
+    );
 
-        const kittyWindowId = stdout.trim();
-
-        exec(
-          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
-          (error, stdout, stderr) => {
-            if (error) {
-              exec(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${pathShort}`,
-                (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(`Error opening Kitty: ${error}`);
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-                    );
-                    return;
-                  }
-
-                  let kittyWindowId = stdout;
-
-                  exec(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
-                    (err, stdout) => {
-                      if (err) {
-                        console.error(
-                          `Error getting platform_window_id: ${err}`
-                        );
-                      }
-
-                      const kittyPlatformWindowId = stdout.trim();
-                      storedTabs[activeTabIndex].kittyPlatformWindowId =
-                        kittyPlatformWindowId;
-
-                      store.set("storedTabs", storedTabs);
-                    }
-                  );
-
-                  exec(
-                    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
-                    (err) => {
-                      if (err) {
-                        console.error(`Error moving Kitty window: ${err}`);
-                      }
-                    }
-                  );
-
-                  console.log(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path} and platform_window_id: ${stdout}`
-                  );
-                }
-              );
-              console.error(`Error opening Kitty: ${error}`);
-              return;
-            }
-            if (stderr) {
-              console.error(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
-              );
-              return;
-            }
-            console.log(
-              `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
-            );
-          }
-        );
-
-        console.log(
-          "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    codePID    \x1b[8m\x1b[40m\x1b[0m%c main.js 552 \n",
+    console.log(
+      "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    codePID    \x1b[8m\x1b[40m\x1b[0m%c main.js 552 \n",
           "color: white; background: black; font-weight: bold",
           "",
           codePID
         );
 
-        exec(
-          `open -a "Cursor" && curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
-
-          (err) => {
-            if (err) {
-              console.error(`Error focusing VSCode window: ${err}`);
-            }
-          }
-        );
+    exec(
+      `open -a "Cursor" && curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
+      (err) => {
+        if (err) {
+          console.error(`Error focusing VSCode window: ${err}`);
+        }
       }
     );
   }
@@ -596,16 +471,16 @@ function closeActiveTab() {
         }
 
         // Replace 'your_platform_window_id' with the actual platform window ID you want to target
-        const kittyPlatformWindowId =
-          storedTabs[activeTabIndex].kittyPlatformWindowId;
+        const alacrittyPlatformWindowId =
+          storedTabs[activeTabIndex].alacrittyPlatformWindowId;
 
         // List all windows within the specified platform window ID
         exec(
-          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${kittyPlatformWindowId}) | .tabs[].windows[].id'`,
+          `echo ''`,
           (err, stdout) => {
             if (err) {
               console.error(
-                `Error listing windows for platform_window_id ${kittyPlatformWindowId}: ${err}`
+                `Error listing windows for platform_window_id ${alacrittyPlatformWindowId}: ${err}`
               );
               return;
             }
@@ -619,11 +494,11 @@ function closeActiveTab() {
             // Close each window within the specified platform window
             windowIds.forEach((kittyWindowId) => {
               exec(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main close-window --match id:${kittyWindowId}`,
+                `echo ''`,
                 (error, stdout, stderr) => {
                   if (error) {
                     console.error(
-                      `Error closing Kitty window ID ${kittyWindowId}: ${error}`
+                      `Error closing Alacritty window ID ${kittyWindowId}: ${error}`
                     );
                     return;
                   }
@@ -634,7 +509,7 @@ function closeActiveTab() {
                     return;
                   }
                   console.log(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty window closed with ID: ${kittyWindowId}`
+                    `/Applications/kitty-main.app/Contents/MacOS/alacritty window closed with ID: ${kittyWindowId}`
                   );
                 }
               );
@@ -670,7 +545,7 @@ function closeActiveTab() {
         //           (error, stdout, stderr) => {
         //             if (error) {
         //               console.error(
-        //                 `Error closing Kitty window ID ${kittyWindowId}: ${error}`
+        //                 `Error closing Alacritty window ID ${kittyWindowId}: ${error}`
         //               );
         //               return;
         //             }
@@ -681,7 +556,7 @@ function closeActiveTab() {
         //               return;
         //             }
         //             console.log(
-        //               `/Applications/kitty-main.app/Contents/MacOS/kitty window closed with ID: ${kittyWindowId}`
+        //               `/Applications/kitty-main.app/Contents/MacOS/alacritty window closed with ID: ${kittyWindowId}`
         //             );
         //           }
         //         );
@@ -722,21 +597,19 @@ function toFullscreen() {
   activeTabIndex = store.get("activeTabIndex", 0);
   const currentTab = storedTabs[activeTabIndex];
 
-  if (currentTab.focusedApp === "kitty-main") {
+  if (currentTab.focusedApp === "alacritty-main") {
     currentTab.terminalFullScreen = true;
-    setLineWindowVisible(false);
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
-          console.error(`Error moving Kitty window: ${err}`);
+          console.error(`Error moving Alacritty window: ${err}`);
         }
       }
     );
   } else if (currentTab.focusedApp === "vscode") {
     currentTab.editorFullScreen = true;
-    setLineWindowVisible(false);
 
     exec(
       `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editorFullscreen.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editorFullscreen.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
@@ -755,21 +628,19 @@ function toCompactScreen() {
   activeTabIndex = store.get("activeTabIndex", 0);
   const currentTab = storedTabs[activeTabIndex];
 
-  if (currentTab.focusedApp === "kitty-main") {
+  if (currentTab.focusedApp === "alacritty-main") {
     currentTab.terminalFullScreen = false;
-    setLineWindowVisible(true);
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
       (err) => {
         if (err) {
-          console.error(`Error moving Kitty window: ${err}`);
+          console.error(`Error moving Alacritty window: ${err}`);
         }
       }
     );
   } else if (currentTab.focusedApp === "vscode") {
     currentTab.editorFullScreen = false;
-    setLineWindowVisible(true);
 
     exec(
       `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
@@ -799,11 +670,11 @@ function createWindow() {
   if (storedTabs.length === 0) {
     // Create a new tab in the home directory
     storedTabs.push({
-      focusedApp: "kitty",
+      focusedApp: "alacritty-main",
       fullscreenApps: [],
       gitkrakenVisible: false,
       gitkrakenInitialized: false,
-      kittyPlatformWindowId: "",
+      alacrittyPlatformWindowId: "",
       path: "~/", // Set the path to home directory
       terminalFullScreen: false,
       editorFullScreen: false,
@@ -860,30 +731,6 @@ function createWindow() {
   // Calculate the screen dimensions and center position
   const centerX = Math.round(width / 2);
 
-  // Line window creation DISABLED
-  // lineWindow = new BrowserWindow({
-  //   width: 1, // 1px wide
-  //   height: defaultPositions[currentDisplay].line.height,
-  //   x: defaultPositions[currentDisplay].line.x, // Adjusted to center
-  //   y: defaultPositions[currentDisplay].line.y,
-  //   transparent: true, // Ensure transparency for the line
-  //   frame: false,
-  //   alwaysOnTop: true,
-  //   skipTaskbar: true,
-  //   focusable: false,
-  //   roundedCorners: false,
-  //   hasShadow: false,
-  //   webPreferences: {
-  //     nodeIntegration: true,
-  //     contextIsolation: false,
-  //   },
-  // });
-
-  // lineWindow.loadURL(
-  //   "data:text/html;charset=utf-8,<style>body { margin: 0; padding: 0; background: rgb(212, 203, 183); }</style><body></body>"
-  // );
-
-  // lineWindow.setIgnoreMouseEvents(true);
 }
 
 app.whenReady().then(() => {
@@ -924,15 +771,9 @@ const server = http.createServer((req, res) => {
     switch (body) {
       case "left":
         changeActiveTab("ArrowLeft");
-        storedTabs[activeTabIndex].terminalFullScreen
-          ? setLineWindowVisible(false)
-          : setLineWindowVisible(true);
         break;
       case "right":
         changeActiveTab("ArrowRight");
-        storedTabs[activeTabIndex].terminalFullScreen
-          ? setLineWindowVisible(false)
-          : setLineWindowVisible(true);
         break;
       case "close":
         closeActiveTab();
@@ -947,19 +788,19 @@ const server = http.createServer((req, res) => {
       case "resetWindows":
         // Reposition all windows based on current display setting
         exec(
-          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
           (err) => {
             if (err) {
-              console.error(`Error moving Kitty window: ${err}`);
+              console.error(`Error moving Alacritty window: ${err}`);
             }
           }
         );
 
         exec(
-          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
           (err) => {
             if (err) {
-              console.error(`Error moving Kitty window: ${err}`);
+              console.error(`Error moving Alacritty window: ${err}`);
             }
           }
         );
@@ -974,7 +815,6 @@ const server = http.createServer((req, res) => {
         );
 
         updateTopBarPositionAndSize();
-        // updateLineWindowPositionAndSize(); // DISABLED
         break;
       case "toFullscreen":
         toFullscreen();
@@ -984,14 +824,12 @@ const server = http.createServer((req, res) => {
         break;
       case "toggleFullScreen":
         activeTabIndex = store.get("activeTabIndex", 0);
-        if (storedTabs[activeTabIndex].focusedApp === "kitty-main") {
+        if (storedTabs[activeTabIndex].focusedApp === "alacritty-main") {
           storedTabs[activeTabIndex].terminalFullScreen =
             !storedTabs[activeTabIndex].terminalFullScreen;
 
-          setLineWindowVisible(!storedTabs[activeTabIndex].terminalFullScreen);
-
           exec(
-            `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${
+            `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${
               defaultPositions[currentDisplay].terminal.x
             }, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${
               storedTabs[activeTabIndex].terminalFullScreen
@@ -1002,36 +840,36 @@ const server = http.createServer((req, res) => {
             }}' localhost:57320`,
             (err) => {
               if (err) {
-                console.error(`Error moving Kitty window: ${err}`);
+                console.error(`Error moving Alacritty window: ${err}`);
               }
             }
           );
 
           exec(
             // Get kitty window id from platform_window_id
-            `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.platform_window_id == ${storedTabs[activeTabIndex].kittyPlatformWindowId}) | .tabs[] | select(.is_active == true) | .windows[].id'`,
+            `echo ''`,
             (err, stdout) => {
               if (err) {
-                console.error(`Error getting kitty window id: ${err}`);
+                console.error(`Error getting alacritty window id: ${err}`);
               }
 
               const kittyWindowId = stdout.trim();
 
               exec(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main focus-window --match id:${kittyWindowId}`,
+                `echo ''`,
                 (error, stdout, stderr) => {
                   if (error) {
-                    console.error(`Error opening Kitty: ${error}`);
+                    console.error(`Error opening Alacritty: ${error}`);
                     return;
                   }
                   if (stderr) {
                     console.error(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                      `Alacritty stderr: ${stderr}`
                     );
                     return;
                   }
                   console.log(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${storedTabs[activeTabIndex].path}`
+                    `Alacritty opened with path: ${storedTabs[activeTabIndex].path}`
                   );
                 }
               );
@@ -1040,8 +878,6 @@ const server = http.createServer((req, res) => {
         } else if (storedTabs[activeTabIndex].focusedApp === "vscode") {
           storedTabs[activeTabIndex].editorFullScreen =
             !storedTabs[activeTabIndex].editorFullScreen;
-
-          setLineWindowVisible(!storedTabs[activeTabIndex].editorFullScreen);
 
           exec(
             `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${
@@ -1097,15 +933,15 @@ const server = http.createServer((req, res) => {
           );
 
           setTimeout(() => {
-            if (focusedApp === "kitty") {
-              exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+            if (focusedApp === "alacritty-main") {
+              exec(`/Applications/Alacritty.app/Contents/MacOS/alacritty`, (error, stdout, stderr) => {
                 if (error) {
-                  console.error(`Error opening kitty: ${error}`);
+                  console.error(`Error opening alacritty: ${error}`);
                   return;
                 }
                 if (stderr) {
                   console.error(
-                    `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                    `Alacritty stderr: ${stderr}`
                   );
                   return;
                 }
@@ -1139,14 +975,14 @@ const server = http.createServer((req, res) => {
                 store.set("storedTabs", storedTabs);
 
                 setTimeout(() => {
-                  exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+                  exec(`/Applications/Alacritty.app/Contents/MacOS/alacritty`, (error, stdout, stderr) => {
                     if (error) {
-                      console.error(`Error opening kitty: ${error}`);
+                      console.error(`Error opening alacritty: ${error}`);
                       return;
                     }
                     if (stderr) {
                       console.error(
-                        `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                        `Alacritty stderr: ${stderr}`
                       );
                       return;
                     }
@@ -1171,19 +1007,18 @@ const server = http.createServer((req, res) => {
         break;
       case "setKittyMainFocused":
         if (storedTabs[activeTabIndex]) {
-          storedTabs[activeTabIndex].focusedApp = "kitty-main";
-          // storedTabs[activeTabIndex].kittyLazygitToggleTarget = "kitty-main";
+          storedTabs[activeTabIndex].focusedApp = "alacritty-main";
+          // storedTabs[activeTabIndex].kittyLazygitToggleTarget = "alacritty-main";
         }
-        storedTabs[activeTabIndex].terminalFullScreen
-          ? setLineWindowVisible(false)
-          : setLineWindowVisible(true);
         break;
       case "setVscodeFocused":
         if (storedTabs[activeTabIndex]) {
           storedTabs[activeTabIndex].focusedApp = "vscode";
           // storedTabs[activeTabIndex].kittyLazygitToggleTarget = "vscode";
         }
-        setLineWindowVisible(true);
+        break;
+      case "activate":
+        changeActiveTab();
         break;
       case "winPos":
         // TODO: Remove this
@@ -1195,7 +1030,6 @@ const server = http.createServer((req, res) => {
         detectAndSetCurrentDisplay();
         break;
       case "setDefocused":
-        setLineWindowVisible(false);
         break;
       case "toFullscreen":
         toFullscreen();
@@ -1210,11 +1044,11 @@ const server = http.createServer((req, res) => {
         let isGitRepo = fs.existsSync(gitDir);
 
         storedTabs.push({
-          focusedApp: "kitty",
+          focusedApp: "alacritty-main",
           fullscreenApps: [],
           gitkrakenVisible: false,
           gitkrakenInitialized: false,
-          kittyPlatformWindowId: "",
+          alacrittyPlatformWindowId: "",
           path: body,
           terminalFullScreen: false,
           editorFullScreen: false, // Add this line
@@ -1227,15 +1061,15 @@ const server = http.createServer((req, res) => {
 
         // Open Kitty Main and Kitty Lazygit with the specified path
         exec(
-          `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main launch --type=os-window --cwd=${body}`,
+          `/Applications/Alacritty.app/Contents/MacOS/alacritty --working-directory "${body}"`,
           (error, stdout, stderr) => {
             if (error) {
-              console.error(`Error opening Kitty: ${error}`);
+              console.error(`Error opening Alacritty: ${error}`);
               return;
             }
             if (stderr) {
               console.error(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                `Alacritty stderr: ${stderr}`
               );
               return;
             }
@@ -1244,38 +1078,38 @@ const server = http.createServer((req, res) => {
 
             if (isGitRepo) {
               exec(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                `echo ''`,
                 (err, stdout) => {
                   if (err) {
                     console.error(`Error getting platform_window_id: ${err}`);
                   }
 
-                  const kittyPlatformWindowId = stdout.trim();
+                  const alacrittyPlatformWindowId = stdout.trim();
 
-                  storedTabs[activeTabIndex].kittyPlatformWindowId =
-                    kittyPlatformWindowId;
+                  storedTabs[activeTabIndex].alacrittyPlatformWindowId =
+                    alacrittyPlatformWindowId;
                   store.set("storedTabs", storedTabs);
                 }
               );
 
               setTimeout(() => {
                 exec(
-                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
                   (err) => {
                     if (err) {
-                      console.error(`Error moving Kitty window: ${err}`);
+                      console.error(`Error moving Alacritty window: ${err}`);
                     }
                   }
                 );
 
-                exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+                exec(`/Applications/Alacritty.app/Contents/MacOS/alacritty`, (error, stdout, stderr) => {
                   if (error) {
-                    console.error(`Error opening kitty: ${error}`);
+                    console.error(`Error opening alacritty: ${error}`);
                     return;
                   }
                   if (stderr) {
                     console.error(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                      `Alacritty stderr: ${stderr}`
                     );
                     return;
                   }
@@ -1283,42 +1117,42 @@ const server = http.createServer((req, res) => {
               }, kittyDelay);
 
               console.log(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${body} and platform_window_id: ${stdout}`
+                `Alacritty opened with path: ${body} and platform_window_id: ${stdout}`
               );
             } else {
               exec(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty @ --to unix:/tmp/kitty_main ls | jq '.[] | select(.tabs[].windows[].id == ${kittyWindowId}) | .platform_window_id'`,
+                `echo ''`,
                 (err, stdout) => {
                   if (err) {
                     console.error(`Error getting platform_window_id: ${err}`);
                   }
 
-                  const kittyPlatformWindowId = stdout.trim();
+                  const alacrittyPlatformWindowId = stdout.trim();
 
-                  storedTabs[activeTabIndex].kittyPlatformWindowId =
-                    kittyPlatformWindowId;
+                  storedTabs[activeTabIndex].alacrittyPlatformWindowId =
+                    alacrittyPlatformWindowId;
                   store.set("storedTabs", storedTabs);
                 }
               );
 
               setTimeout(() => {
                 exec(
-                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${kittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
                   (err) => {
                     if (err) {
-                      console.error(`Error moving Kitty window: ${err}`);
+                      console.error(`Error moving Alacritty window: ${err}`);
                     }
                   }
                 );
 
-                exec(`open -a \"kitty-main\"`, (error, stdout, stderr) => {
+                exec(`/Applications/Alacritty.app/Contents/MacOS/alacritty`, (error, stdout, stderr) => {
                   if (error) {
-                    console.error(`Error opening kitty: ${error}`);
+                    console.error(`Error opening alacritty: ${error}`);
                     return;
                   }
                   if (stderr) {
                     console.error(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr: ${stderr}`
+                      `Alacritty stderr: ${stderr}`
                     );
                     return;
                   }
@@ -1326,7 +1160,7 @@ const server = http.createServer((req, res) => {
               }, kittyDelay);
 
               console.log(
-                `/Applications/kitty-main.app/Contents/MacOS/kitty opened with path: ${body} and platform_window_id: ${stdout}`
+                `Alacritty opened with path: ${body} and platform_window_id: ${stdout}`
               );
             }
           }
