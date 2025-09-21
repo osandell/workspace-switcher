@@ -352,12 +352,12 @@ function changeActiveTab(direction) {
         const workspacePath = storedTabs[activeTabIndex].path;
         console.log(`DEBUG: Directly focusing window for path: ${workspacePath}`);
 
-        // Send BraveFocuser socket request to focus existing window
+        // Send winman socket request to focus existing window
         exec(
-          `echo "focus alacritty ${workspacePath}" | nc -U /tmp/bravefocuser.sock`,
+          `echo "focus alacritty ${workspacePath}" | nc -U /tmp/winman.sock`,
           { timeout: 50 }, // 50ms timeout for faster response
           (error, stdout, stderr) => {
-            console.log(`BraveFocuser response: ${stdout.trim()}`);
+            console.log(`winman response: ${stdout.trim()}`);
           }
         );
       }
@@ -1036,6 +1036,19 @@ const server = http.createServer((req, res) => {
         break;
       case "toCompactScreen":
         toCompactScreen();
+        break;
+      case "testWinman":
+        exec(
+          `echo "focus alacritty ~/dev/osandell/winman" | nc -U /tmp/winman.sock`,
+          { timeout: 50 },
+          (error, stdout, stderr) => {
+            if (error) {
+              console.error(`winman test error: ${error}`);
+            } else {
+              console.log(`winman test response: ${stdout.trim()}`);
+            }
+          }
+        );
         break;
       // Create new workspace
       default:
