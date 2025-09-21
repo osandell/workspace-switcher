@@ -123,7 +123,7 @@ exec(
       alacrittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
 
       exec(
-        `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+        `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
         (err) => {
           if (err) {
             console.error(`Error moving Alacritty window: ${err}`);
@@ -182,7 +182,7 @@ function detectAndSetCurrentDisplay() {
 function onExternalDisplaysConnected() {
   currentDisplay = "external";
   exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    `echo '{"command": "setPosition", "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
     (err) => {
       if (err) {
         console.error(`Error moving Alacritty window: ${err}`);
@@ -200,7 +200,7 @@ function onExternalDisplaysConnected() {
   // );
 
   exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
     (err) => {
       if (err) {
         console.error(`Error moving Alacritty window: ${err}`);
@@ -209,7 +209,7 @@ function onExternalDisplaysConnected() {
   );
 
   exec(
-    `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+    `echo '{"command": "setPosition", "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' | nc -U /tmp/winman.sock`,
     (err) => {
       if (err) {
         console.error(`Error moving VSCode window: ${err}`);
@@ -241,7 +241,7 @@ function setupDisplayListeners() {
     console.log("Display removed:", oldDisplay.id);
     currentDisplay = "internal";
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `echo '{"command": "setPosition", "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving Alacritty window: ${err}`);
@@ -259,7 +259,7 @@ function setupDisplayListeners() {
     // );
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving Alacritty window: ${err}`);
@@ -268,7 +268,7 @@ function setupDisplayListeners() {
     );
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+      `echo '{"command": "setPosition", "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving VSCode window: ${err}`);
@@ -341,7 +341,7 @@ function changeActiveTab(direction) {
 
   if (storedTabs[activeTabIndex].focusedApp === "alacritty-main") {
     exec(
-      `open -a "Cursor" && curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
+      `open -a "Cursor" "${storedTabs[activeTabIndex].path}" && echo '{"command": "focus", "pid": ${codePID}, "title": "${pathShort}"}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error focusing VSCode window: ${err}`);
@@ -405,7 +405,7 @@ function changeActiveTab(direction) {
               // Position the new window
               setTimeout(() => {
                 exec(
-                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                  `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
                   (err) => {
                     if (err) {
                       console.error(`Error moving Alacritty window: ${err}`);
@@ -429,7 +429,7 @@ function changeActiveTab(direction) {
         );
 
     exec(
-      `open -a "Cursor" && curl -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320`,
+      `open -a "Cursor" "${workspacePath}" && echo '{"command": "focus", "pid": ${codePID}, "title": "${pathShort}"}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error focusing VSCode window: ${err}`);
@@ -454,7 +454,7 @@ function closeActiveTab() {
 
     // Close the VSCode window
     exec(
-      `open -a "Cursor" && curl -f -X POST -H "Content-Type: application/json" -d '{"command": "focus",  "pid": ${codePID}, "title": "${pathShort}"}' localhost:57320 && osascript -e 'tell application "System Events" to keystroke "w" using {control down, command down, shift down}'`,
+      `open -a "Cursor" && echo '{"command": "focus", "pid": ${codePID}, "title": "${pathShort}"}' | nc -U /tmp/winman.sock && osascript -e 'tell application "System Events" to keystroke "w" using {control down, command down, shift down}'`,
       (error, stdout, stderr) => {
         if (error) {
           console.error(`Error closing VSCode: ${error}`);
@@ -601,7 +601,7 @@ function toFullscreen() {
     currentTab.terminalFullScreen = true;
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving Alacritty window: ${err}`);
@@ -612,7 +612,7 @@ function toFullscreen() {
     currentTab.editorFullScreen = true;
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editorFullscreen.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editorFullscreen.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+      `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editorFullscreen.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editorFullscreen.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving VSCode window: ${err}`);
@@ -632,7 +632,7 @@ function toCompactScreen() {
     currentTab.terminalFullScreen = false;
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+      `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving Alacritty window: ${err}`);
@@ -643,7 +643,7 @@ function toCompactScreen() {
     currentTab.editorFullScreen = false;
 
     exec(
-      `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+      `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving VSCode window: ${err}`);
@@ -788,7 +788,7 @@ const server = http.createServer((req, res) => {
       case "resetWindows":
         // Reposition all windows based on current display setting
         exec(
-          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+          `echo '{"command": "setPosition", "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
           (err) => {
             if (err) {
               console.error(`Error moving Alacritty window: ${err}`);
@@ -797,7 +797,7 @@ const server = http.createServer((req, res) => {
         );
 
         exec(
-          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+          `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
           (err) => {
             if (err) {
               console.error(`Error moving Alacritty window: ${err}`);
@@ -806,7 +806,7 @@ const server = http.createServer((req, res) => {
         );
 
         exec(
-          `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+          `echo '{"command": "setPosition", "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' | nc -U /tmp/winman.sock`,
           (err) => {
             if (err) {
               console.error(`Error moving VSCode window: ${err}`);
@@ -829,7 +829,7 @@ const server = http.createServer((req, res) => {
             !storedTabs[activeTabIndex].terminalFullScreen;
 
           exec(
-            `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${
+            `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${
               defaultPositions[currentDisplay].terminal.x
             }, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${
               storedTabs[activeTabIndex].terminalFullScreen
@@ -837,7 +837,7 @@ const server = http.createServer((req, res) => {
                 : defaultPositions[currentDisplay].terminal.width
             }, "height": ${
               defaultPositions[currentDisplay].terminal.height
-            }}' localhost:57320`,
+            }}' | nc -U /tmp/winman.sock`,
             (err) => {
               if (err) {
                 console.error(`Error moving Alacritty window: ${err}`);
@@ -880,7 +880,7 @@ const server = http.createServer((req, res) => {
             !storedTabs[activeTabIndex].editorFullScreen;
 
           exec(
-            `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${
+            `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${
               storedTabs[activeTabIndex].editorFullScreen
                 ? defaultPositions[currentDisplay].editorFullscreen.x
                 : defaultPositions[currentDisplay].editor.x
@@ -890,7 +890,7 @@ const server = http.createServer((req, res) => {
                 : defaultPositions[currentDisplay].editor.width
             }, "height": ${
               defaultPositions[currentDisplay].editor.height
-            }}' localhost:57320`,
+            }}' | nc -U /tmp/winman.sock`,
             (err) => {
               if (err) {
                 console.error(`Error moving VSCode window: ${err}`);
@@ -1107,7 +1107,7 @@ const server = http.createServer((req, res) => {
 
               setTimeout(() => {
                 exec(
-                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                  `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
                   (err) => {
                     if (err) {
                       console.error(`Error moving Alacritty window: ${err}`);
@@ -1150,7 +1150,7 @@ const server = http.createServer((req, res) => {
 
               setTimeout(() => {
                 exec(
-                  `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+                  `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
                   (err) => {
                     if (err) {
                       console.error(`Error moving Alacritty window: ${err}`);
@@ -1195,7 +1195,7 @@ const server = http.createServer((req, res) => {
 
             setTimeout(() => {
               exec(
-                `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' localhost:57320`,
+                `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' | nc -U /tmp/winman.sock`,
                 (err) => {
                   if (err) {
                     console.error(`Error moving VSCode window: ${err}`);

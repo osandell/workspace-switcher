@@ -80,3 +80,4 @@ The application runs an HTTP server on port 57321 accepting commands:
 
 - **start_workspace_switcher.sh**: Starts the application from the correct directory
 - **focus_workspace_app.sh**: Helper script for focusing specific applications based on state file
+- always restart after making changes. do it by pm2 restart
