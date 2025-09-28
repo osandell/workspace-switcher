@@ -31,37 +31,34 @@ const topBarHeight = 23;
 let mainWindow; // Main top bar window
 
 let alacrittyMainPID;
-exec(
-  "ps aux | grep alacritty",
-  (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error: ${error}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
-    }
-
-    // Split the output into lines
-    const lines = stdout.split("\n");
-
-    // Filter out the grep command itself from the results
-    const processLines = lines.filter((line) => !line.includes("grep"));
-
-    // Assuming the first result is the one we want if multiple are returned
-    if (processLines.length > 0) {
-      const processInfo = processLines[0];
-
-      // Extracting PID from the process info, assuming standard ps aux output format
-      alacrittyMainPID = processInfo.split(/\s+/)[1]; // PID is in the second column
-
-      // You can now use this PID for whatever you need
-    } else {
-      console.log("Alacritty process not found.");
-    }
+exec("ps aux | grep alacritty", (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error: ${error}`);
+    return;
   }
-);
+  if (stderr) {
+    console.error(`stderr: ${stderr}`);
+    return;
+  }
+
+  // Split the output into lines
+  const lines = stdout.split("\n");
+
+  // Filter out the grep command itself from the results
+  const processLines = lines.filter((line) => !line.includes("grep"));
+
+  // Assuming the first result is the one we want if multiple are returned
+  if (processLines.length > 0) {
+    const processInfo = processLines[0];
+
+    // Extracting PID from the process info, assuming standard ps aux output format
+    alacrittyMainPID = processInfo.split(/\s+/)[1]; // PID is in the second column
+
+    // You can now use this PID for whatever you need
+  } else {
+    console.log("Alacritty process not found.");
+  }
+});
 
 // let kittyLazygitPID;
 // exec(
@@ -97,44 +94,41 @@ exec(
 // );
 
 let alacrittyLfPID;
-exec(
-  "ps aux | grep alacritty | grep lf",
-  (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error: ${error}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
-    }
-
-    // Split the output into lines
-    const lines = stdout.split("\n");
-
-    // Filter out the grep command itself from the results
-    const processLines = lines.filter((line) => !line.includes("grep"));
-
-    // Assuming the first result is the one we want if multiple are returned
-    if (processLines.length > 0) {
-      const processInfo = processLines[0];
-
-      // Extracting PID from the process info, assuming standard ps aux output format
-      alacrittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
-
-      exec(
-        `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
-        (err) => {
-          if (err) {
-            console.error(`Error moving Alacritty window: ${err}`);
-          }
-        }
-      );
-    } else {
-      console.log("Alacritty LF process not found.");
-    }
+exec("ps aux | grep alacritty | grep lf", (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error: ${error}`);
+    return;
   }
-);
+  if (stderr) {
+    console.error(`stderr: ${stderr}`);
+    return;
+  }
+
+  // Split the output into lines
+  const lines = stdout.split("\n");
+
+  // Filter out the grep command itself from the results
+  const processLines = lines.filter((line) => !line.includes("grep"));
+
+  // Assuming the first result is the one we want if multiple are returned
+  if (processLines.length > 0) {
+    const processInfo = processLines[0];
+
+    // Extracting PID from the process info, assuming standard ps aux output format
+    alacrittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
+
+    exec(
+      `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
+      (err) => {
+        if (err) {
+          console.error(`Error moving Alacritty window: ${err}`);
+        }
+      }
+    );
+  } else {
+    console.log("Alacritty LF process not found.");
+  }
+});
 
 let codePID;
 exec(
@@ -299,8 +293,6 @@ function updateTopBarPositionAndSize() {
   }
 }
 
-
-
 function changeActiveTab(direction) {
   console.log(
     "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    aaa    \x1b[8m\x1b[40m\x1b[0m%c main.js 345 \n",
@@ -350,7 +342,9 @@ function changeActiveTab(direction) {
         // Open Kitty Main
         // Check for existing alacritty process for this workspace
         const workspacePath = storedTabs[activeTabIndex].path;
-        console.log(`DEBUG: Directly focusing window for path: ${workspacePath}`);
+        console.log(
+          `DEBUG: Directly focusing window for path: ${workspacePath}`
+        );
 
         // Send winman socket request to focus existing window
         exec(
@@ -363,70 +357,26 @@ function changeActiveTab(direction) {
       }
     );
   } else {
-    // For alacritty, check if an existing process is running for this workspace
+    // Use winman to focus or create alacritty window for this workspace
     const workspacePath = storedTabs[activeTabIndex].path;
+    console.log(
+      `DEBUG: Using winman to focus alacritty for path: ${workspacePath}`
+    );
 
-    console.log(`DEBUG: Checking for existing alacritty at path: ${workspacePath}`);
     exec(
-      `ps aux | grep "alacritty.*--working-directory.*${workspacePath}" | grep -v grep`,
-      (err, stdout) => {
-        console.log(`DEBUG: Process check result: "${stdout.trim()}"`);
-        if (stdout.trim()) {
-          // Alacritty process exists for this workspace, extract PID and focus specific window
-          const processLine = stdout.trim().split('\n')[0]; // Get first matching process
-          const pid = processLine.split(/\s+/)[1]; // PID is in the second column
-          console.log(`DEBUG: Found existing process with PID ${pid}, attempting to focus`);
-          // Use AppleScript to bring the specific alacritty window to front
-          exec(
-            `osascript -e 'tell application "System Events" to set frontmost of first process whose unix id is ${pid} to true'`,
-            (error) => {
-              if (error) {
-                console.error(`Error focusing Alacritty PID ${pid}: ${error}`);
-              } else {
-                console.log(`Focused existing Alacritty PID ${pid} for path: ${workspacePath}`);
-              }
-            }
-          );
-        } else {
-          // No existing alacritty for this workspace, create a new one
-          console.log(`DEBUG: No existing process found, creating new alacritty`);
-          exec(
-            `/Applications/Alacritty.app/Contents/MacOS/alacritty --working-directory "${workspacePath}"`,
-            (error, stdout, stderr) => {
-              if (error) {
-                console.error(`Error opening Alacritty: ${error}`);
-                return;
-              }
-              if (stderr) {
-                console.error(`Alacritty stderr: ${stderr}`);
-                return;
-              }
-
-              // Position the new window
-              setTimeout(() => {
-                exec(
-                  `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
-                  (err) => {
-                    if (err) {
-                      console.error(`Error moving Alacritty window: ${err}`);
-                    }
-                  }
-                );
-              }, 500);
-
-              console.log(`Alacritty opened with path: ${workspacePath}`);
-            }
-          );
-        }
+      `echo "focus alacritty ${workspacePath}" | nc -U /tmp/winman.sock`,
+      { timeout: 50 }, // 50ms timeout for faster response
+      (error, stdout, stderr) => {
+        console.log(`winman response: ${stdout.trim()}`);
       }
     );
 
     console.log(
       "\x1b[8m\x1b[40m\x1b[0m\x1b[7m%c    codePID    \x1b[8m\x1b[40m\x1b[0m%c main.js 552 \n",
-          "color: white; background: black; font-weight: bold",
-          "",
-          codePID
-        );
+      "color: white; background: black; font-weight: bold",
+      "",
+      codePID
+    );
 
     exec(
       `open -a "Cursor" "${workspacePath}" && echo '{"command": "focus", "pid": ${codePID}, "title": "${pathShort}"}' | nc -U /tmp/winman.sock`,
@@ -475,47 +425,41 @@ function closeActiveTab() {
           storedTabs[activeTabIndex].alacrittyPlatformWindowId;
 
         // List all windows within the specified platform window ID
-        exec(
-          `echo ''`,
-          (err, stdout) => {
-            if (err) {
-              console.error(
-                `Error listing windows for platform_window_id ${alacrittyPlatformWindowId}: ${err}`
-              );
-              return;
-            }
+        exec(`echo ''`, (err, stdout) => {
+          if (err) {
+            console.error(
+              `Error listing windows for platform_window_id ${alacrittyPlatformWindowId}: ${err}`
+            );
+            return;
+          }
 
-            // Parse the output to get all window IDs within the specified platform window
-            const windowIds = stdout
-              .trim()
-              .split("\n")
-              .map((id) => id.trim());
+          // Parse the output to get all window IDs within the specified platform window
+          const windowIds = stdout
+            .trim()
+            .split("\n")
+            .map((id) => id.trim());
 
-            // Close each window within the specified platform window
-            windowIds.forEach((kittyWindowId) => {
-              exec(
-                `echo ''`,
-                (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(
-                      `Error closing Alacritty window ID ${kittyWindowId}: ${error}`
-                    );
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(
-                      `/Applications/kitty-main.app/Contents/MacOS/kitty stderr for window ID ${kittyWindowId}: ${stderr}`
-                    );
-                    return;
-                  }
-                  console.log(
-                    `/Applications/kitty-main.app/Contents/MacOS/alacritty window closed with ID: ${kittyWindowId}`
-                  );
-                }
+          // Close each window within the specified platform window
+          windowIds.forEach((kittyWindowId) => {
+            exec(`echo ''`, (error, stdout, stderr) => {
+              if (error) {
+                console.error(
+                  `Error closing Alacritty window ID ${kittyWindowId}: ${error}`
+                );
+                return;
+              }
+              if (stderr) {
+                console.error(
+                  `/Applications/kitty-main.app/Contents/MacOS/kitty stderr for window ID ${kittyWindowId}: ${stderr}`
+                );
+                return;
+              }
+              console.log(
+                `/Applications/kitty-main.app/Contents/MacOS/alacritty window closed with ID: ${kittyWindowId}`
               );
             });
-          }
-        );
+          });
+        });
 
         // const kittyLazygitPlatformWindowId =
         //   storedTabs[activeTabIndex].kittyLazygitPlatformWindowId;
@@ -730,7 +674,6 @@ function createWindow() {
   });
   // Calculate the screen dimensions and center position
   const centerX = Math.round(width / 2);
-
 }
 
 app.whenReady().then(() => {
@@ -855,24 +798,19 @@ const server = http.createServer((req, res) => {
 
               const kittyWindowId = stdout.trim();
 
-              exec(
-                `echo ''`,
-                (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(`Error opening Alacritty: ${error}`);
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(
-                      `Alacritty stderr: ${stderr}`
-                    );
-                    return;
-                  }
-                  console.log(
-                    `Alacritty opened with path: ${storedTabs[activeTabIndex].path}`
-                  );
+              exec(`echo ''`, (error, stdout, stderr) => {
+                if (error) {
+                  console.error(`Error opening Alacritty: ${error}`);
+                  return;
                 }
-              );
+                if (stderr) {
+                  console.error(`Alacritty stderr: ${stderr}`);
+                  return;
+                }
+                console.log(
+                  `Alacritty opened with path: ${storedTabs[activeTabIndex].path}`
+                );
+              });
             }
           );
         } else if (storedTabs[activeTabIndex].focusedApp === "vscode") {
@@ -934,18 +872,19 @@ const server = http.createServer((req, res) => {
 
           setTimeout(() => {
             if (focusedApp === "alacritty-main") {
-              exec(`/Applications/Alacritty.app/Contents/MacOS/alacritty`, (error, stdout, stderr) => {
-                if (error) {
-                  console.error(`Error opening alacritty: ${error}`);
-                  return;
+              exec(
+                `/Applications/Alacritty.app/Contents/MacOS/alacritty`,
+                (error, stdout, stderr) => {
+                  if (error) {
+                    console.error(`Error opening alacritty: ${error}`);
+                    return;
+                  }
+                  if (stderr) {
+                    console.error(`Alacritty stderr: ${stderr}`);
+                    return;
+                  }
                 }
-                if (stderr) {
-                  console.error(
-                    `Alacritty stderr: ${stderr}`
-                  );
-                  return;
-                }
-              });
+              );
             }
           }, 500);
           storedTabs[activeTabIndex].gitkrakenVisible = false;
@@ -975,18 +914,19 @@ const server = http.createServer((req, res) => {
                 store.set("storedTabs", storedTabs);
 
                 setTimeout(() => {
-                  exec(`/Applications/Alacritty.app/Contents/MacOS/alacritty`, (error, stdout, stderr) => {
-                    if (error) {
-                      console.error(`Error opening alacritty: ${error}`);
-                      return;
+                  exec(
+                    `/Applications/Alacritty.app/Contents/MacOS/alacritty`,
+                    (error, stdout, stderr) => {
+                      if (error) {
+                        console.error(`Error opening alacritty: ${error}`);
+                        return;
+                      }
+                      if (stderr) {
+                        console.error(`Alacritty stderr: ${stderr}`);
+                        return;
+                      }
                     }
-                    if (stderr) {
-                      console.error(
-                        `Alacritty stderr: ${stderr}`
-                      );
-                      return;
-                    }
-                  });
+                  );
                 }, 1000);
               }
             );
@@ -1072,109 +1012,12 @@ const server = http.createServer((req, res) => {
         // We need to do this here before storing window id:s to get the right activeTabIndex
         mainWindow.webContents.send("add-new-button", body);
 
-        // Open Kitty Main and Kitty Lazygit with the specified path
+        // Open new alacritty
         exec(
-          `/Applications/Alacritty.app/Contents/MacOS/alacritty --working-directory "${body}"`,
+          `echo "focus alacritty ${body}" | nc -U /tmp/winman.sock`,
           (error, stdout, stderr) => {
             if (error) {
-              console.error(`Error opening Alacritty: ${error}`);
-              return;
-            }
-            if (stderr) {
-              console.error(
-                `Alacritty stderr: ${stderr}`
-              );
-              return;
-            }
-
-            let kittyWindowId = stdout;
-
-            if (isGitRepo) {
-              exec(
-                `echo ''`,
-                (err, stdout) => {
-                  if (err) {
-                    console.error(`Error getting platform_window_id: ${err}`);
-                  }
-
-                  const alacrittyPlatformWindowId = stdout.trim();
-
-                  storedTabs[activeTabIndex].alacrittyPlatformWindowId =
-                    alacrittyPlatformWindowId;
-                  store.set("storedTabs", storedTabs);
-                }
-              );
-
-              setTimeout(() => {
-                exec(
-                  `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
-                  (err) => {
-                    if (err) {
-                      console.error(`Error moving Alacritty window: ${err}`);
-                    }
-                  }
-                );
-
-                exec(`/Applications/Alacritty.app/Contents/MacOS/alacritty`, (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(`Error opening alacritty: ${error}`);
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(
-                      `Alacritty stderr: ${stderr}`
-                    );
-                    return;
-                  }
-                });
-              }, kittyDelay);
-
-              console.log(
-                `Alacritty opened with path: ${body} and platform_window_id: ${stdout}`
-              );
-            } else {
-              exec(
-                `echo ''`,
-                (err, stdout) => {
-                  if (err) {
-                    console.error(`Error getting platform_window_id: ${err}`);
-                  }
-
-                  const alacrittyPlatformWindowId = stdout.trim();
-
-                  storedTabs[activeTabIndex].alacrittyPlatformWindowId =
-                    alacrittyPlatformWindowId;
-                  store.set("storedTabs", storedTabs);
-                }
-              );
-
-              setTimeout(() => {
-                exec(
-                  `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
-                  (err) => {
-                    if (err) {
-                      console.error(`Error moving Alacritty window: ${err}`);
-                    }
-                  }
-                );
-
-                exec(`/Applications/Alacritty.app/Contents/MacOS/alacritty`, (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(`Error opening alacritty: ${error}`);
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(
-                      `Alacritty stderr: ${stderr}`
-                    );
-                    return;
-                  }
-                });
-              }, kittyDelay);
-
-              console.log(
-                `Alacritty opened with path: ${body} and platform_window_id: ${stdout}`
-              );
+              console.error(`Error focusing alacritty: ${error}`);
             }
           }
         );
