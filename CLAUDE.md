@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an Electron application called "workspace-switcher" that manages different development workspaces on macOS. It creates a top bar interface for switching between project workspaces and automatically manages window positioning for development tools (Cursor/VSCode, Kitty terminal instances, and GitKraken).
+This is an Electron application called "workspace-switcher" that manages different development workspaces on macOS. It creates a top bar interface for switching between project workspaces and automatically manages window positioning for development tools (Cursor/VSCode and Alacritty terminal instances).
 
 ## Development Commands
 
@@ -43,7 +43,7 @@ pnpm start
 - **Window Positioning**: Automatically positions and resizes Cursor, Kitty terminal windows, and a visual separator line
 - **Multi-Monitor Support**: Different window layouts for internal vs external displays
 - **State Persistence**: Uses electron-store to save workspace tabs and active tab index
-- **External Tool Integration**: Integrates with Kitty terminal, Cursor editor, and GitKraken via command-line APIs
+- **External Tool Integration**: Integrates with Alacritty terminal and Cursor editor via command-line APIs
 
 ### Application Integration
 
@@ -52,7 +52,6 @@ The application expects specific applications to be installed:
 - **Kitty terminals**:
   - `kitty-main` at `/Applications/kitty-main.app`
   - `kitty-lf` at `/Applications/kitty-lf.app`
-- **GitKraken** at `/Applications/GitKraken.app`
 
 Window positioning is handled via HTTP API calls to localhost:57320 (external window management service).
 
@@ -61,9 +60,7 @@ Window positioning is handled via HTTP API calls to localhost:57320 (external wi
 - Workspace tabs stored in electron-store with properties:
   - `path`: Project directory path
   - `focusedApp`: Currently focused application ("kitty-main" or "vscode")
-  - `terminalFullScreen`/`editorFullScreen`: Fullscreen state flags
   - `kittyPlatformWindowId`: Kitty window identifier for management
-  - `gitkrakenVisible`/`gitkrakenInitialized`: GitKraken state
 
 ### HTTP Command Interface
 
@@ -72,7 +69,6 @@ The application runs an HTTP server on port 57321 accepting commands:
 - `close`: Close active tab
 - `duplicate`: Duplicate current workspace
 - `resetWindows`: Reset all window positions
-- `toggleFullScreen`: Toggle fullscreen for active application
 - `setKittyMainFocused`/`setVscodeFocused`: Set focus state
 - Directory paths: Create new workspace for that path
 

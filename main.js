@@ -15,15 +15,11 @@ let currentDisplay = "internal";
 const defaultPositions = {
   internal: {
     editor: { x: 600, y: 55, width: 1128, height: 1065 },
-    editorFullscreen: { x: 0, y: 55, width: 1920, height: 1065 },
     terminal: { x: 0, y: 55, width: 600, height: 1065 },
-    terminalFullscreen: { x: 0, y: 55, width: 1920, height: 1065 },
   },
   external: {
     editor: { x: 932, y: 50, width: 1500, height: 1340 },
-    editorFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
     terminal: { x: 127, y: 50, width: 805, height: 1340 },
-    terminalFullscreen: { x: 127, y: 50, width: 2305, height: 1340 },
   },
 };
 const topBarHeight = 23;
@@ -118,7 +114,7 @@ exec("ps aux | grep alacritty | grep lf", (error, stdout, stderr) => {
     alacrittyLfPID = processInfo.split(/\s+/)[1]; // PID is in the second column
 
     exec(
-      `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
+      `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving Alacritty window: ${err}`);
@@ -185,7 +181,7 @@ function onExternalDisplaysConnected() {
   );
 
   // exec(
-  //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+  //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
   //   (err) => {
   //     if (err) {
   //       console.error(`Error moving Alacritty window: ${err}`);
@@ -194,7 +190,7 @@ function onExternalDisplaysConnected() {
   // );
 
   exec(
-    `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
+    `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
     (err) => {
       if (err) {
         console.error(`Error moving Alacritty window: ${err}`);
@@ -244,7 +240,7 @@ function setupDisplayListeners() {
     );
 
     // exec(
-    //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
+    //   `curl -X POST -H "Content-Type: application/json" -d '{"command": "setPosition",  "pid": ${kittyLazygitPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' localhost:57320`,
     //   (err) => {
     //     if (err) {
     //       console.error(`Error moving Alacritty window: ${err}`);
@@ -253,7 +249,7 @@ function setupDisplayListeners() {
     // );
 
     exec(
-      `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
+      `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
       (err) => {
         if (err) {
           console.error(`Error moving Alacritty window: ${err}`);
@@ -300,7 +296,6 @@ function changeActiveTab(direction) {
     ""
   );
 
-  storedTabs[activeTabIndex].gitkrakenInitialized = false;
   store.set("storedTabs", storedTabs);
 
   if (direction === "ArrowRight") {
@@ -537,74 +532,7 @@ function closeActiveTab() {
   }
 }
 
-function toFullscreen() {
-  activeTabIndex = store.get("activeTabIndex", 0);
-  const currentTab = storedTabs[activeTabIndex];
 
-  if (currentTab.focusedApp === "alacritty-main") {
-    currentTab.terminalFullScreen = true;
-
-    exec(
-      `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving Alacritty window: ${err}`);
-        }
-      }
-    );
-  } else if (currentTab.focusedApp === "vscode") {
-    currentTab.editorFullScreen = true;
-
-    exec(
-      `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editorFullscreen.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editorFullscreen.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' | nc -U /tmp/winman.sock`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving VSCode window: ${err}`);
-        }
-      }
-    );
-  }
-
-  store.set("storedTabs", storedTabs);
-}
-
-function toCompactScreen() {
-  activeTabIndex = store.get("activeTabIndex", 0);
-  const currentTab = storedTabs[activeTabIndex];
-
-  if (currentTab.focusedApp === "alacritty-main") {
-    currentTab.terminalFullScreen = false;
-
-    exec(
-      `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving Alacritty window: ${err}`);
-        }
-      }
-    );
-  } else if (currentTab.focusedApp === "vscode") {
-    currentTab.editorFullScreen = false;
-
-    exec(
-      `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${defaultPositions[currentDisplay].editor.x}, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${defaultPositions[currentDisplay].editor.width}, "height": ${defaultPositions[currentDisplay].editor.height}}' | nc -U /tmp/winman.sock`,
-      (err) => {
-        if (err) {
-          console.error(`Error moving VSCode window: ${err}`);
-        }
-      }
-    );
-
-    exec(`open -a \"Cursor\"`, (vscodeError, vscodeStdout, vscodeStderr) => {
-      if (vscodeError) {
-        console.error(`Error opening VSCode: ${vscodeError}`);
-        return;
-      }
-    });
-  }
-
-  store.set("storedTabs", storedTabs);
-}
 
 function createWindow() {
   detectAndSetCurrentDisplay();
@@ -615,13 +543,8 @@ function createWindow() {
     // Create a new tab in the home directory
     storedTabs.push({
       focusedApp: "alacritty-main",
-      fullscreenApps: [],
-      gitkrakenVisible: false,
-      gitkrakenInitialized: false,
       alacrittyPlatformWindowId: "",
       path: "~/", // Set the path to home directory
-      terminalFullScreen: false,
-      editorFullScreen: false,
     });
     store.set("storedTabs", storedTabs); // Save the new tab
   }
@@ -707,8 +630,6 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    // const gitkrakenVisible = storedTabs[activeTabIndex]?.gitkrakenVisible;
-    const gitkrakenVisible = false;
     const focusedApp = storedTabs[activeTabIndex]?.focusedApp;
 
     switch (body) {
@@ -740,7 +661,7 @@ const server = http.createServer((req, res) => {
         );
 
         exec(
-          `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminalFullscreen.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
+          `echo '{"command": "setPosition", "pid": ${alacrittyLfPID}, "x": ${defaultPositions[currentDisplay].terminal.x}, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${defaultPositions[currentDisplay].terminal.width}, "height": ${defaultPositions[currentDisplay].terminal.height}}' | nc -U /tmp/winman.sock`,
           (err) => {
             if (err) {
               console.error(`Error moving Alacritty window: ${err}`);
@@ -758,182 +679,6 @@ const server = http.createServer((req, res) => {
         );
 
         updateTopBarPositionAndSize();
-        break;
-      case "toFullscreen":
-        toFullscreen();
-        break;
-      case "toCompactScreen":
-        toCompactScreen();
-        break;
-      case "toggleFullScreen":
-        activeTabIndex = store.get("activeTabIndex", 0);
-        if (storedTabs[activeTabIndex].focusedApp === "alacritty-main") {
-          storedTabs[activeTabIndex].terminalFullScreen =
-            !storedTabs[activeTabIndex].terminalFullScreen;
-
-          exec(
-            `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${alacrittyMainPID}, "x": ${
-              defaultPositions[currentDisplay].terminal.x
-            }, "y": ${defaultPositions[currentDisplay].terminal.y}, "width": ${
-              storedTabs[activeTabIndex].terminalFullScreen
-                ? defaultPositions[currentDisplay].terminalFullscreen.width
-                : defaultPositions[currentDisplay].terminal.width
-            }, "height": ${
-              defaultPositions[currentDisplay].terminal.height
-            }}' | nc -U /tmp/winman.sock`,
-            (err) => {
-              if (err) {
-                console.error(`Error moving Alacritty window: ${err}`);
-              }
-            }
-          );
-
-          exec(
-            // Get kitty window id from platform_window_id
-            `echo ''`,
-            (err, stdout) => {
-              if (err) {
-                console.error(`Error getting alacritty window id: ${err}`);
-              }
-
-              const kittyWindowId = stdout.trim();
-
-              exec(`echo ''`, (error, stdout, stderr) => {
-                if (error) {
-                  console.error(`Error opening Alacritty: ${error}`);
-                  return;
-                }
-                if (stderr) {
-                  console.error(`Alacritty stderr: ${stderr}`);
-                  return;
-                }
-                console.log(
-                  `Alacritty opened with path: ${storedTabs[activeTabIndex].path}`
-                );
-              });
-            }
-          );
-        } else if (storedTabs[activeTabIndex].focusedApp === "vscode") {
-          storedTabs[activeTabIndex].editorFullScreen =
-            !storedTabs[activeTabIndex].editorFullScreen;
-
-          exec(
-            `echo '{"command": "setPosition", "frontmostOnly": true, "pid": ${codePID}, "x": ${
-              storedTabs[activeTabIndex].editorFullScreen
-                ? defaultPositions[currentDisplay].editorFullscreen.x
-                : defaultPositions[currentDisplay].editor.x
-            }, "y": ${defaultPositions[currentDisplay].editor.y}, "width": ${
-              storedTabs[activeTabIndex].editorFullScreen
-                ? defaultPositions[currentDisplay].editorFullscreen.width
-                : defaultPositions[currentDisplay].editor.width
-            }, "height": ${
-              defaultPositions[currentDisplay].editor.height
-            }}' | nc -U /tmp/winman.sock`,
-            (err) => {
-              if (err) {
-                console.error(`Error moving VSCode window: ${err}`);
-              }
-            }
-          );
-
-          exec(
-            `open -a \"Cursor\"`,
-            (vscodeError, vscodeStdout, vscodeStderr) => {
-              if (vscodeError) {
-                console.error(`Error opening VSCode: ${vscodeError}`);
-                return;
-              }
-            }
-          );
-        }
-
-        store.set("storedTabs", storedTabs);
-        break;
-      case "toggleGitKraken":
-        storedTabs = store.get("storedTabs") || [];
-        activeTabIndex = store.get("activeTabIndex", 0);
-        if (gitkrakenVisible) {
-          exec(
-            `open -a Cursor ${storedTabs[activeTabIndex].path}`,
-            (vscodeError, vscodeStdout, vscodeStderr) => {
-              if (vscodeError) {
-                console.error(`Error opening VSCode: ${vscodeError}`);
-                return;
-              }
-              // if (vscodeStderr) {
-              //   console.error(`VSCode stderr: ${vscodeStderr}`);
-              //   return;
-              // }
-              console.log(
-                `VSCode opened with path: ${storedTabs[activeTabIndex].path}`
-              );
-            }
-          );
-
-          setTimeout(() => {
-            if (focusedApp === "alacritty-main") {
-              exec(
-                `/Applications/Alacritty.app/Contents/MacOS/alacritty`,
-                (error, stdout, stderr) => {
-                  if (error) {
-                    console.error(`Error opening alacritty: ${error}`);
-                    return;
-                  }
-                  if (stderr) {
-                    console.error(`Alacritty stderr: ${stderr}`);
-                    return;
-                  }
-                }
-              );
-            }
-          }, 500);
-          storedTabs[activeTabIndex].gitkrakenVisible = false;
-        } else {
-          console.log(`arstarst opened with path:`);
-          if (!storedTabs[activeTabIndex].gitkrakenInitialized) {
-            const fullPath = storedTabs[activeTabIndex].path.replace(
-              /^~/,
-              "/Users/olof/"
-            );
-            exec(
-              `ELECTRON_RUN_AS_NODE=1 /Applications/GitKraken.app/Contents/MacOS/GitKraken /Applications/GitKraken.app/Contents/Resources/app.asar/src/main/static/cli.js -p "${fullPath}" `,
-              (gitKrakenError, gitKrakenStdout, gitKrakenStderr) => {
-                // TODO: This always generates -67062 error. Might be because we launch
-                // GitKraken via cli.js. But it works anyway so we can ignore this for
-                // now.
-                // if (gitKrakenError) {
-                //   console.error(`Error opening GitKraken: ${gitKrakenError}`);
-                //   return;
-                // }
-
-                // if (gitKrakenStderr) {
-                //   console.error(`GitKraken stderr: ${gitKrakenStderr}`);
-                //   return;
-                // }
-                storedTabs[activeTabIndex].gitkrakenInitialized = true;
-                store.set("storedTabs", storedTabs);
-
-                setTimeout(() => {
-                  exec(
-                    `/Applications/Alacritty.app/Contents/MacOS/alacritty`,
-                    (error, stdout, stderr) => {
-                      if (error) {
-                        console.error(`Error opening alacritty: ${error}`);
-                        return;
-                      }
-                      if (stderr) {
-                        console.error(`Alacritty stderr: ${stderr}`);
-                        return;
-                      }
-                    }
-                  );
-                }, 1000);
-              }
-            );
-          }
-          storedTabs[activeTabIndex].gitkrakenVisible = true;
-        }
-        store.set("storedTabs", storedTabs);
         break;
       case "activateDarkMode":
         store.set("theme", "dark");
@@ -971,12 +716,6 @@ const server = http.createServer((req, res) => {
         break;
       case "setDefocused":
         break;
-      case "toFullscreen":
-        toFullscreen();
-        break;
-      case "toCompactScreen":
-        toCompactScreen();
-        break;
       case "testWinman":
         exec(
           `echo "focus alacritty ~/dev/osandell/winman" | nc -U /tmp/winman.sock`,
@@ -998,13 +737,8 @@ const server = http.createServer((req, res) => {
 
         storedTabs.push({
           focusedApp: "alacritty-main",
-          fullscreenApps: [],
-          gitkrakenVisible: false,
-          gitkrakenInitialized: false,
           alacrittyPlatformWindowId: "",
           path: body,
-          terminalFullScreen: false,
-          editorFullScreen: false, // Add this line
         });
 
         store.set("storedTabs", storedTabs);
