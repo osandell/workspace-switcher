@@ -457,17 +457,53 @@ async function changeActiveTab(direction) {
     pathShort = storedTabs[activeTabIndex].path;
   }
 
-  // Focus both windows - let the caller determine which should be on top
-  focusKittyWindow(
-    storedTabs[activeTabIndex].kittyPlatformWindowId,
-    pathShort
-  );
+  // Read the latest state from the store before checking fullscreen
+  storedTabs = store.get("storedTabs", []);
+  const currentTab = storedTabs[activeTabIndex];
   
-  focusCursorWindow(
-    storedTabs[activeTabIndex].cursorPlatformWindowId,
-    pathShort
-  );
+  if (!currentTab) {
+    logError(`No tab found at index ${activeTabIndex}`);
+    return;
+  }
   
+  const alacrittyFullscreen = currentTab.terminalFullScreen || false;
+  const cursorFullscreen = currentTab.editorFullScreen || false;
+  
+  log(`Workspace ${activeTabIndex} fullscreen state - Alacritty: ${alacrittyFullscreen}, Cursor: ${cursorFullscreen}`);
+  
+  // Focus windows based on fullscreen state
+  if (alacrittyFullscreen) {
+    // Alacritty is fullscreen, only focus Alacritty
+    log(`Focusing Alacritty only (workspace ${activeTabIndex} is fullscreen)`);
+    focusKittyWindow(
+      storedTabs[activeTabIndex].kittyPlatformWindowId,
+      pathShort
+    );
+    setTimeout(() => {
+      notifyFocusApp("alacritty");
+    }, 100);
+  } else if (cursorFullscreen) {
+    // Cursor is fullscreen, only focus Cursor
+    log(`Focusing Cursor only (workspace ${activeTabIndex} is fullscreen)`);
+    focusCursorWindow(
+      storedTabs[activeTabIndex].cursorPlatformWindowId,
+      pathShort
+    );
+    setTimeout(() => {
+      notifyFocusApp("cursor");
+    }, 100);
+  } else {
+    // Neither is fullscreen, focus both windows (default behavior)
+    focusKittyWindow(
+      storedTabs[activeTabIndex].kittyPlatformWindowId,
+      pathShort
+    );
+    focusCursorWindow(
+      storedTabs[activeTabIndex].cursorPlatformWindowId,
+      pathShort
+    );
+  }
+
   // Update Kanata virtual keys based on current workspace state
   updateKanataVirtualKeys();
   
@@ -966,6 +1002,8 @@ function toggleFullscreenAlacritty() {
   storedTabs[activeTabIndex] = updatedTab;
   store.set("storedTabs", storedTabs);
   
+  log(`Alacritty fullscreen toggled - workspace ${activeTabIndex}, new state: ${updatedTab.terminalFullScreen}`);
+  
   // Update Kanata virtual key
   setKanataVirtualKey("alacritty_fullscreen", updatedTab.terminalFullScreen);
   
@@ -985,6 +1023,8 @@ function toggleFullscreenCursor() {
 
   storedTabs[activeTabIndex] = updatedTab;
   store.set("storedTabs", storedTabs);
+  
+  log(`Cursor fullscreen toggled - workspace ${activeTabIndex}, new state: ${updatedTab.editorFullScreen}`);
   
   // Update Kanata virtual key
   setKanataVirtualKey("cursor_fullscreen", updatedTab.editorFullScreen);
