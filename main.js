@@ -157,6 +157,68 @@ function updateKanataVirtualKeys() {
   }
 }
 
+/**
+ * Notify other app about fullscreen state changes
+ * @param {string} app - Application name ('alacritty' or 'cursor')
+ * @param {boolean} isFullscreen - Whether the app is fullscreen
+ */
+function notifyFullscreenState(app, isFullscreen) {
+  const otherAppPort = 9125;
+  const message = isFullscreen 
+    ? `${app} is fullscreen`
+    : `${app} is not fullscreen`;
+  
+  const postData = message;
+  
+  const options = {
+    hostname: '127.0.0.1',
+    port: otherAppPort,
+    path: '/fullscreen',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
+
+  const req = http.request(options, (res) => {
+    let data = '';
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+    res.on('end', () => {
+      log(`Notified other app: ${message} - Status: ${res.statusCode}`);
+    });
+  });
+
+  req.on('error', (error) => {
+    logError(`Error notifying other app about ${app} fullscreen state:`, error.message);
+  });
+
+  req.write(postData);
+  req.end();
+}
+
+/**
+ * Update fullscreen state notifications for the active workspace
+ */
+function updateFullscreenNotifications() {
+  activeTabIndex = store.get("activeTabIndex", 0);
+  const currentTab = storedTabs[activeTabIndex];
+  
+  if (currentTab) {
+    const alacrittyFullscreen = currentTab.terminalFullScreen || false;
+    const cursorFullscreen = currentTab.editorFullScreen || false;
+    
+    notifyFullscreenState("alacritty", alacrittyFullscreen);
+    
+    // Small delay before sending second notification
+    setTimeout(() => {
+      notifyFullscreenState("cursor", cursorFullscreen);
+    }, 10);
+  }
+}
+
 // Process IDs for various applications
 let kittyMainPID;
 let kittyLfPID;
@@ -377,6 +439,9 @@ async function changeActiveTab(direction) {
   
   // Update Kanata virtual keys based on current workspace state
   updateKanataVirtualKeys();
+  
+  // Update fullscreen state notifications for the active workspace
+  updateFullscreenNotifications();
 }
 
 /**
@@ -872,6 +937,9 @@ function toggleFullscreenAlacritty() {
   
   // Update Kanata virtual key
   setKanataVirtualKey("alacritty_fullscreen", updatedTab.terminalFullScreen);
+  
+  // Notify other app
+  notifyFullscreenState("alacritty", updatedTab.terminalFullScreen);
 }
 
 /**
@@ -889,6 +957,9 @@ function toggleFullscreenCursor() {
   
   // Update Kanata virtual key
   setKanataVirtualKey("cursor_fullscreen", updatedTab.editorFullScreen);
+  
+  // Notify other app
+  notifyFullscreenState("cursor", updatedTab.editorFullScreen);
 }
 
 /**
