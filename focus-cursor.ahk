@@ -73,7 +73,7 @@ for _, hwnd in cursorWindows {
 
 ; 3) Otherwise launch a new Cursor window with --folder-uri
 if (!foundMatch) {
-    cursorPath := "C:\Users\Olof.Sandell\AppData\Local\Programs\cursor\Cursor.exe"
+    cursorPath := "C:\Program Files\Cursor\Cursor.exe"
 
     try {
         uri := ""

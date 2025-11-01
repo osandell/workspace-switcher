@@ -8,6 +8,7 @@ const {
 // const focusCursorWindow = require("./httpHandler.js");
 const windowManager = require("./windowManager");
 const http = require("http");
+const net = require("net");
 const Store = require("electron-store");
 const store = new Store();
 const fs = require("fs");
@@ -87,6 +88,74 @@ function logError(...args) {
 
 // Initialize logger on startup
 initializeLogger();
+
+/**
+ * Set Kanata virtual key value using TCP socket
+ * @param {string} keyName - Name of the virtual key
+ * @param {boolean} value - Value to set (true/false)
+ */
+function setKanataVirtualKey(keyName, value) {
+  const kanataHost = "127.0.0.1";
+  const kanataPort = 9124;
+  const action = value ? "Press" : "Release";
+  
+  const json = JSON.stringify({
+    ActOnFakeKey: {
+      name: keyName,
+      action: action
+    }
+  });
+  
+  const client = new net.Socket();
+  
+  client.setTimeout(1000); // 1 second timeout
+  
+  client.connect(kanataPort, kanataHost, () => {
+    log(`Connected to Kanata, sending: ${json}`);
+    client.write(json);
+    client.end();
+  });
+  
+  client.on('data', (data) => {
+    log(`Kanata response for ${keyName}: ${data.toString()}`);
+    client.destroy();
+  });
+  
+  client.on('error', (error) => {
+    logError(`Error setting Kanata virtual key ${keyName}:`, error.message);
+    client.destroy();
+  });
+  
+  client.on('timeout', () => {
+    logError(`Timeout setting Kanata virtual key ${keyName}`);
+    client.destroy();
+  });
+  
+  client.on('close', () => {
+    // Connection closed
+  });
+}
+
+/**
+ * Update Kanata virtual keys based on current workspace state
+ */
+function updateKanataVirtualKeys() {
+  activeTabIndex = store.get("activeTabIndex", 0);
+  const currentTab = storedTabs[activeTabIndex];
+  
+  if (currentTab) {
+    const alacrittyFullscreen = currentTab.terminalFullScreen || false;
+    const cursorFullscreen = currentTab.editorFullScreen || false;
+    
+    setKanataVirtualKey("alacritty_fullscreen", alacrittyFullscreen);
+    
+    // Small delay before sending second key to avoid overwhelming Kanata
+    setTimeout(() => {
+      setKanataVirtualKey("cursor_fullscreen", cursorFullscreen);
+      log(`Updated Kanata virtual keys - alacritty_fullscreen: ${alacrittyFullscreen}, cursor_fullscreen: ${cursorFullscreen}`);
+    }, 5);
+  }
+}
 
 // Process IDs for various applications
 let kittyMainPID;
@@ -305,6 +374,9 @@ async function changeActiveTab(direction) {
     storedTabs[activeTabIndex].cursorPlatformWindowId,
     pathShort
   );
+  
+  // Update Kanata virtual keys based on current workspace state
+  updateKanataVirtualKeys();
 }
 
 /**
@@ -797,6 +869,9 @@ function toggleFullscreenAlacritty() {
 
   storedTabs[activeTabIndex] = updatedTab;
   store.set("storedTabs", storedTabs);
+  
+  // Update Kanata virtual key
+  setKanataVirtualKey("alacritty_fullscreen", updatedTab.terminalFullScreen);
 }
 
 /**
@@ -811,6 +886,9 @@ function toggleFullscreenCursor() {
 
   storedTabs[activeTabIndex] = updatedTab;
   store.set("storedTabs", storedTabs);
+  
+  // Update Kanata virtual key
+  setKanataVirtualKey("cursor_fullscreen", updatedTab.editorFullScreen);
 }
 
 /**
