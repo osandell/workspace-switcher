@@ -158,6 +158,37 @@ function updateKanataVirtualKeys() {
 }
 
 /**
+ * Notify other app to focus an application
+ * @param {string} app - Application name ('cursor' or 'alacritty')
+ */
+function notifyFocusApp(app) {
+  const otherAppPort = 9125;
+  
+  const options = {
+    hostname: '127.0.0.1',
+    port: otherAppPort,
+    path: `/focus?app=${app}`,
+    method: 'GET'
+  };
+
+  const req = http.request(options, (res) => {
+    let data = '';
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+    res.on('end', () => {
+      log(`Notified other app to focus: ${app} - Status: ${res.statusCode}`);
+    });
+  });
+
+  req.on('error', (error) => {
+    logError(`Error notifying other app to focus ${app}:`, error.message);
+  });
+
+  req.end();
+}
+
+/**
  * Notify other app about fullscreen state changes
  * @param {string} app - Application name ('alacritty' or 'cursor')
  * @param {boolean} isFullscreen - Whether the app is fullscreen
@@ -960,6 +991,13 @@ function toggleFullscreenCursor() {
   
   // Notify other app
   notifyFullscreenState("cursor", updatedTab.editorFullScreen);
+  
+  // If cursor was toggled from fullscreen to normal, send focus command right after
+  if (!updatedTab.editorFullScreen) {
+    setTimeout(() => {
+      notifyFocusApp("cursor");
+    }, 10);
+  }
 }
 
 /**
