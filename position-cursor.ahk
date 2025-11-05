@@ -135,16 +135,25 @@ FileAppend("Fullscreen: " . fullScreen . "`n", debugFile)
 FileAppend("Position: " . leftPosition . "," . topPosition . " Size: " . windowWidth . "x" . windowHeight . "`n", debugFile)
 FileAppend("Found " . existingWindows.Length . " Cursor windows`n", debugFile)
 
-; Try 1: Find by exact hwnd
+; Try 1: Find by exact hwnd AND verify the path matches
 for _, hwnd in existingWindows {
     FileAppend("Checking hwnd: " . hwnd . "`n", debugFile)
     if (hwnd = targetHwnd) {
-        FileAppend("MATCH by hwnd! Moving window`n", debugFile)
-        WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . targetHwnd)
-        WinActivate("ahk_id " . targetHwnd)
-        windowFound := 1
-        FileAppend("Window moved successfully`n", debugFile)
-        break
+        ; Verify the window title matches the expected path
+        title := WinGetTitle("ahk_id " . hwnd)
+        titlePath := RegExReplace(title, " \(.*\)$", "")
+        FileAppend("  Found hwnd match, verifying title: " . titlePath . "`n", debugFile)
+
+        if (titlePath == targetPathShort || titlePath == targetPath) {
+            FileAppend("MATCH by hwnd AND title verified! Moving window`n", debugFile)
+            WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . targetHwnd)
+            WinActivate("ahk_id " . targetHwnd)
+            windowFound := 1
+            FileAppend("Window moved successfully`n", debugFile)
+            break
+        } else {
+            FileAppend("  Hwnd matches but title doesn't match (expected " . targetPathShort . " or " . targetPath . "), continuing search`n", debugFile)
+        }
     }
 }
 
