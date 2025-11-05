@@ -7,9 +7,19 @@ if (A_Args.Length < 1) {
 }
 
 targetHwnd := A_Args[1]
-fullScreen := A_Args[2]
-currentDisplay := A_Args[3]
+targetPath := A_Args[2]
+fullScreen := A_Args[3]
+currentDisplay := A_Args[4]
 windowFound := 0
+
+; Prepare display variants for title matching
+targetPathShort := ""
+if InStr(targetPath, "/home/olof/") {
+    targetPathShort := RegExReplace(targetPath, "^/home/olof/", "~/")
+} else if InStr(targetPath, "/mnt/c/") {
+    targetPath := RegExReplace(targetPath, "^/mnt/c/", "C:\")
+    targetPath := StrReplace(targetPath, "/", "\")
+}
 
 ; Get screen dimensions
 screenWidth := A_ScreenWidth
@@ -118,13 +128,48 @@ if (currentDisplay == "thinkvision") {
 ; Find and position the specific window
 existingWindows := WinGetList("ahk_exe cursor.exe")
 
+debugFile := "position-cursor-debug.txt"
+FileAppend("=== " . A_Now . " ===`n", debugFile)
+FileAppend("Looking for hwnd: " . targetHwnd . " path: " . targetPath . "`n", debugFile)
+FileAppend("Fullscreen: " . fullScreen . "`n", debugFile)
+FileAppend("Position: " . leftPosition . "," . topPosition . " Size: " . windowWidth . "x" . windowHeight . "`n", debugFile)
+FileAppend("Found " . existingWindows.Length . " Cursor windows`n", debugFile)
+
+; Try 1: Find by exact hwnd
 for _, hwnd in existingWindows {
+    FileAppend("Checking hwnd: " . hwnd . "`n", debugFile)
     if (hwnd = targetHwnd) {
+        FileAppend("MATCH by hwnd! Moving window`n", debugFile)
         WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . targetHwnd)
         WinActivate("ahk_id " . targetHwnd)
         windowFound := 1
+        FileAppend("Window moved successfully`n", debugFile)
         break
     }
+}
+
+; Try 2: If not found by hwnd, find by matching window title with path
+if (!windowFound) {
+    FileAppend("Not found by hwnd, trying by title match...`n", debugFile)
+    for _, hwnd in existingWindows {
+        title := WinGetTitle("ahk_id " . hwnd)
+        titlePath := RegExReplace(title, " \(.*\)$", "")
+        FileAppend("  Checking title: " . titlePath . "`n", debugFile)
+        if (titlePath == targetPathShort || titlePath == targetPath) {
+            FileAppend("MATCH by title! Moving window with new hwnd: " . hwnd . "`n", debugFile)
+            WinMove(leftPosition, topPosition, windowWidth, windowHeight, "ahk_id " . hwnd)
+            WinActivate("ahk_id " . hwnd)
+            windowFound := 1
+            ; Write the new hwnd to temp file so main.js can update the stored value
+            FileAppend(hwnd, "temp_position_hwnd.txt")
+            FileAppend("Window moved successfully, wrote new hwnd to temp file`n", debugFile)
+            break
+        }
+    }
+}
+
+if (!windowFound) {
+    FileAppend("ERROR: Window not found by hwnd or title!`n", debugFile)
 }
 
 ; Always exit the script when done

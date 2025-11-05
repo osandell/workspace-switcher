@@ -504,6 +504,37 @@ async function changeActiveTab(direction) {
     );
   }
 
+  // Re-apply window positioning based on fullscreen states
+  // This ensures windows are properly positioned when switching workspaces
+  setTimeout(() => {
+    log(`Re-applying window positions - Alacritty fullscreen: ${alacrittyFullscreen}, Cursor fullscreen: ${cursorFullscreen}`);
+    windowManager.positionKittyWindow(
+      storedTabs[activeTabIndex].kittyPlatformWindowId,
+      alacrittyFullscreen
+    );
+    windowManager.positionEditorWindow(
+      storedTabs[activeTabIndex].cursorPlatformWindowId,
+      storedTabs[activeTabIndex].path,
+      cursorFullscreen
+    );
+
+    // Check if position-cursor.ahk discovered a new hwnd (when old one was stale)
+    setTimeout(() => {
+      if (fs.existsSync("temp_position_hwnd.txt")) {
+        const fileContent = fs.readFileSync("temp_position_hwnd.txt", "utf8").trim();
+        const newHwnd = parseInt(fileContent, 10);
+
+        if (!isNaN(newHwnd) && newHwnd !== 0) {
+          log(`[changeActiveTab] Discovered new hwnd ${newHwnd}, updating from ${storedTabs[activeTabIndex].cursorPlatformWindowId}`);
+          storedTabs[activeTabIndex].cursorPlatformWindowId = newHwnd;
+          store.set("storedTabs", storedTabs);
+        }
+
+        fs.unlinkSync("temp_position_hwnd.txt");
+      }
+    }, 300);
+  }, 200);
+
   // Update Kanata virtual keys based on current workspace state
   updateKanataVirtualKeys();
   
@@ -995,6 +1026,8 @@ function setupMainWindowEvents() {
 function toggleFullscreenAlacritty() {
   log("toggleFullscreenAlacritty");
   activeTabIndex = store.get("activeTabIndex", 0);
+  // Read fresh state from store to avoid using stale global variable
+  storedTabs = store.get("storedTabs", []);
   const currentTab = storedTabs[activeTabIndex];
 
   const updatedTab = windowManager.toggleFullscreenAlacritty(currentTab);
@@ -1017,21 +1050,43 @@ function toggleFullscreenAlacritty() {
 function toggleFullscreenCursor() {
   log("toggleFullscreenCursor");
   activeTabIndex = store.get("activeTabIndex", 0);
+  // Read fresh state from store to avoid using stale global variable
+  storedTabs = store.get("storedTabs", []);
   const currentTab = storedTabs[activeTabIndex];
+
+  log(`[DEBUG] About to toggle - workspace ${activeTabIndex}, currentTab.cursorPlatformWindowId: ${currentTab.cursorPlatformWindowId}, current editorFullScreen: ${currentTab.editorFullScreen}`);
 
   const updatedTab = windowManager.toggleFullscreenCursor(currentTab);
 
+  log(`[DEBUG] After toggle - updatedTab.editorFullScreen: ${updatedTab.editorFullScreen}, cursorPlatformWindowId: ${updatedTab.cursorPlatformWindowId}`);
+
   storedTabs[activeTabIndex] = updatedTab;
   store.set("storedTabs", storedTabs);
-  
+
   log(`Cursor fullscreen toggled - workspace ${activeTabIndex}, new state: ${updatedTab.editorFullScreen}`);
   
   // Update Kanata virtual key
   setKanataVirtualKey("cursor_fullscreen", updatedTab.editorFullScreen);
-  
+
   // Notify other app
   notifyFullscreenState("cursor", updatedTab.editorFullScreen);
-  
+
+  // Check if position-cursor.ahk discovered a new hwnd (when old one was stale)
+  setTimeout(() => {
+    if (fs.existsSync("temp_position_hwnd.txt")) {
+      const fileContent = fs.readFileSync("temp_position_hwnd.txt", "utf8").trim();
+      const newHwnd = parseInt(fileContent, 10);
+
+      if (!isNaN(newHwnd) && newHwnd !== 0) {
+        log(`[toggleFullscreenCursor] Discovered new hwnd ${newHwnd}, updating from ${currentTab.cursorPlatformWindowId}`);
+        storedTabs[activeTabIndex].cursorPlatformWindowId = newHwnd;
+        store.set("storedTabs", storedTabs);
+      }
+
+      fs.unlinkSync("temp_position_hwnd.txt");
+    }
+  }, 300);
+
   // If cursor was toggled from fullscreen to normal, send focus command right after
   if (!updatedTab.editorFullScreen) {
     setTimeout(() => {

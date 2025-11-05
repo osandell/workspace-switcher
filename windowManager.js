@@ -225,14 +225,25 @@ function positionKittyWindow(pid, fullscreen = false) {
 /**
  * Position the code editor window dynamically
  */
-function positionEditorWindow(pid, fullscreen = false) {
-  let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-cursor.ahk "${pid}" "${fullscreen}" "${currentDisplay}"`;
+function positionEditorWindow(pid, path, fullscreen = false) {
+  const fs = require('fs');
+  const debugLog = `[${new Date().toISOString()}] positionEditorWindow called: pid=${pid}, path=${path}, fullscreen=${fullscreen}, currentDisplay=${currentDisplay}\n`;
+  fs.appendFileSync(__dirname + '/position-debug.log', debugLog);
+
+  // Escape quotes in path
+  const escapedPath = path ? path.replace(/"/g, '\\"') : "";
+  let command = `"c:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe" position-cursor.ahk "${pid}" "${escapedPath}" "${fullscreen}" "${currentDisplay}"`;
+  fs.appendFileSync(__dirname + '/position-debug.log', `[${new Date().toISOString()}] Command: ${command}\n`);
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      console.error(`Error positioning WT: ${error}`);
+      fs.appendFileSync(__dirname + '/position-debug.log', `[${new Date().toISOString()}] ERROR: ${error}\n`);
+      console.error(`[positionEditorWindow] Error: ${error}`);
       return;
     }
+    fs.appendFileSync(__dirname + '/position-debug.log', `[${new Date().toISOString()}] Success\n`);
+    if (stdout) fs.appendFileSync(__dirname + '/position-debug.log', `[${new Date().toISOString()}] stdout: ${stdout}\n`);
+    if (stderr) fs.appendFileSync(__dirname + '/position-debug.log', `[${new Date().toISOString()}] stderr: ${stderr}\n`);
   });
 }
 
@@ -277,13 +288,20 @@ function toggleFullscreenCursor(currentTab) {
     "",
     currentTab
   );
-  
+
+  console.log(`[toggleFullscreenCursor] Current cursorPlatformWindowId: ${currentTab.cursorPlatformWindowId}`);
+  console.log(`[toggleFullscreenCursor] Current editorFullScreen: ${currentTab.editorFullScreen}`);
+
   currentTab.editorFullScreen = !currentTab.editorFullScreen;
+
+  console.log(`[toggleFullscreenCursor] New editorFullScreen: ${currentTab.editorFullScreen}`);
+
   positionEditorWindow(
     currentTab.cursorPlatformWindowId,
+    currentTab.path,
     currentTab.editorFullScreen
   );
-  
+
   return currentTab;
 }
 
