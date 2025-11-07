@@ -1,0 +1,3571 @@
+=== 20251105222913 ===
+Looking for hwnd: 1578354
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+MATCH! Moving window
+Window moved successfully
+=== 20251105222916 ===
+Looking for hwnd: 9769266
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+ERROR: Window not found!
+=== 20251105222919 ===
+Looking for hwnd: 9769266
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+ERROR: Window not found!
+=== 20251105222922 ===
+Looking for hwnd: 9769266
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+ERROR: Window not found!
+=== 20251105222924 ===
+Looking for hwnd: 9769266
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+ERROR: Window not found!
+=== 20251105222925 ===
+Looking for hwnd: 1578354
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+MATCH! Moving window
+Window moved successfully
+=== 20251105223424 ===
+Looking for hwnd: 1578354 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223427 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223432 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223437 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223440 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223441 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223443 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223450 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223451 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223452 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223452 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105223454 ===
+Looking for hwnd: 1578354 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223549 ===
+Looking for hwnd: 1578354 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223602 ===
+Looking for hwnd: 1578354 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223605 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105223613 ===
+Looking for hwnd: 1578354 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223616 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105223619 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223622 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105223625 ===
+Looking for hwnd: 3279304 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223628 ===
+Looking for hwnd: 920368 path: /home/olof/dev/aixia/final-presentation
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 920368
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223630 ===
+Looking for hwnd: 1651026 path: C:\Users\Olof.Sandell\Downloads
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1651026
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223632 ===
+Looking for hwnd: 133250 path: /home/olof/dev/osandell
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 3279304
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223635 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223638 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105223644 ===
+Looking for hwnd: 9769266 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105223647 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223648 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223649 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223653 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223653 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223655 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223825 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223834 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223836 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223840 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223843 ===
+Looking for hwnd: 920368 path: /home/olof/dev/aixia/final-presentation
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 920368
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223846 ===
+Looking for hwnd: 1651026 path: C:\Users\Olof.Sandell\Downloads
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1651026
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223848 ===
+Looking for hwnd: 133250 path: /home/olof/dev/osandell
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 3217182
+Checking hwnd: 133250
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223850 ===
+Looking for hwnd: 1651026 path: C:\Users\Olof.Sandell\Downloads
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1651026
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223853 ===
+Looking for hwnd: 920368 path: /home/olof/dev/aixia/final-presentation
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 920368
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223854 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223859 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223903 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223907 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223908 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223910 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223911 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223913 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223915 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223919 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223921 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223948 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223950 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223952 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105223953 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105224028 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105224032 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105224034 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105224035 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+MATCH by hwnd! Moving window
+Window moved successfully
+=== 20251105224121 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224129 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251105224130 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 3279304
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224133 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 3279304
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224135 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/vision-tests or /home/olof/dev/aixia/vision-tests), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 920368
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 3279304
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/vision-tests
+MATCH by title! Moving window with new hwnd: 3279304
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224137 ===
+Looking for hwnd: 920368 path: /home/olof/dev/aixia/final-presentation
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 920368
+  Found hwnd match, verifying title: ~/dev/aixia/final-presentation
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251105224139 ===
+Looking for hwnd: 1651026 path: C:\Users\Olof.Sandell\Downloads
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251105224141 ===
+Looking for hwnd: 133250 path: /home/olof/dev/osandell
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 3279304
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+  Found hwnd match, verifying title: ~/dev/osandell
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251105224143 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224145 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 3279304
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224147 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/vision-tests or /home/olof/dev/aixia/vision-tests), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 3279304
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: ~/dev/aixia/vision-tests
+MATCH by title! Moving window with new hwnd: 3279304
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224149 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 3217182
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224152 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/vision-tests or /home/olof/dev/aixia/vision-tests), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+MATCH by title! Moving window with new hwnd: 3279304
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224154 ===
+Looking for hwnd: 3279304 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224156 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224730 ===
+Looking for hwnd: 3279304 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224848 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ()
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224851 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ()
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ()
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224852 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ()
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ()
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224853 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ()
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ()
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224853 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ()
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ()
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224902 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ()
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ()
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224910 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ()
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ()
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224914 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: (Terminal)
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: (Terminal)
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224915 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: (Terminal)
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/vision-tests or /home/olof/dev/aixia/vision-tests), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: (Terminal)
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+MATCH by title! Moving window with new hwnd: 3279304
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224917 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 3217182
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ()
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224922 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: (Terminal)
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/vision-tests or /home/olof/dev/aixia/vision-tests), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: (Terminal)
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+MATCH by title! Moving window with new hwnd: 3279304
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224925 ===
+Looking for hwnd: 3279304 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ()
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105224929 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: (Terminal)
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: (Terminal)
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105224930 ===
+Looking for hwnd: 3279304 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Checking hwnd: 723750
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ()
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\win-focus-application
+ERROR: Window not found by hwnd or title!
+=== 20251105225130 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Checking hwnd: 1578354
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251105225131 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106084757 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106084759 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106091926 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106091929 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101322 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+=== 20251106101322 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101444 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106101455 ===
+Looking for hwnd: 1651026 path: 
+=== 20251106101456 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101456 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101456 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101456 ===
+Looking for hwnd: 133250 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+  Found hwnd match, verifying title: ~/dev/osandell
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101456 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101833 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251106101841 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106101845 ===
+Looking for hwnd: 133250 path: 
+=== 20251106101845 ===
+Looking for hwnd: 1651026 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101845 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+=== 20251106101845 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101845 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106101846 ===
+Looking for hwnd: 133250 path: /home/olof/dev/osandell
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1651026
+Checking hwnd: 133250
+  Found hwnd match, verifying title: ~/dev/osandell
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251106101847 ===
+Looking for hwnd: 1651026 path: C:\Users\Olof.Sandell\Downloads
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251106101849 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/osandell
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1651026
+Checking hwnd: 133250
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/osandell or /home/olof/dev/osandell), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/osandell
+MATCH by title! Moving window with new hwnd: 133250
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106101850 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106143929 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251106150030 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106150229 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106150241 ===
+Looking for hwnd: 133250 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+  Found hwnd match, verifying title: ~/dev/osandell
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106150242 ===
+Looking for hwnd: 1578354 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106150242 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106150242 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106150242 ===
+Looking for hwnd: 1651026 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106170156 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106170157 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106170350 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/vision-tests or /home/olof/dev/aixia/vision-tests), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/vision-tests
+MATCH by title! Moving window with new hwnd: 3279304
+=== 20251106170350 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3279304
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106170459 ===
+Looking for hwnd: 133250 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+  Found hwnd match, verifying title: ~/dev/osandell
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106173438 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106173525 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106173528 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106173757 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251106173808 ===
+Looking for hwnd: 3217182 path: 
+=== 20251106173808 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+=== 20251106173809 ===
+Looking for hwnd: 1578354 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251106173809 ===
+Looking for hwnd: 1651026 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+=== 20251106173809 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107090735 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107090735 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107090920 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251107090930 ===
+Looking for hwnd: 1578354 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107090931 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107090931 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107090931 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107090931 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107090931 ===
+Looking for hwnd: 1651026 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107095829 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107111734 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/vision-tests
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/vision-tests or /home/olof/dev/aixia/vision-tests), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+MATCH by title! Moving window with new hwnd: 3279304
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107112546 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251107120333 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107124959 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+=== 20251107125000 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125021 ===
+Looking for hwnd: 3279304 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107125026 ===
+Looking for hwnd: 1578354 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+=== 20251107125026 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125026 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125026 ===
+Looking for hwnd: 1651026 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125027 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125255 ===
+Looking for hwnd: 3279304 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107125305 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+=== 20251107125305 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+=== 20251107125305 ===
+Looking for hwnd: 1651026 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125305 ===
+Looking for hwnd: 1578354 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125306 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125306 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107125314 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 1578354
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107125315 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251107141850 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+=== 20251107141850 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107141917 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107141925 ===
+Looking for hwnd: 1578354 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107141925 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107141925 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107141925 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142330 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142342 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142344 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142351 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142419 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+=== 20251107142420 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142441 ===
+Looking for hwnd: 4208 path: 
+=== 20251107142443 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142446 ===
+Looking for hwnd: 4208 path: 
+=== 20251107142446 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142508 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142508 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142515 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142516 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142522 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142522 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142540 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+=== 20251107142542 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142557 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142620 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107142637 ===
+=== 20251107142638 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 115,108 Size: 1173x1940
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107151332 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107152857 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+=== 20251107152857 ===
+Looking for hwnd: undefined path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107152926 ===
+Looking for hwnd: 1578354 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected ~/dev/aixia/AiQu or /home/olof/dev/aixia/AiQu), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+MATCH by title! Moving window with new hwnd: 3217182
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107152932 ===
+Looking for hwnd: 1578354 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107152932 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107152932 ===
+Looking for hwnd: 3279304 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+  Found hwnd match, verifying title: ~/dev/aixia/vision-tests
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107152932 ===
+Looking for hwnd: 1651026 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107152932 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107152932 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107153003 ===
+Looking for hwnd: 3217182 path: /home/olof/dev/aixia/AiQu
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251107153013 ===
+Looking for hwnd: 1578354 path: 
+=== 20251107153013 ===
+Looking for hwnd: 1651026 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+  Found hwnd match, verifying title: C:\Users\Olof.Sandell\Downloads
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107153013 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107153014 ===
+Looking for hwnd: 3217182 path: 
+Fullscreen: false
+Position: 860,70 Size: 1636x1299
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107194357 ===
+Looking for hwnd: 4208 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107195108 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 6 Cursor windows
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107195307 ===
+Looking for hwnd: 5639614 path: 
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 5639614
+  Found hwnd match, verifying title: Cursor
+  Hwnd matches but title doesn't match (expected  or ), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: Cursor
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: ~/dev/aixia/AiQu
+  Checking title: ~/dev/aixia/vision-tests
+  Checking title: ~/dev/osandell
+  Checking title: C:\Users\Olof.Sandell\Downloads
+  Checking title: ~/dev/aixia/final-presentation
+ERROR: Window not found by hwnd or title!
+=== 20251107195339 ===
+Looking for hwnd: 5639614 path: C:\dev\osandell\ws2
+Fullscreen: true
+Position: -10,34 Size: 2580x1576
+Found 7 Cursor windows
+Checking hwnd: 5639614
+  Found hwnd match, verifying title: C:\dev\osandell\ws2
+MATCH by hwnd AND title verified! Moving window
+Window moved successfully
+=== 20251107195340 ===
+Looking for hwnd: 1578354 path: C:\dev\osandell\ws2
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 5639614
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\ws2), continuing search
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\ws2
+MATCH by title! Moving window with new hwnd: 5639614
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107195356 ===
+Looking for hwnd: 3217182 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 5639614
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+  Found hwnd match, verifying title: ~/dev/aixia/AiQu
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\ws2
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107195410 ===
+Looking for hwnd: 1578354 path: C:\dev\osandell\ws2
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\ws2), continuing search
+Checking hwnd: 5639614
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: C:\dev\osandell\ws2
+MATCH by title! Moving window with new hwnd: 5639614
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107195419 ===
+Looking for hwnd: 5639614 path: C:\dev\osandell\workspace-switcher
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 5639614
+  Found hwnd match, verifying title: C:\dev\osandell\ws2
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\workspace-switcher), continuing search
+Checking hwnd: 1578354
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\ws2
+  Checking title: C:\dev\osandell\workspace-switcher
+MATCH by title! Moving window with new hwnd: 1578354
+Window moved successfully, wrote new hwnd to temp file
+=== 20251107195427 ===
+Looking for hwnd: 1578354 path: C:\dev\osandell\ws2
+Fullscreen: false
+Position: 873,41 Size: 1696x1558
+Found 7 Cursor windows
+Checking hwnd: 1578354
+  Found hwnd match, verifying title: C:\dev\osandell\workspace-switcher
+  Hwnd matches but title doesn't match (expected  or C:\dev\osandell\ws2), continuing search
+Checking hwnd: 5639614
+Checking hwnd: 3217182
+Checking hwnd: 3279304
+Checking hwnd: 133250
+Checking hwnd: 1651026
+Checking hwnd: 920368
+Not found by hwnd, trying by title match...
+  Checking title: C:\dev\osandell\workspace-switcher
+  Checking title: C:\dev\osandell\ws2
+MATCH by title! Moving window with new hwnd: 5639614
+Window moved successfully, wrote new hwnd to temp file

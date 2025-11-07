@@ -4,7 +4,9 @@
       "Bash(jj config:*)",
       "Bash(jj git remote:*)",
       "Bash(jj log:*)",
-      "Bash(jj diff:*)"
+      "Bash(jj diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix: handle stale window handles for Cursor fullscreen toggling\n\nWhen Cursor windows were closed and reopened, their window handles (hwnd) would change, causing fullscreen toggling and positioning to fail on workspace switches. This fix adds:\n\n- Fallback window lookup by path/title in position-cursor.ahk (matching focus-cursor.ahk behavior)\n- Automatic hwnd update when fallback discovers new window handle\n- Re-application of window positions when switching workspaces\n- Fresh state reading from store in toggle functions to prevent stale data\n\nThe positioning script now tries exact hwnd match first, then falls back to matching window title with workspace path, ensuring reliable window control even after restarts.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

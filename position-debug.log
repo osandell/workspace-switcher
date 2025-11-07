@@ -1,0 +1,751 @@
+[2025-11-05T21:28:00.686Z] positionEditorWindow called: pid=1578354, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:28:00.687Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "false" "internal"
+[2025-11-05T21:28:01.405Z] Success
+[2025-11-05T21:28:02.642Z] positionEditorWindow called: pid=9769266, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:28:02.644Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "false" "internal"
+[2025-11-05T21:28:02.937Z] Success
+[2025-11-05T21:28:06.020Z] positionEditorWindow called: pid=9769266, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:28:06.020Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "true" "internal"
+[2025-11-05T21:28:06.291Z] Success
+[2025-11-05T21:28:08.296Z] positionEditorWindow called: pid=9769266, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:28:08.297Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "false" "internal"
+[2025-11-05T21:28:08.693Z] Success
+[2025-11-05T21:28:11.147Z] positionEditorWindow called: pid=1578354, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:28:11.148Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "false" "internal"
+[2025-11-05T21:28:11.777Z] Success
+[2025-11-05T21:28:14.274Z] positionEditorWindow called: pid=9769266, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:28:14.275Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "false" "internal"
+[2025-11-05T21:28:14.515Z] Success
+[2025-11-05T21:28:17.664Z] positionEditorWindow called: pid=9769266, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:28:17.664Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "true" "internal"
+[2025-11-05T21:28:17.827Z] Success
+[2025-11-05T21:28:19.358Z] positionEditorWindow called: pid=9769266, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:28:19.358Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "false" "internal"
+[2025-11-05T21:28:19.564Z] Success
+[2025-11-05T21:28:20.529Z] positionEditorWindow called: pid=1578354, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:28:20.529Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "false" "internal"
+[2025-11-05T21:28:20.990Z] Success
+[2025-11-05T21:29:12.740Z] positionEditorWindow called: pid=1578354, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:29:12.741Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "false" "internal"
+[2025-11-05T21:29:13.867Z] Success
+[2025-11-05T21:29:16.215Z] positionEditorWindow called: pid=9769266, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:29:16.217Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "false" "internal"
+[2025-11-05T21:29:16.553Z] Success
+[2025-11-05T21:29:19.635Z] positionEditorWindow called: pid=9769266, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:29:19.636Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "true" "internal"
+[2025-11-05T21:29:19.986Z] Success
+[2025-11-05T21:29:22.111Z] positionEditorWindow called: pid=9769266, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:29:22.112Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "false" "internal"
+[2025-11-05T21:29:22.338Z] Success
+[2025-11-05T21:29:24.128Z] positionEditorWindow called: pid=9769266, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:29:24.128Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "true" "internal"
+[2025-11-05T21:29:24.279Z] Success
+[2025-11-05T21:29:25.647Z] positionEditorWindow called: pid=1578354, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:29:25.647Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "false" "internal"
+[2025-11-05T21:29:26.203Z] Success
+[2025-11-05T21:34:24.271Z] positionEditorWindow called: pid=1578354, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:34:24.272Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:34:24.974Z] Success
+[2025-11-05T21:34:27.616Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:34:27.621Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:34:27.858Z] Success
+[2025-11-05T21:34:32.265Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:34:32.265Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:34:32.506Z] Success
+[2025-11-05T21:34:37.103Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:34:37.103Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:34:37.282Z] Success
+[2025-11-05T21:34:39.752Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:34:39.752Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:34:40.126Z] Success
+[2025-11-05T21:34:41.476Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:34:41.476Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:34:41.673Z] Success
+[2025-11-05T21:34:43.071Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:34:43.072Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:34:43.241Z] Success
+[2025-11-05T21:34:50.324Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:34:50.325Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:34:50.492Z] Success
+[2025-11-05T21:34:51.279Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:34:51.280Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:34:51.556Z] Success
+[2025-11-05T21:34:52.060Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:34:52.061Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:34:52.245Z] Success
+[2025-11-05T21:34:52.677Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:34:52.677Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:34:52.872Z] Success
+[2025-11-05T21:34:54.019Z] positionEditorWindow called: pid=1578354, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:34:54.020Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:34:54.454Z] Success
+[2025-11-05T21:35:49.205Z] positionEditorWindow called: pid=1578354, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:35:49.206Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:35:49.740Z] Success
+[2025-11-05T21:36:02.394Z] positionEditorWindow called: pid=1578354, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:02.396Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:36:03.054Z] Success
+[2025-11-05T21:36:04.741Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:04.742Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:36:05.480Z] Success
+[2025-11-05T21:36:13.002Z] positionEditorWindow called: pid=1578354, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:13.003Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:36:13.574Z] Success
+[2025-11-05T21:36:15.916Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:15.917Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:36:16.577Z] Success
+[2025-11-05T21:36:19.197Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:19.198Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:36:19.755Z] Success
+[2025-11-05T21:36:22.075Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:22.076Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:36:22.543Z] Success
+[2025-11-05T21:36:24.937Z] positionEditorWindow called: pid=3279304, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:24.938Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:36:25.825Z] Success
+[2025-11-05T21:36:28.456Z] positionEditorWindow called: pid=920368, path=/home/olof/dev/aixia/final-presentation, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:28.457Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "920368" "/home/olof/dev/aixia/final-presentation" "false" "internal"
+[2025-11-05T21:36:28.993Z] Success
+[2025-11-05T21:36:30.629Z] positionEditorWindow called: pid=1651026, path=C:\Users\Olof.Sandell\Downloads, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:30.630Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "C:\Users\Olof.Sandell\Downloads" "false" "internal"
+[2025-11-05T21:36:31.147Z] Success
+[2025-11-05T21:36:32.257Z] positionEditorWindow called: pid=133250, path=/home/olof/dev/osandell, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:32.258Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "133250" "/home/olof/dev/osandell" "false" "internal"
+[2025-11-05T21:36:32.677Z] Success
+[2025-11-05T21:36:35.193Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:35.195Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:36:35.673Z] Success
+[2025-11-05T21:36:37.953Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:37.953Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:36:38.464Z] Success
+[2025-11-05T21:36:44.144Z] positionEditorWindow called: pid=9769266, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:36:44.144Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "9769266" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:36:44.563Z] Success
+[2025-11-05T21:36:47.215Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:47.216Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:36:47.653Z] Success
+[2025-11-05T21:36:48.312Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:36:48.313Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:36:48.686Z] Success
+[2025-11-05T21:36:49.130Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:49.131Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:36:49.546Z] Success
+[2025-11-05T21:36:52.992Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:36:52.992Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:36:53.411Z] Success
+[2025-11-05T21:36:53.778Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:53.778Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:36:54.229Z] Success
+[2025-11-05T21:36:54.852Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:36:54.852Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:36:55.364Z] Success
+[2025-11-05T21:38:25.313Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:25.314Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:38:25.809Z] Success
+[2025-11-05T21:38:33.847Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:33.847Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:38:34.354Z] Success
+[2025-11-05T21:38:36.370Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:36.370Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:38:36.845Z] Success
+[2025-11-05T21:38:40.595Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:40.596Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:38:41.045Z] Success
+[2025-11-05T21:38:43.215Z] positionEditorWindow called: pid=920368, path=/home/olof/dev/aixia/final-presentation, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:43.216Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "920368" "/home/olof/dev/aixia/final-presentation" "false" "internal"
+[2025-11-05T21:38:43.692Z] Success
+[2025-11-05T21:38:46.408Z] positionEditorWindow called: pid=1651026, path=C:\Users\Olof.Sandell\Downloads, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:46.409Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "C:\Users\Olof.Sandell\Downloads" "false" "internal"
+[2025-11-05T21:38:47.062Z] Success
+[2025-11-05T21:38:48.176Z] positionEditorWindow called: pid=133250, path=/home/olof/dev/osandell, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:48.177Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "133250" "/home/olof/dev/osandell" "false" "internal"
+[2025-11-05T21:38:48.695Z] Success
+[2025-11-05T21:38:50.550Z] positionEditorWindow called: pid=1651026, path=C:\Users\Olof.Sandell\Downloads, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:50.551Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "C:\Users\Olof.Sandell\Downloads" "false" "internal"
+[2025-11-05T21:38:51.046Z] Success
+[2025-11-05T21:38:52.796Z] positionEditorWindow called: pid=920368, path=/home/olof/dev/aixia/final-presentation, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:52.797Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "920368" "/home/olof/dev/aixia/final-presentation" "false" "internal"
+[2025-11-05T21:38:53.298Z] Success
+[2025-11-05T21:38:54.461Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:54.462Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:38:54.917Z] Success
+[2025-11-05T21:38:59.353Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:38:59.353Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:38:59.784Z] Success
+[2025-11-05T21:39:03.431Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:03.432Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:39:03.889Z] Success
+[2025-11-05T21:39:06.672Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:06.673Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:39:07.398Z] Success
+[2025-11-05T21:39:08.578Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:08.579Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:39:09.385Z] Success
+[2025-11-05T21:39:10.592Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:10.593Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:39:11.108Z] Success
+[2025-11-05T21:39:11.682Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:11.682Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:39:12.135Z] Success
+[2025-11-05T21:39:13.353Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:13.354Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:39:13.813Z] Success
+[2025-11-05T21:39:15.375Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:15.376Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:39:15.781Z] Success
+[2025-11-05T21:39:19.641Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:19.642Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:39:20.139Z] Success
+[2025-11-05T21:39:21.325Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:21.326Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:39:21.848Z] Success
+[2025-11-05T21:39:48.796Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:48.797Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:39:49.262Z] Success
+[2025-11-05T21:39:50.294Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:50.294Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:39:50.820Z] Success
+[2025-11-05T21:39:52.766Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:52.772Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:39:53.189Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:39:53.189Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:39:53.298Z] Success
+[2025-11-05T21:39:53.787Z] Success
+[2025-11-05T21:40:28.631Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:40:28.632Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:40:29.101Z] Success
+[2025-11-05T21:40:31.747Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:40:31.747Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:40:32.286Z] Success
+[2025-11-05T21:40:34.246Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:40:34.247Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:40:34.833Z] Success
+[2025-11-05T21:40:35.601Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:40:35.601Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:40:36.097Z] Success
+[2025-11-05T21:41:21.616Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:21.617Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:41:22.209Z] Success
+[2025-11-05T21:41:28.995Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:28.995Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:41:29.522Z] Success
+[2025-11-05T21:41:30.623Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:30.624Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:41:31.065Z] Success
+[2025-11-05T21:41:33.483Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:33.484Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:41:34.041Z] Success
+[2025-11-05T21:41:35.116Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:35.116Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:41:35.600Z] Success
+[2025-11-05T21:41:37.513Z] positionEditorWindow called: pid=920368, path=/home/olof/dev/aixia/final-presentation, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:37.514Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "920368" "/home/olof/dev/aixia/final-presentation" "false" "internal"
+[2025-11-05T21:41:38.022Z] Success
+[2025-11-05T21:41:39.493Z] positionEditorWindow called: pid=1651026, path=C:\Users\Olof.Sandell\Downloads, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:39.495Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "C:\Users\Olof.Sandell\Downloads" "false" "internal"
+[2025-11-05T21:41:40.065Z] Success
+[2025-11-05T21:41:41.246Z] positionEditorWindow called: pid=133250, path=/home/olof/dev/osandell, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:41.247Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "133250" "/home/olof/dev/osandell" "false" "internal"
+[2025-11-05T21:41:41.685Z] Success
+[2025-11-05T21:41:43.001Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:43.001Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:41:43.487Z] Success
+[2025-11-05T21:41:44.932Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:44.933Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:41:45.607Z] Success
+[2025-11-05T21:41:46.834Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:46.834Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:41:47.312Z] Success
+[2025-11-05T21:41:48.823Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:48.824Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:41:49.493Z] Success
+[2025-11-05T21:41:52.320Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:52.321Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:41:52.782Z] Success
+[2025-11-05T21:41:54.351Z] positionEditorWindow called: pid=3279304, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:54.352Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:41:54.767Z] Success
+[2025-11-05T21:41:56.256Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:41:56.256Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:41:56.800Z] Success
+[2025-11-05T21:47:30.395Z] positionEditorWindow called: pid=3279304, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:47:30.396Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:47:31.158Z] Success
+[2025-11-05T21:48:48.402Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:48:48.402Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:48:48.598Z] Success
+[2025-11-05T21:48:51.441Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:48:51.442Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:48:51.606Z] Success
+[2025-11-05T21:48:52.440Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:48:52.441Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:48:52.746Z] Success
+[2025-11-05T21:48:53.023Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:48:53.023Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:48:53.205Z] Success
+[2025-11-05T21:48:53.608Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=true, currentDisplay=internal
+[2025-11-05T21:48:53.608Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "true" "internal"
+[2025-11-05T21:48:53.740Z] Success
+[2025-11-05T21:49:02.351Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:02.351Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:49:02.560Z] Success
+[2025-11-05T21:49:10.745Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:10.746Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:49:11.196Z] Success
+[2025-11-05T21:49:13.967Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:13.967Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:49:14.105Z] Success
+[2025-11-05T21:49:15.703Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:15.703Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:49:16.139Z] Success
+[2025-11-05T21:49:17.581Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:17.582Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:49:17.755Z] Success
+[2025-11-05T21:49:22.763Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:22.763Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-05T21:49:23.192Z] Success
+[2025-11-05T21:49:25.239Z] positionEditorWindow called: pid=3279304, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:25.239Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:49:25.382Z] Success
+[2025-11-05T21:49:29.269Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:29.270Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:49:29.691Z] Success
+[2025-11-05T21:49:30.787Z] positionEditorWindow called: pid=3279304, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:49:30.787Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:49:31.025Z] Success
+[2025-11-05T21:51:29.808Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:51:29.810Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-05T21:51:30.331Z] Success
+[2025-11-05T21:51:31.309Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-05T21:51:31.309Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-05T21:51:31.938Z] Success
+[2025-11-06T07:47:57.175Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T07:47:57.266Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-06T07:47:59.419Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T07:47:59.419Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-06T07:47:59.689Z] Success
+[2025-11-06T07:47:59.920Z] Success
+[2025-11-06T08:19:24.090Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T08:19:24.091Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-06T08:19:24.488Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T08:19:24.489Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-06T08:19:27.722Z] Success
+[2025-11-06T08:19:29.965Z] Success
+[2025-11-06T09:13:21.073Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:13:21.074Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-06T09:13:21.676Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:13:21.676Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-06T09:13:22.465Z] Success
+[2025-11-06T09:13:23.037Z] Success
+[2025-11-06T09:14:44.724Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-06T09:14:44.725Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-06T09:14:45.324Z] Success
+[2025-11-06T09:14:55.712Z] positionEditorWindow called: pid=133250, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:14:55.713Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "133250" "" "false" "external"
+[2025-11-06T09:14:55.721Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:14:55.721Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "external"
+[2025-11-06T09:14:55.728Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:14:55.729Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "external"
+[2025-11-06T09:14:55.735Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:14:55.736Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T09:14:55.743Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:14:55.743Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T09:14:55.747Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:14:55.748Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T09:14:55.981Z] Success
+[2025-11-06T09:14:56.083Z] Success
+[2025-11-06T09:14:56.089Z] Success
+[2025-11-06T09:14:56.292Z] Success
+[2025-11-06T09:14:56.295Z] Success
+[2025-11-06T09:14:56.299Z] Success
+[2025-11-06T09:18:33.440Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:33.441Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-06T09:18:33.928Z] Success
+[2025-11-06T09:18:40.787Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:40.788Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "external"
+[2025-11-06T09:18:41.413Z] Success
+[2025-11-06T09:18:44.876Z] positionEditorWindow called: pid=133250, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:44.877Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "133250" "" "false" "external"
+[2025-11-06T09:18:44.884Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:44.884Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "external"
+[2025-11-06T09:18:44.891Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:44.892Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "external"
+[2025-11-06T09:18:44.898Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:44.898Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T09:18:44.906Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:44.906Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T09:18:44.909Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:44.910Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T09:18:45.174Z] Success
+[2025-11-06T09:18:45.316Z] Success
+[2025-11-06T09:18:45.434Z] Success
+[2025-11-06T09:18:45.538Z] Success
+[2025-11-06T09:18:45.748Z] positionEditorWindow called: pid=133250, path=/home/olof/dev/osandell, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:45.748Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "133250" "/home/olof/dev/osandell" "false" "external"
+[2025-11-06T09:18:45.885Z] Success
+[2025-11-06T09:18:46.562Z] Success
+[2025-11-06T09:18:47.590Z] positionEditorWindow called: pid=1651026, path=C:\Users\Olof.Sandell\Downloads, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:47.590Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "C:\Users\Olof.Sandell\Downloads" "false" "external"
+[2025-11-06T09:18:47.681Z] Success
+[2025-11-06T09:18:48.183Z] Success
+[2025-11-06T09:18:49.584Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/osandell, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:49.584Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/osandell" "false" "external"
+[2025-11-06T09:18:50.060Z] Success
+[2025-11-06T09:18:50.821Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=external
+[2025-11-06T09:18:50.821Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "external"
+[2025-11-06T09:18:51.285Z] Success
+[2025-11-06T13:39:29.731Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-06T13:39:29.731Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-06T13:39:30.239Z] Success
+[2025-11-06T14:00:26.579Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:00:26.581Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-06T14:00:27.701Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:00:27.702Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-06T14:00:30.110Z] Success
+[2025-11-06T14:00:31.027Z] Success
+[2025-11-06T14:02:29.219Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:02:29.219Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-06T14:02:30.763Z] Success
+[2025-11-06T14:02:41.030Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:02:41.030Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "internal"
+[2025-11-06T14:02:41.043Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:02:41.043Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "internal"
+[2025-11-06T14:02:41.058Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:02:41.058Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "internal"
+[2025-11-06T14:02:41.075Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:02:41.076Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "internal"
+[2025-11-06T14:02:41.091Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:02:41.092Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "internal"
+[2025-11-06T14:02:41.100Z] positionEditorWindow called: pid=133250, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-06T14:02:41.101Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "133250" "" "false" "internal"
+[2025-11-06T14:02:41.441Z] Success
+[2025-11-06T14:02:42.100Z] Success
+[2025-11-06T14:02:42.150Z] Success
+[2025-11-06T14:02:42.250Z] Success
+[2025-11-06T14:02:42.259Z] Success
+[2025-11-06T14:02:42.285Z] Success
+[2025-11-06T16:01:55.106Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T16:01:55.108Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-06T16:01:55.367Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T16:01:55.368Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-06T16:01:56.530Z] Success
+[2025-11-06T16:01:57.456Z] Success
+[2025-11-06T16:03:49.915Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=external
+[2025-11-06T16:03:49.915Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "external"
+[2025-11-06T16:03:50.482Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-06T16:03:50.483Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-06T16:03:50.726Z] Success
+[2025-11-06T16:03:51.170Z] Success
+[2025-11-06T16:04:59.562Z] positionEditorWindow called: pid=133250, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=external
+[2025-11-06T16:04:59.562Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "133250" "/mnt/c/dev/osandell/workspace-switcher" "false" "external"
+[2025-11-06T16:05:00.115Z] Success
+[2025-11-06T16:34:38.282Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-06T16:34:38.283Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-06T16:34:38.742Z] Success
+[2025-11-06T16:35:25.297Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=external
+[2025-11-06T16:35:25.298Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "external"
+[2025-11-06T16:35:25.836Z] Success
+[2025-11-06T16:35:28.027Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-06T16:35:28.028Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-06T16:35:28.496Z] Success
+[2025-11-06T16:37:57.555Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-06T16:37:57.555Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-06T16:37:58.068Z] Success
+[2025-11-06T16:38:08.610Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T16:38:08.610Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "external"
+[2025-11-06T16:38:08.617Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T16:38:08.618Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "external"
+[2025-11-06T16:38:08.625Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T16:38:08.625Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "external"
+[2025-11-06T16:38:08.632Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T16:38:08.633Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T16:38:08.640Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T16:38:08.640Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T16:38:08.645Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-06T16:38:08.646Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-06T16:38:08.925Z] Success
+[2025-11-06T16:38:08.953Z] Success
+[2025-11-06T16:38:09.435Z] Success
+[2025-11-06T16:38:09.467Z] Success
+[2025-11-07T08:07:31.937Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:07:31.938Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T08:07:32.198Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:07:32.199Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T08:07:34.794Z] Success
+[2025-11-07T08:07:35.968Z] Success
+[2025-11-07T08:07:35.969Z] Success
+[2025-11-07T08:09:19.796Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:09:19.797Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-07T08:09:20.831Z] Success
+[2025-11-07T08:09:30.412Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:09:30.413Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "internal"
+[2025-11-07T08:09:30.428Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:09:30.429Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "internal"
+[2025-11-07T08:09:30.444Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:09:30.445Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "internal"
+[2025-11-07T08:09:30.458Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:09:30.459Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "internal"
+[2025-11-07T08:09:30.475Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:09:30.475Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "internal"
+[2025-11-07T08:09:30.485Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:09:30.485Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "internal"
+[2025-11-07T08:09:30.836Z] Success
+[2025-11-07T08:09:31.527Z] Success
+[2025-11-07T08:09:31.618Z] Success
+[2025-11-07T08:09:31.698Z] Success
+[2025-11-07T08:09:31.708Z] Success
+[2025-11-07T08:09:31.709Z] Success
+[2025-11-07T08:58:28.046Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T08:58:28.047Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T08:58:29.736Z] Success
+[2025-11-07T10:17:34.328Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/vision-tests, fullscreen=false, currentDisplay=internal
+[2025-11-07T10:17:34.328Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/vision-tests" "false" "internal"
+[2025-11-07T10:17:35.142Z] Success
+[2025-11-07T10:25:45.674Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-07T10:25:45.674Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-07T10:25:46.351Z] Success
+[2025-11-07T11:03:30.602Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T11:03:30.604Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T11:03:34.507Z] Success
+[2025-11-07T11:49:58.242Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:49:58.243Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T11:49:58.739Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:49:58.740Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T11:49:59.796Z] Success
+[2025-11-07T11:50:00.855Z] Success
+[2025-11-07T11:50:20.925Z] positionEditorWindow called: pid=3279304, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-07T11:50:20.926Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-07T11:50:22.942Z] Success
+[2025-11-07T11:50:25.695Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:50:25.696Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "external"
+[2025-11-07T11:50:25.705Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:50:25.705Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "external"
+[2025-11-07T11:50:25.713Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:50:25.714Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "external"
+[2025-11-07T11:50:25.723Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:50:25.723Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T11:50:25.732Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:50:25.733Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "external"
+[2025-11-07T11:50:25.738Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:50:25.738Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T11:50:26.337Z] Success
+[2025-11-07T11:50:26.430Z] Success
+[2025-11-07T11:50:26.462Z] Success
+[2025-11-07T11:50:26.974Z] Success
+[2025-11-07T11:50:27.105Z] Success
+[2025-11-07T11:50:27.126Z] Success
+[2025-11-07T11:52:55.404Z] positionEditorWindow called: pid=3279304, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-07T11:52:55.405Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-07T11:52:56.009Z] Success
+[2025-11-07T11:53:05.307Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:53:05.307Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "external"
+[2025-11-07T11:53:05.318Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:53:05.319Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "external"
+[2025-11-07T11:53:05.331Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:53:05.331Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "external"
+[2025-11-07T11:53:05.340Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:53:05.341Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T11:53:05.348Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:53:05.349Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T11:53:05.353Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T11:53:05.354Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T11:53:05.708Z] Success
+[2025-11-07T11:53:05.928Z] Success
+[2025-11-07T11:53:05.966Z] Success
+[2025-11-07T11:53:05.973Z] Success
+[2025-11-07T11:53:06.245Z] Success
+[2025-11-07T11:53:06.254Z] Success
+[2025-11-07T11:53:14.273Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=external
+[2025-11-07T11:53:14.274Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "external"
+[2025-11-07T11:53:14.776Z] Success
+[2025-11-07T11:53:15.833Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-07T11:53:15.834Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-07T11:53:16.218Z] Success
+[2025-11-07T13:18:48.871Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:18:48.872Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T13:18:49.214Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:18:49.215Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T13:18:50.412Z] Success
+[2025-11-07T13:18:50.977Z] Success
+[2025-11-07T13:19:17.219Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:19:17.219Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "internal"
+[2025-11-07T13:19:17.931Z] Success
+[2025-11-07T13:19:24.574Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:19:24.575Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "internal"
+[2025-11-07T13:19:24.590Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:19:24.591Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "internal"
+[2025-11-07T13:19:24.606Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:19:24.607Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "internal"
+[2025-11-07T13:19:24.620Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:19:24.621Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "internal"
+[2025-11-07T13:19:24.635Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:19:24.636Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "internal"
+[2025-11-07T13:19:24.645Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:19:24.646Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "internal"
+[2025-11-07T13:19:25.221Z] Success
+[2025-11-07T13:19:25.315Z] Success
+[2025-11-07T13:19:26.066Z] Success
+[2025-11-07T13:19:26.067Z] Success
+[2025-11-07T13:19:26.080Z] Success
+[2025-11-07T13:19:26.113Z] Success
+[2025-11-07T13:23:26.954Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:23:26.954Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T13:23:27.679Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:23:27.679Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T13:23:29.211Z] Success
+[2025-11-07T13:23:30.840Z] Success
+[2025-11-07T13:23:38.513Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:23:38.514Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T13:23:38.960Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:23:38.961Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T13:23:42.673Z] Success
+[2025-11-07T13:23:44.577Z] Success
+[2025-11-07T13:23:49.832Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:23:49.832Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T13:23:50.217Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:23:50.218Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T13:23:51.044Z] Success
+[2025-11-07T13:23:51.800Z] Success
+[2025-11-07T13:24:17.487Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:24:17.488Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T13:24:17.917Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:24:17.918Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T13:24:19.811Z] Success
+[2025-11-07T13:24:21.349Z] Success
+[2025-11-07T13:24:40.337Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:24:40.338Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T13:24:40.842Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:24:40.843Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T13:24:42.519Z] Success
+[2025-11-07T13:24:45.156Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:24:45.157Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T13:24:45.536Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:24:45.537Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T13:24:45.586Z] Success
+[2025-11-07T13:24:47.253Z] Success
+[2025-11-07T13:25:06.033Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:25:06.034Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T13:25:06.533Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:25:06.533Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T13:25:07.129Z] Success
+[2025-11-07T13:25:08.701Z] Success
+[2025-11-07T13:25:08.702Z] Success
+[2025-11-07T13:25:14.764Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:25:14.764Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T13:25:15.119Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:25:15.119Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T13:25:16.270Z] Success
+[2025-11-07T13:25:16.534Z] Success
+[2025-11-07T13:25:21.129Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:25:21.130Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T13:25:21.534Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:25:21.534Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T13:25:22.817Z] Success
+[2025-11-07T13:25:23.257Z] Success
+[2025-11-07T13:25:38.280Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:25:38.281Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T13:25:38.822Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:25:38.823Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T13:25:40.840Z] Success
+[2025-11-07T13:25:42.508Z] Success
+[2025-11-07T13:25:55.170Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:25:55.170Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T13:25:55.654Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:25:55.655Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T13:25:56.820Z] Success
+[2025-11-07T13:25:57.950Z] Success
+[2025-11-07T13:26:16.766Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:26:16.767Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T13:26:17.285Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T13:26:17.286Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T13:26:19.426Z] Success
+[2025-11-07T13:26:20.939Z] Success
+[2025-11-07T13:26:35.722Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:26:35.723Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T13:26:36.215Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T13:26:36.216Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T13:26:37.417Z] Success
+[2025-11-07T13:26:38.350Z] Success
+[2025-11-07T14:13:28.596Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T14:13:28.597Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T14:13:29.115Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T14:13:29.115Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T14:13:31.058Z] Success
+[2025-11-07T14:13:32.530Z] Success
+[2025-11-07T14:28:55.354Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:28:55.356Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "external"
+[2025-11-07T14:28:55.601Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:28:55.602Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "external"
+[2025-11-07T14:28:58.236Z] Success
+[2025-11-07T14:29:25.302Z] positionEditorWindow called: pid=1578354, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-07T14:29:25.303Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-07T14:29:26.763Z] Success
+[2025-11-07T14:29:31.897Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:29:31.897Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "external"
+[2025-11-07T14:29:31.908Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:29:31.908Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "external"
+[2025-11-07T14:29:31.918Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:29:31.918Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "external"
+[2025-11-07T14:29:31.925Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:29:31.926Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T14:29:31.932Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:29:31.932Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T14:29:31.936Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:29:31.937Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T14:29:32.588Z] Success
+[2025-11-07T14:29:32.636Z] Success
+[2025-11-07T14:29:32.661Z] Success
+[2025-11-07T14:29:32.826Z] Success
+[2025-11-07T14:29:32.843Z] Success
+[2025-11-07T14:29:32.846Z] Success
+[2025-11-07T14:30:03.068Z] positionEditorWindow called: pid=3217182, path=/home/olof/dev/aixia/AiQu, fullscreen=false, currentDisplay=external
+[2025-11-07T14:30:03.069Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/home/olof/dev/aixia/AiQu" "false" "external"
+[2025-11-07T14:30:03.820Z] Success
+[2025-11-07T14:30:13.174Z] positionEditorWindow called: pid=1578354, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:30:13.175Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "" "false" "external"
+[2025-11-07T14:30:13.183Z] positionEditorWindow called: pid=1651026, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:30:13.183Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1651026" "" "false" "external"
+[2025-11-07T14:30:13.190Z] positionEditorWindow called: pid=3279304, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:30:13.190Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3279304" "" "false" "external"
+[2025-11-07T14:30:13.196Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:30:13.197Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T14:30:13.204Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:30:13.205Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T14:30:13.211Z] positionEditorWindow called: pid=3217182, path=false, fullscreen=false, currentDisplay=external
+[2025-11-07T14:30:13.212Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "" "false" "external"
+[2025-11-07T14:30:13.554Z] Success
+[2025-11-07T14:30:13.653Z] Success
+[2025-11-07T14:30:13.817Z] Success
+[2025-11-07T14:30:13.865Z] Success
+[2025-11-07T14:30:14.163Z] Success
+[2025-11-07T18:43:42.110Z] positionEditorWindow called: pid=4208, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:43:42.111Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "4208" "" "false" "internal"
+[2025-11-07T18:43:42.401Z] positionEditorWindow called: pid=undefined, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:43:42.401Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "undefined" "" "false" "internal"
+[2025-11-07T18:43:56.997Z] Success
+[2025-11-07T18:44:06.355Z] Success
+[2025-11-07T18:51:08.543Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:51:08.544Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-07T18:51:08.729Z] Success
+[2025-11-07T18:51:09.363Z] Success
+[2025-11-07T18:53:07.341Z] positionEditorWindow called: pid=5639614, path=false, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:53:07.342Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "5639614" "" "false" "internal"
+[2025-11-07T18:53:07.595Z] Success
+[2025-11-07T18:53:39.787Z] positionEditorWindow called: pid=5639614, path=/mnt/c/dev/osandell/ws2, fullscreen=true, currentDisplay=internal
+[2025-11-07T18:53:39.788Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "5639614" "/mnt/c/dev/osandell/ws2" "true" "internal"
+[2025-11-07T18:53:40.246Z] Success
+[2025-11-07T18:53:40.619Z] positionEditorWindow called: pid=1578354, path=/mnt/c/dev/osandell/ws2, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:53:40.620Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/mnt/c/dev/osandell/ws2" "false" "internal"
+[2025-11-07T18:53:41.239Z] Success
+[2025-11-07T18:53:55.684Z] positionEditorWindow called: pid=3217182, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:53:55.685Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "3217182" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-07T18:53:56.436Z] Success
+[2025-11-07T18:54:09.858Z] positionEditorWindow called: pid=1578354, path=/mnt/c/dev/osandell/ws2, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:54:09.859Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/mnt/c/dev/osandell/ws2" "false" "internal"
+[2025-11-07T18:54:10.547Z] Success
+[2025-11-07T18:54:18.673Z] positionEditorWindow called: pid=5639614, path=/mnt/c/dev/osandell/workspace-switcher, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:54:18.673Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "5639614" "/mnt/c/dev/osandell/workspace-switcher" "false" "internal"
+[2025-11-07T18:54:19.425Z] Success
+[2025-11-07T18:54:26.777Z] positionEditorWindow called: pid=1578354, path=/mnt/c/dev/osandell/ws2, fullscreen=false, currentDisplay=internal
+[2025-11-07T18:54:26.779Z] Command: "c:\Program Files\AutoHotkey\v2\AutoHotkey64.exe" position-cursor.ahk "1578354" "/mnt/c/dev/osandell/ws2" "false" "internal"
+[2025-11-07T18:54:27.490Z] Success
